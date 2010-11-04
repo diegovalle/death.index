@@ -148,12 +148,13 @@ monthly <- function(hom.count, title = ""){
 #Age
 ########################################################
 ageDensitySex <- function(df, title = "") {
-    df <- subset(df, SEXO %in% c(1, 2))
-    df$SEXO <- car::recode(df$SEXO, "1 = 'Males'; 2 = 'Females'")
+    df <- subset(df, SEXOtxt %in% c("Males", "Females"))
+    #df$SEXO <- car::recode(df$SEXO, "1 = 'Males'; 2 = 'Females'")
     ggplot(subset(df, EDADVALOR < 900),
-           aes(EDADVALOR, group = SEXO))+
-        geom_density(aes(fill = SEXO), alpha = .5) +
+           aes(EDADVALOR, group = SEXOtxt))+
+        geom_density(aes(fill = SEXOtxt), alpha = .5) +
         xlab("age at death") +
+        scale_fill_hue("Sex") +
         opts(title = title)
 }
 
