@@ -84,7 +84,7 @@ generateCharts <- function(hom, year, name) {
  ########################################################
  ll$school.bump <- bumpChart(hom, "ESCOLtxt", last.points,
                              title = titles[14],
-                             scale = "School\nLevel")
+                             scale = "School Level")
  ll$school.dot <- dotPlot(hom08, "ESCOLtxt")
 
 
