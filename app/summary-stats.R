@@ -244,7 +244,7 @@ plotFirearmPer <- function(df, title = "") {
 
 #names(allages) <- 2006:2008
 #rownames(allages) <- c("N", "mean", "Std.Dev.", "min", "Q1", "median",
-                      "Q3", "max", "missing values")
+#                      "Q3", "max", "missing values")
 
 
 #apply(2006:2008, function(x) stats(subset(hom, ANIODEF == x & EDADVALOR < 900 & SEXO == "Males")$EDADVALOR))
