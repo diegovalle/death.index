@@ -1,6 +1,6 @@
 source("app/clean-database.R")
 source('lib/boot.R')
-source('lib/run_tests.R')
+#source('lib/run_tests.R')
 
 
 source("app/summary-stats.R")
