@@ -29,16 +29,16 @@ generateCharts <- function(hom, year, name) {
                 "Kernel Density of Age at Death for all Homicides by Year in",
                 "Kernel Density of Age at Death for all Homicides by Sex in",
                 "Homicides by Sex as a Percentage of All Homicides in",
-                "Time of death for all Homicides in",
+                "Time of Death for all Homicide Victims in",
                 "Homicides by Age Group as a Percentage of all Homicides in",
                 "Number of Homicides by Age Group in",
                 "Homicides by Firearm as a Percentage of all homicides in",
                 "Total Number of Homicides in",
-                "Place Where the Deceased was Found in",
+                "Place where the Homicide Victims were Found in",
 
-                "School Level of the Deceased in",
-                "Occupation of the Deceased in",
-                "Marital Status of the Deceased in")
+                "School Level of the Homicide Victims in",
+                "Occupation of the Homicide Victims in",
+                "Marital Status of the Homicide Victims in")
 
  titles <- str_c(titles, " ", name)
  titles[4] <- str_c(titles[4], " (", as.character(year), ")")

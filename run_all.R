@@ -1,3 +1,4 @@
+source("app/clean-database.R")
 source('lib/boot.R')
 source('lib/run_tests.R')
 
@@ -5,6 +6,9 @@ source('lib/run_tests.R')
 source("app/summary-stats.R")
 
 #Stats for all of Mexico
+
+hom <- subset(def, PRESUNTO == 2)
+
 llcharts <- generateCharts(hom, 2008, "México")
 saveCharts(llcharts, "mexico")
 

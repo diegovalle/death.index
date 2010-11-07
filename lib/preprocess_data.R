@@ -10,7 +10,7 @@ hom <- rbind(di2006,
 hom[which(hom$ANIODEF == 0),]$ANIODEF <- hom[which(hom$ANIODEF == 0),]$ANIOREG
 
 #figure out the last year for which data is available
-last.year <- max(subset(hom, ANIODEF < 8000)$ANIODEF)
+last.year <- max(subset(hom, ANIODEF < 2100)$ANIODEF)
 hom <- subset(hom, ANIODEF %in% c(2006:last.year))
 
 
