@@ -1,23 +1,27 @@
 
 #Add new data.frames for 2009 here:
-hom <- rbind(di2006,
+deaths <- rbind(di2006,
              di2007,
              di2008)
 
 #Deaths with no year of occurance, narco-mines,
 #too decomposed, etc
 #Assume the deaths occured on the year they were registered
-hom[which(hom$ANIODEF == 0),]$ANIODEF <- hom[which(hom$ANIODEF == 0),]$ANIOREG
+deaths[which(deaths$ANIODEF == 0),]$ANIODEF <- deaths[which(deaths$ANIODEF == 0),]$ANIOREG
 
 #figure out the last year for which data is available
-last.year <- max(subset(hom, ANIODEF < 2100)$ANIODEF)
-hom <- subset(hom, ANIODEF %in% c(2006:last.year))
+last.year <- max(subset(deaths, ANIODEF < 2100)$ANIODEF)
+deaths <- subset(deaths, ANIODEF %in% c(2006:last.year))
+
+#Max year and min year
+kminy <- min(deaths$ANIODEF)
+kmaxy <- max(deaths$ANIODEF)
 
 
 #Nice variable names
-hom$SEXOtxt <- car::recode(hom$SEXO, "1 = 'Males'; 2 = 'Females'")
+deaths$SEXOtxt <- car::recode(deaths$SEXO, "1 = 'Males'; 2 = 'Females'")
 
-hom$LUGLEStxt <- car::recode(hom$LUGLES,  "0 = 'Home';
+deaths$LUGLEStxt <- car::recode(deaths$LUGLES,  "0 = 'Home';
                                    1 = 'Residential Institution';
                                    2 = 'School or Office';
                                    3 = 'Sporting Area';
@@ -29,7 +33,7 @@ hom$LUGLEStxt <- car::recode(hom$LUGLES,  "0 = 'Home';
                                    9 = 'Unknown';
                                    88 = 'Natural Death';")
 
-hom$ESCOLtxt <- car::recode(hom$ESCOL, "0 = 'Unknown';
+deaths$ESCOLtxt <- car::recode(deaths$ESCOL, "0 = 'Unknown';
                                 1 = 'No schooling';
                                 2 = 'Grade School Incomplete';
                                 3 = 'Grade School Completed';
@@ -39,7 +43,7 @@ hom$ESCOLtxt <- car::recode(hom$ESCOL, "0 = 'Unknown';
                                 7 = 'College';
                                 8 = 'NA (less than 6 years old)'")
 
-hom$OCUPACIONtxt <- car::recode(hom$OCUPACION, "0 = 'Unknown';
+deaths$OCUPACIONtxt <- car::recode(deaths$OCUPACION, "0 = 'Unknown';
     2 = 'Inactive';
     11 = 'Professionals';
     12 = 'Technician';
@@ -62,7 +66,7 @@ hom$OCUPACIONtxt <- car::recode(hom$OCUPACION, "0 = 'Unknown';
     98 = 'NA (less than 12 years old)';
     99 = 'Insufficiently specified';")
 
-hom$EDOCIVILtxt <- car::recode(hom$EDOCIVIL, "0 = 'Unknown';
+deaths$EDOCIVILtxt <- car::recode(deaths$EDOCIVIL, "0 = 'Unknown';
                                       1 = 'Single';
                                       2 = 'Widow';
                                       3 = 'Divorced';
@@ -70,7 +74,7 @@ hom$EDOCIVILtxt <- car::recode(hom$EDOCIVIL, "0 = 'Unknown';
                                       5 = 'Married';
                                       8 = 'NA';")
 
-hom$ABBRV <- car::recode(hom$ENTOCU, "1 = 'Ags';
+deaths$ABBRV <- car::recode(deaths$ENTOCU, "1 = 'Ags';
                                  2 = 'BC';
                                  3 = 'BCS';
                                  4 = 'Camp';
