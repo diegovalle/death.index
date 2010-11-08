@@ -140,7 +140,8 @@ monthly <- function(hom.count, title = ""){
         geom_line(color = "darkred", size = 1.2) +
         scale_x_date(minor = "month") +
         xlab("date") + ylab("number of homicides") +
-        opts(title = title)
+        opts(title = title) +
+        ylim(0, max(hom.w$V1))
 }
 
 
