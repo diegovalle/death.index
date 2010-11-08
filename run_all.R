@@ -8,7 +8,7 @@ source("app/label-charts.R")
 
 #Stats for all of Mexico
 #Only presumed homicides
-hom <- subset(hom, PRESUNTO == 2)
+hom <- subset(deaths, PRESUNTO == 2)
 llcharts <- generateCharts(hom, 2008, "México")
 saveCharts(llcharts, "mexico")
 
@@ -18,6 +18,12 @@ hom.juarez <- subset(hom, ENTOCU %in% c(08) &
 llcharts.j <- generateCharts(hom.juarez, 2008, "Cd. Juárez")
 llcharts.j <- labelJuarez(llcharts.j)
 saveCharts(llcharts.j, "juarez")
+
+#Stats for Tijuana
+hom.tj <- subset(hom, ENTOCU %in% c(02) &
+                          MUNOCU %in% c(004))
+llcharts.tj <- generateCharts(hom.tj, 2008, "Tijuana")
+saveCharts(llcharts.tj, "tijuana")
 
 
 #It might be worthwhile to include other states, counties, and

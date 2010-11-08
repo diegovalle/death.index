@@ -72,10 +72,11 @@ generateCharts <- function(hom, year, name) {
  ########################################################
  #Places where people are most likely to die
  ########################################################
+ #debug("bumpChart")
  ll$place.bump <- bumpChart(hom, "LUGLEStxt",
                             directlabel = FALSE,
                             title = titles[13],
-                            scale ="Location")
+                            scale = "Location")
  ll$place.dot <- dotPlot(hom08, "LUGLEStxt")
 
 
@@ -118,7 +119,7 @@ saveCharts <- function(ll, location) {
                  "firearm", "total-homicides",
                  "place-bump", "place-dot",
                  "school-bump", "school-dot",
-                 "ocupation-bump", "ocupation-dot",
+                 "occupation-bump", "occupation-dot",
                  "marital-bump", "marital-dot")
 
   filenames <- str_c("graphs/", location, "-", filenames,

@@ -5,14 +5,26 @@
 ########################################################
 #Analyze the death index files from the SSA/INEGI
 
+
+
 bumpChart <- function(df, name, f = last.points, directlabel = FALSE, title = "", xlab = "", scale = "") {
     hom.count <- ddply(df, c("ANIODEF", name), nrow)
     hom.count <- ddply(hom.count, c("ANIODEF"), transform,
                         per = V1 / sum(V1))
     hom.count$ANIODEF <- as.factor(hom.count$ANIODEF)
     hom.count[[name]] <- as.factor(hom.count[[name]])
-    hom.count <- ddply(hom.count, c(name), transform,
 
+    expanded <- data.frame(LUGLEStxt =
+                           rep(levels(hom.count[[name]]),
+                               kmaxy - kminy + 1),
+                           ANIODEF = kminy:kmaxy)
+    hom.count  <- merge(hom.count,
+                        expanded,
+                        all.y = TRUE)
+    hom.count[is.na(hom.count)] <- 0
+
+    
+    hom.count <- ddply(hom.count, c(name), transform,
                        order = per[ANIODEF == 2008])
     hom.count[[name]] <- reorder(hom.count[[name]], -hom.count$order)
     p <- ggplot(hom.count,
