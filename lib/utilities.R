@@ -72,7 +72,6 @@ generateCharts <- function(hom, year, name) {
  ########################################################
  #Places where people are most likely to die
  ########################################################
- #debug("bumpChart")
  ll$place.bump <- bumpChart(hom, "LUGLEStxt",
                             directlabel = FALSE,
                             title = titles[13],
@@ -92,6 +91,7 @@ generateCharts <- function(hom, year, name) {
  ########################################################
  #Ocupation
  ########################################################
+ #debug("bumpChart")
  ll$ocu.bump <- bumpChart(hom, "OCUPACIONtxt",
                          directlabel = FALSE,
                           title = titles[15],

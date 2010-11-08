@@ -13,11 +13,14 @@ bumpChart <- function(df, name, f = last.points, directlabel = FALSE, title = ""
                         per = V1 / sum(V1))
     hom.count$ANIODEF <- as.factor(hom.count$ANIODEF)
     hom.count[[name]] <- as.factor(hom.count[[name]])
-
+  
+    
     expanded <- data.frame(LUGLEStxt =
                            rep(levels(hom.count[[name]]),
                                kmaxy - kminy + 1),
-                           ANIODEF = kminy:kmaxy)
+                           ANIODEF = rep(kminy:kmaxy,
+                             each=length(levels(hom.count[[name]]))))
+    names(expanded) <- c(name, "ANIODEF")
     hom.count  <- merge(hom.count,
                         expanded,
                         all.y = TRUE)
