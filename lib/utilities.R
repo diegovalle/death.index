@@ -132,3 +132,12 @@ saveCharts <- function(ll, location) {
     i <- i + 1
   }
 }
+
+chartRegion <- function(df, ents, muns, year,
+                        chart.name) {
+  file.prefix <- tolower(chart.name)
+  hom.sub <- subset(df, ENTOCU %in% ents &
+                          MUNOCU %in% muns)
+  ll.charts <- generateCharts(hom.sub, year, chart.name)
+  saveCharts(ll.charts, file.prefix)
+}
