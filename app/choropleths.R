@@ -51,25 +51,29 @@ hom.pop <- merge(popmun, hom.mun,
                     all.x = TRUE)
 
 ########################################################
-#For OpenHeatMap
+#Create a csv file for OpenHeatMap
 ########################################################
-space2Zero <- function(str){
+saveCSVOHM <- function(hom.pop) {
+  space2Zero <- function(str){
     gsub(" ", "0", str)
-}
+  }
 
-hom.pop$mex_muni_code <- str_c(space2Zero(format(hom.pop$ENTOCU,
+  hom.pop$mex_muni_code <- str_c(space2Zero(format(hom.pop$ENTOCU,
                                                width = 2)),
                                space2Zero(format(hom.pop$MUNOCU,
                                                width = 3)))
-hom.pop$rate <- with(hom.pop, V1 / Population * 10^5)
-hom.pop$rate[is.na(hom.pop$rate)] <- 0
-csv <- hom.pop[,c(9,10,3)]
+  hom.pop$rate <- with(hom.pop, V1 / Population * 10^5)
+  hom.pop$rate[is.na(hom.pop$rate)] <- 0
+  csv <- hom.pop[,c(8,9,3)]
 
-names(csv) <- c("mex_muni_code", "value", "time")
-write.csv(csv, "rates.csv", row.names = FALSE)
+  names(csv) <- c("mex_muni_code", "value", "time")
+  write.csv(csv, "reports/rates.csv", row.names = FALSE)
+}
+
+saveCSVOHM(hom.pop)
 
 drawMap <- function(vector, title, breaks, text = NA) {
-  maxh <- 13
+  maxh <- 100
   plotvar<- unlist(vector)
   nclr <- 9
   plotclr <- brewer.pal(nclr,"Reds")
@@ -100,7 +104,6 @@ for(year in kminy:kmaxy) {
     dev.off()
 }
 
-library(spdep)
 
 ########################################################
 #Section
