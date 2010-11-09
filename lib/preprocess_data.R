@@ -73,8 +73,8 @@ deaths$EDOCIVILtxt <- car::recode(deaths$EDOCIVIL, "0 = 'Unknown';
                                       4 = 'Living Together';
                                       5 = 'Married';
                                       8 = 'NA';")
-
-deaths$ABBRV <- car::recode(deaths$ENTOCU, "1 = 'Ags';
+addAbbrv <- function(df) {
+  df$ABBRV <- car::recode(df$ENTOCU, "1 = 'Ags';
                                  2 = 'BC';
                                  3 = 'BCS';
                                  4 = 'Camp';
@@ -106,4 +106,6 @@ deaths$ABBRV <- car::recode(deaths$ENTOCU, "1 = 'Ags';
                     30 ='Ver';
                     31 ='Yuc';
                     32 = 'Zac'")
-    
+  df
+}
+deaths <- addAbbrv(deaths)
