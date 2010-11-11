@@ -6,8 +6,6 @@
 #Small Multiples of Homicide Rates by State
 
 
-
-
 cleanPop <- function(pop) {
   popm <- melt(pop[1:32, ], id = c("State", "Code"))
   popm$variable <- as.numeric(str_sub(popm$variable, 2))
@@ -22,7 +20,6 @@ addRates <- function(hom.st, popm){
   homrates[is.na(homrates)] <- 0
   homrates <- ddply(homrates, .(State), transform,
                     order = rates[length(rates)])
-  homrates$State <- with(homrates, reorder(State, -order))
   homrates
 }
 
@@ -31,7 +28,9 @@ smallMStates <- function(hom, pop, title, kminy, kmaxy) {
 
   pop <- cleanPop(pop)
   homrates <- addRates(hom.st, pop)
-
+  homrates$State <- gsub("de .*", "", homrates$State)
+  homrates$State <- with(homrates, reorder(State, -order))
+  
   ggplot(homrates, aes(ANIODEF, rates)) +
       geom_line() +
       geom_point(aes(size = V1)) +
@@ -47,16 +46,16 @@ smallMStates <- function(hom, pop, title, kminy, kmaxy) {
 
 title <- str_c("Homicide Rates in Mexico by State ", "(", kminy,
                "-", kmaxy, ")")
-pop <- read.csv("data/states.csv")
-smallMStates(hom, pop, title, kminy, kmaxy)
+#pop <- read.csv("data/states.csv")
+smallMStates(hom, states, title, kminy, kmaxy)
 ggsave("graphs/state-rates.png", dpi = 100,
        width = 9, height = 7)
 
 titlew <- str_c("Female Homicide Rates in Mexico by State ", "(",
                kminy, "-", kmaxy, ")")
-popw <- read.csv("data/states-f.csv")
+#popw <- read.csv("data/states-f.csv")
 #popw$State <- iconv(popw$State, "Latin2", "UTF-8")
-smallMStates(subset(hom, SEXO == 2) , popw, titlew, kminy, kmaxy)
+smallMStates(subset(hom, SEXO == 2) , states.f, titlew, kminy, kmaxy)
 ggsave("graphs/state-f-rates.png", dpi = 100,
        width = 9, height = 7)
 
