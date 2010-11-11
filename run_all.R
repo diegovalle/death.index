@@ -2,8 +2,7 @@ source("app/clean-database.R")
 source('lib/boot.R')
 #source('lib/run_tests.R')
 
-source("app/summary-stats-functions.R")
-source("app/label-charts.R")
+
 
 #Stats for Important cities, females, states, one armed midgets
 #less than 5 years old, etc
