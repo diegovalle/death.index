@@ -5,6 +5,9 @@
 ########################################################
 #Summary statistics of homicde
 
+source("app/summary-stats-functions.R")
+source("app/label-charts.R")
+
 #Stats for all of Mexico
 #Only presumed homicides
 hom <- subset(deaths, PRESUNTO == 2)
@@ -30,7 +33,8 @@ ggplot(melt(fhom.rates, id = "year"), aes(year, value, group = variable, color =
   opts(title = "Female Homicide Rates in the US and Mexico (2006-2008)") +
   ylab("homicide rate per 100,000 women") +
   ylim(0, max(fhom.rates$MX)) +
-  scale_colour_manual("Country", values = c("blue", "green"))
+  scale_colour_manual("Country",
+                      values = c("blue", "darkgreen"))
 ggsave("graphs/femicide-rates-us-mx.png", dpi = 100,
        width = 8, height = 6)
 
