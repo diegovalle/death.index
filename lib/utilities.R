@@ -3,8 +3,11 @@ clean.variable.name <- function(variable.name)
   variable.name <- gsub('_', '.', variable.name, perl = TRUE)
   variable.name <- gsub('-', '.', variable.name, perl = TRUE)
   variable.name <- gsub('\\s+', '.', variable.name, perl = TRUE)
+  variable.name <- gsub('(^[0-9]+$)', 'X\\1', variable.name, perl = TRUE)
   return(variable.name)
 }
+
+clean.variable.name("2005")
 
 #Save plots to png
 saveAAPlot <- function(p, filename, width = 800, height = 600) {
@@ -38,7 +41,8 @@ generateCharts <- function(hom, year, name) {
 
                 "School Level of the Homicide Victims in",
                 "Occupation of the Homicide Victims in",
-                "Marital Status of the Homicide Victims in")
+                "Marital Status of the Homicide Victims in",
+                "Homicides by Day of Week")
 
  titles <- str_c(titles, " ", name)
  titles[4] <- str_c(titles[4], " (", as.character(year), ")")
@@ -50,6 +54,7 @@ generateCharts <- function(hom, year, name) {
  ll$daily <- daily(hom.count, titles[1])
  ll$weekly <- weekly(hom.count, titles[2])
  ll$monthly <- monthly(hom.count, titles[3])
+ 
 
  ll$age.den <- ageDensity(hom, titles[4])
  ll$age.year <- ageDensityYear(hom, titles[5])
@@ -108,6 +113,8 @@ generateCharts <- function(hom, year, name) {
                               scale = "Marital\nStatus")
  ll$marital.dot <- dotPlot(hom08, "EDOCIVILtxt")
 
+ ll$dayofDeath <- dayOfDeath(hom.count, titles[17])
+ 
  ll
 }
 
@@ -120,7 +127,8 @@ saveCharts <- function(ll, location) {
                  "place-bump", "place-dot",
                  "school-bump", "school-dot",
                  "occupation-bump", "occupation-dot",
-                 "marital-bump", "marital-dot")
+                 "marital-bump", "marital-dot",
+                 "dayofdeath")
 
   filenames <- str_c("graphs/", location, "-", filenames,
                      ".png")
@@ -128,7 +136,7 @@ saveCharts <- function(ll, location) {
   i <- 1
   for(plot in ll) {
     cat(str_c("Saving ", filenames[i], "\n"))
-    savePlot(plot, filenames[i])
+    saveAAPlot(plot, filenames[i])
     i <- i + 1
   }
 }
