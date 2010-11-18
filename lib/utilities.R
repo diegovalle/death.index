@@ -135,7 +135,7 @@ saveCharts <- function(ll, location) {
 
   i <- 1
   for(plot in ll) {
-    cat(str_c("Saving ", filenames[i], "\n"))
+    message(str_c("Saving ", filenames[i], "\n"))
     saveAAPlot(plot, filenames[i])
     i <- i + 1
   }
