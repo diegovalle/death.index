@@ -105,7 +105,8 @@ daily <- function(df, title = ""){
         ylab("number of homicides")
 }
 
-dayOfDeath <- function(df, title = ""){
+dayOfDeath <- function(df, year = 2008, title = ""){
+    df <- subset(df, ANIODEF == year)
     days <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
     df$dayname <- format(df$date, "%A")
     df$dayname <- factor(df$dayname, levels = days)
