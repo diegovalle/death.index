@@ -105,6 +105,20 @@ daily <- function(df, title = ""){
         ylab("number of homicides")
 }
 
+dayOfDeath <- function(df, title = ""){
+    days <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+    df$dayname <- format(df$date, "%A")
+    df$dayname <- factor(df$dayname, levels = days)
+    ggplot(df, aes(dayname, V1)) +
+        geom_boxplot(fill = "transparent", color = "red") +
+        geom_jitter(fill = "darkred", alpha = .7) +
+        ylab("number of homicides in day") +
+        xlab("day of week") +
+#        scale_x_discrete(labels = days, breaks = days) +
+        opts(title = title)
+}
+
+
     #geom_vline(aes(xintercept = op.chi), alpha = .7) +
     #geom_text(aes(x,y, label = "Joint Operation Chihuahua"),
     #        data = data.frame(x = op.chi, y = 17),
