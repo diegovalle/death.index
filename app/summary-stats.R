@@ -10,7 +10,7 @@ source("app/label-charts.R")
 
 #Stats for all of Mexico
 #Only presumed homicides
-hom <- subset(deaths, PRESUNTO == 2)
+
 llcharts <- generateCharts(hom, 2008, "México")
 saveCharts(llcharts, "mexico")
 
@@ -21,9 +21,9 @@ llcharts <- generateCharts(fem, 2008, "México (Females)")
 saveCharts(llcharts, "femicide")
 
 chartRegion(hom, c(08), c(037), 2008,
-            "Juárez")
+            "Juárez (MA)")
 chartRegion(hom, c(08), c(2, 4, 19), 2008,
-            "Chihuahua")
+            "Chihuahua (MA)")
 chartRegion(hom, c(02), c(004, 003, 005), 2008,
             "Tijuana (MA)")  
 chartRegion(hom, c(25), c(006), 2008,
@@ -35,15 +35,22 @@ chartRegion(hom, c(12), c(001, 021), 2008,
 chartRegion(hom, c(28), c(027), 2008,
             "Nuevo Laredo")
 chartRegion(hom, c(28), c(022), 2008,
-            "Matamoros")  
+            "Matamoros (MA)")  
 chartRegion(hom, c(28), c(032, 033), 2008,
             "Reynosa (MA)")
 chartRegion(hom, c(26), c(043), 2008,
             "Nogales")
+chartRegion(hom, c(05), c(004, 027, 030), 2008,
+            "Saltillo (MA)")
+chartRegion(hom, c(15), c(053, 088), 2008,
+            "Morelia (MA)")
+
 chartRegion(hom, c(19),
             c(6, 9, 018, 19, 21, 26, 31, 39, 45, 46, 48, 49),
             2008,
             "Monterrey (MA)")
+
+
 
 chartRegion(hom, c(10), c(005), 2008,
             "Durango")
