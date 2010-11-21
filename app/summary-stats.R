@@ -20,6 +20,10 @@ fem <- subset(hom, SEXO == 2 )
 llcharts <- generateCharts(fem, 2008, "México (Females)")
 saveCharts(llcharts, "femicide")
 
+fem <- subset(hom, SEXO == 2 & ENTOCU == 08 & MUNOCU==037)
+llcharts <- generateCharts(fem, 2008, "Juárez (Females)")
+saveCharts(llcharts, "juarez-femicide")
+
 chartRegion(hom, c(08), c(037), 2008,
             "Juárez (MA)")
 chartRegion(hom, c(08), c(2, 4, 19), 2008,

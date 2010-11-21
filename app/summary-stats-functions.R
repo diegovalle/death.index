@@ -113,7 +113,7 @@ dayOfDeath <- function(df, year = 2008, title = ""){
     ggplot(df, aes(dayname, V1)) +
         geom_boxplot(fill = "transparent", color = "red") +
         geom_jitter(fill = "darkred", alpha = .7) +
-        ylab("number of homicides in day") +
+        ylab("number of homicides in a day") +
         xlab("day of week") +
 #        scale_x_discrete(labels = days, breaks = days) +
         opts(title = title)

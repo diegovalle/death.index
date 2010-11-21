@@ -46,6 +46,8 @@ generateCharts <- function(hom, year, name) {
 
  titles <- str_c(titles, " ", name)
  titles[4] <- str_c(titles[4], " (", as.character(year), ")")
+ titles[8] <- str_c(titles[8], " (", as.character(year), ")")
+ titles[17] <- str_c(titles[17], " (", as.character(year), ")")
 
 
  hom.count <- formatDaily(hom)
@@ -63,7 +65,7 @@ generateCharts <- function(hom, year, name) {
  ll$sex.per <- bumpChart(subset(hom, SEXO != 0), "SEXOtxt",
                          scale = "Sex", title = titles[7])
 
- ll$time.of.day <- plotHours(hom, 2008, fix = TRUE, title = titles[8])
+ ll$time.of.day <- plotHours(hom, year, fix = TRUE, title = titles[8])
 
 
  age.groups <- c(0,15,20,25,30,35,40,45,50,55,60,65,Inf)
@@ -113,7 +115,7 @@ generateCharts <- function(hom, year, name) {
                               scale = "Marital\nStatus")
  ll$marital.dot <- dotPlot(hom08, "EDOCIVILtxt")
 
- ll$dayofDeath <- dayOfDeath(hom.count, titles[17])
+ ll$dayofDeath <- dayOfDeath(hom.count, year, titles[17])
  
  ll
 }
