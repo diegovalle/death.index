@@ -1,4 +1,6 @@
-*Figure out the interesting municipalities, 
-*Classify with a clustering algorith?
-*Convert population the data to UTF-8
-*Make it so if you unzip the SSA files they are autoloaded
+* Figure out the interesting municipalities, 
+* Classify with a clustering algorith?
+* Convert population the data to UTF-8
+* Test the conversion of the SSA files
+* the function to subset the data by municipalities should
+take a strig with the state and mun as arguments

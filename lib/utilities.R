@@ -10,7 +10,7 @@ clean.variable.name <- function(variable.name)
 clean.variable.name("2005")
 
 #Save plots to png
-saveAAPlot <- function(p, filename, width = 800, height = 600) {
+saveAAPlot <- function(p, filename, width = 700, height = 500) {
     Cairo(file = filename, width = width, height = height)
     print(p)
     dev.off()
@@ -144,10 +144,13 @@ saveCharts <- function(ll, location) {
 }
 
 chartRegion <- function(df, ents, muns, year,
-                        chart.name) {
+                        chart.name, func = NULL) {
   file.prefix <- tolower(chart.name)
   hom.sub <- subset(df, ENTOCU %in% ents &
                           MUNOCU %in% muns)
   ll.charts <- generateCharts(hom.sub, year, chart.name)
+  if(!is.null(func)) {
+    llcharts$weekly <- llcharts$weekly + func
+  } 
   saveCharts(ll.charts, file.prefix)
 }

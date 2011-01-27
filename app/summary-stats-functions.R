@@ -142,7 +142,7 @@ weekly <- function(hom.count, title = ""){
                     by="week")
 
     ggplot(hom.w, aes(date, V1)) +
-#        geom_line(color = "darkred", size = 1.2) +
+        #geom_line(color = "darkred", size = 1.2) +
         geom_area(fill = "darkred") +
 #        geom_line(color = "darkred", size = 1.2) +
         scale_x_date(minor = "month") +
