@@ -28,7 +28,7 @@ bumpChart <- function(df, name, f = last.points, directlabel = FALSE, title = ""
 
     
     hom.count <- ddply(hom.count, c(name), transform,
-                       order = per[ANIODEF == 2008])
+                       order = per[ANIODEF == kmaxy])
     hom.count[[name]] <- reorder(hom.count[[name]], -hom.count$order)
     p <- ggplot(hom.count,
                 aes_string(x = "ANIODEF",
@@ -105,7 +105,7 @@ daily <- function(df, title = ""){
         ylab("number of homicides")
 }
 
-dayOfDeath <- function(df, year = 2008, title = ""){
+dayOfDeath <- function(df, year = kmaxy, title = ""){
     df <- subset(df, ANIODEF == year)
     days <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
     df$dayname <- format(df$date, "%A")
@@ -133,12 +133,12 @@ op.chi <- as.Date("2008-03-27")
 ########################################################
 weekly <- function(hom.count, title = ""){
     hom.count$week <- format(hom.count$date, "%Y %W")
-    hom.count$week <- c(0, rep(1:nrow(hom.count), each = 7)[1:1095])
+    hom.count$week <- c(0, rep(1:nrow(hom.count), each = 7)[1:1460])
     hom.w <- ddply(hom.count, .(week), function(df) sum(df$V1))
     hom.w <- subset(hom.w, week != 0)
 
     hom.w$date <- seq(as.Date("2006-01-02"),
-                    as.Date("2008-12-31"),
+                    last.day,
                     by="week")
 
     ggplot(hom.w, aes(date, V1)) +
@@ -163,7 +163,7 @@ monthly <- function(hom.count, title = ""){
     hom.w <- ddply(hom.count, .(month), function(df) sum(df$V1))
 
     hom.w$date <- seq(as.Date("2006-01-15"),
-                    as.Date("2008-12-15"),
+                    last.day,
                     by="month")
 
     ggplot(hom.w, aes(date, V1)) +

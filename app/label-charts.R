@@ -22,6 +22,7 @@ labelChart <- function(ll, name,
     geom_text(aes(x,y, label = "Joint Operation Chihuahua"),
       data = data.frame(x = op.chi, y = 55),
       size = 4, hjust = 1.01, vjust = 0)
+  ll
 }
 
   

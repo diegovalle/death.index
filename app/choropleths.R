@@ -28,7 +28,6 @@ mexico.st <- readShapePoly(map.inegi.st,
 
 #mexico.st <- mexico.st[mexico.st$CVE_ENT %in% c("09", "12", "15", "16", "17"),]
 #mexico.ct <- mexico.ct[mexico.ct$CVE_ENT %in% c("09", "12", "15", "16", "17"),]
-plot(mexico.st)
 
 map.shp <- data.frame(NOM_MUN= mexico.ct$NOM_MUN,
                       ENTOCU = as.numeric(mexico.ct$CVE_ENT),

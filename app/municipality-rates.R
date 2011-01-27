@@ -43,9 +43,10 @@ cleanMuns <- function(hom, pop, cutoff){
                                               "[ ]", "0"))
 
   homrates <- addAbbrv(homrates)
+  homrates$Mun <- gsub("* de .*","", homrates$Mun)
   homrates$Mun <- str_c(homrates$Mun, " - ", homrates$ABBRV)
   #Include only the municipalities that have more than 100K
-  #correc including those that didn't have 100K for the entire period
+  #including those that didn't have 100K for the entire period
   subset(homrates, Code %in% unique(subset(homrates, Population >= cutoff)$Code))
 }
 
@@ -60,7 +61,8 @@ smallMMun <- function(hom, pop, title, kminy, kmaxy, cutoff,
   } else {
       homrates <- homrates[order(homrates$order), ]
   }
-  homrates <- homrates[1:c(16*(kmaxy-kminy+1)), ]
+  homrates <- homrates[1:c(20*(kmaxy-kminy+1)), ]
+  
   homrates$Mun <- with(homrates, reorder(Mun, -order))
 
   ggplot(homrates, aes(ANIODEF, rates)) +
@@ -82,14 +84,14 @@ popmun <- cleanPopCONAPO("data/municipal-population/popmun.csv.bz2")
 titlemun <- str_c("The Most Violent Municipalities in Mexico with more than a ", format(cutoff, scientific = FALSE, big.mark = ","), " People")
 smallMMun(hom, popmun, titlemun, kminy, kmaxy, cutoff)
 ggsave("graphs/municipalities-rates.png", dpi = 100,
-       width = 8, height = 6)
+       width = 9, height = 7)
 
 cutoffw <- 50000
 popmun.f <- cleanPopCONAPO("data/municipal-population/popmun-f.csv.bz2")
 titlemunw <- str_c("The Most Violent Municipalities in Mexico with more than ", format(cutoffw, scientific = FALSE, big.mark = ","), " Women")
 smallMMun(subset(hom, SEXO == 2), popmun.f, titlemunw, kminy, kmaxy, cutoffw)
 ggsave("graphs/municipalities-f-rates.png", dpi = 100,
-       width = 8, height = 6)
+       width = 9, height = 7)
 
 #hom$metro.area <- str_c(hom$ENTOCU, hom$MUNCOU)
 #hom[which(hom$ENTOCU == 01 & hom$MUNOCU == 01),]$metro.area <- "Aguascalientes"

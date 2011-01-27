@@ -2,7 +2,8 @@
 #Add new data.frames for 2009 here:
 deaths <- rbind(di2006,
              di2007,
-             di2008)
+             di2008,
+             di2009)
 
 #Deaths with no year of occurance, narco-mines,
 #too decomposed, etc
@@ -16,6 +17,7 @@ deaths <- subset(deaths, ANIODEF %in% c(2006:last.year))
 #Max year and min year
 kminy <- min(deaths$ANIODEF)
 kmaxy <- max(deaths$ANIODEF)
+last.day <- as.Date(str_c(kmaxy, "12", "31", sep = "-"))
 
 
 #Nice variable names
