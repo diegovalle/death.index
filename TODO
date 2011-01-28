@@ -1,6 +1,6 @@
+* Add simplified maps of Mexico
 * Figure out the interesting municipalities, 
 * Classify with a clustering algorith?
-* Convert population the data to UTF-8
-* Test the conversion of the SSA files
-* the function to subset the data by municipalities should
-take a strig with the state and mun as arguments
+* Label the military operations with an easy to use function
+* Find interesting things about the flu epidemic
+* Explore wether mortality increases during the change to daylight savings time

@@ -17,9 +17,15 @@ The files you need to dowload are:
 
 [2009](http://www.sinais.salud.gob.mx/descargas/zip/def2009.zip)
 
-Place them in the "ssa-database/" directory and you're set
+Place them in the "ssa-database/" directory
 
-Sources
+You'll also need some maps of Mexico from the INEGI
+
+Marco Geoestadístico Municipal 2009 Versión 4.1
+[Áreas Geoestadísticas Estatales (7.43 Mb)](http://mapserver.inegi.org.mx/data/mgm/redirect.cfm?fileX=ESTADOS41)
+[Áreas Geoestadísticas Municipales (38.8 Mb)](http://mapserver.inegi.org.mx/data/mgm/redirect.cfm?fileX=MUNICIPIOS41)
+
+Sourceshttp://mapserver.inegi.org.mx/data/mgm/redirect.cfm?fileX=MUNICIPIOS41
 -------
 
 _Homicides_
@@ -36,3 +42,11 @@ for population estimates at the national level (1990-2030), state level (1990-20
 US: Population Projections: United States by State, Age and Sex,
 for the years 2004 - 2030 [CDC](http://wonder.cdc.gov/wonder/help/PopulationProjections.html)
 
+_Joint Operations_
+
+Operation NorthEast: Nov 23, 2010 - http://www.youtube.com/watch?v=36DGZUq4UCU
+
+Operation Culiacán-Navolato (Mazatlán Expansion): July 15, 2008 -
+http://www.frontera.info/EdicionEnLinea/Notas/Nacional/15072008/315647.aspx
+
+Operation Michoacán Part II: Información sobre el Fenómeno Delictivo en México
