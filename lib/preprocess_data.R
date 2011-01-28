@@ -4,7 +4,10 @@ deaths <- rbind(di2006,
              di2007,
              di2008,
              di2009)
-
+rm(di2006)
+rm(di2007)
+rm(di2008)
+rm(di2009)
 #Deaths with no year of occurance, narco-mines,
 #too decomposed, etc
 #Assume the deaths occured on the year they were registered
