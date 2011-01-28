@@ -19,13 +19,15 @@ The files you need to dowload are:
 
 Place them in the "ssa-database/" directory
 
-You'll also need some maps of Mexico from the INEGI
+You'll also need some maps of Mexico from the INEGI and place them in the maps direcotry:
 
 Marco Geoestadístico Municipal 2009 Versión 4.1
+
 [Áreas Geoestadísticas Estatales (7.43 Mb)](http://mapserver.inegi.org.mx/data/mgm/redirect.cfm?fileX=ESTADOS41)
+
 [Áreas Geoestadísticas Municipales (38.8 Mb)](http://mapserver.inegi.org.mx/data/mgm/redirect.cfm?fileX=MUNICIPIOS41)
 
-Sourceshttp://mapserver.inegi.org.mx/data/mgm/redirect.cfm?fileX=MUNICIPIOS41
+Sources
 -------
 
 _Homicides_
@@ -44,7 +46,7 @@ for the years 2004 - 2030 [CDC](http://wonder.cdc.gov/wonder/help/PopulationProj
 
 _Joint Operations_
 
-Operation NorthEast: Nov 23, 2010 - http://www.youtube.com/watch?v=36DGZUq4UCU
+Operation Northeast: Nov 23, 2010 - http://www.youtube.com/watch?v=36DGZUq4UCU
 
 Operation Culiacán-Navolato (Mazatlán Expansion): July 15, 2008 -
 http://www.frontera.info/EdicionEnLinea/Notas/Nacional/15072008/315647.aspx
