@@ -14,15 +14,19 @@ labelJuarez <- function(ll.juarez) {
   ll.juarez
 }
 
-labelChart <- function(ll, name,
+labelChart <- function(p,
                        label = "",
+                       y = 0,
                        date) {
-  ll[[name]] <- ll[[name]] +
-    geom_vline(aes(xintercept = op.chi), alpha = .7) +
-    geom_text(aes(x,y, label = "Joint Operation Chihuahua"),
-      data = data.frame(x = op.chi, y = 55),
-      size = 4, hjust = 1.01, vjust = 0)
-  ll
+  lab <- label
+  op <- data.frame(date)
+  p <- p +
+    geom_vline(data = op, aes(xintercept = as.Date(date)), alpha = .7,
+               linetype = 2) +
+    geom_text(aes(x,y), label = lab,
+      data = data.frame(x = as.Date(date), y = y),
+      size = 4, hjust = 1.03, vjust = 0)
+  p
 }
 
   

@@ -13,8 +13,10 @@ source("app/label-charts.R")
 year <- 2009
 
 llcharts <- generateCharts(hom, year, "México")
-llcharts <- labelChart(llcharts, "monthly", "",op.chi)
-llcharts$monthly
+llcharts$weekly <- labelChart(llcharts$weekly, "Start of Drug War",
+                              300, op.mich)
+llcharts$monthly <- labelChart(llcharts$monthly, "Start of Drug War",
+                              1100, op.mich)
 saveCharts(llcharts, "mexico")
 
 
@@ -240,3 +242,5 @@ ddply(hom, .(ANIODEF), nrow)
 
 ddply(hom.j, .(ANIODEF), nrow)
 2316*1610/1570
+#write.csv(ddply(hom, .(ANIODEF, ABBRV), nrow), "temp.csv")
+sd(subset(hom, ANIODEF == 2009 & EDADVALOR < 120)$EDADVALOR)
