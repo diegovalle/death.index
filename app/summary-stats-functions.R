@@ -167,7 +167,7 @@ monthly <- function(hom.count, title = ""){
                     by="month")
 
     ggplot(hom.w, aes(date, V1)) +
-        geom_line(color = "darkred", size = 1.2) +
+        geom_line(size = 1.2) +
         scale_x_date(minor = "month") +
         xlab("date") + ylab("number of homicides") +
         opts(title = title) +

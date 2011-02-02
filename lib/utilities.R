@@ -35,7 +35,7 @@ generateCharts <- function(hom, year, name) {
                 "Time of Death for all Homicide Victims in",
                 "Homicides by Age Group as a Percentage of all Homicides in",
                 "Number of Homicides by Age Group in",
-                "Homicides by Firearm as a Percentage of all homicides in",
+                "Homicides by Firearm as a Percentage of all Homicides in",
                 "Total Number of Homicides in",
                 "Place where the Homicide Victims were Found in",
 

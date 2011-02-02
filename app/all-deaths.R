@@ -15,3 +15,18 @@ ddply(flu, .(ABBRV), nrow)
 weekly(flu.count, "Deaths by Influenza")
 levels(factor(deaths$CAUSADEF))
 fix(flu)
+
+
+########################################################
+#Day Ligth Savings Time
+########################################################
+#First Sundays
+April 5 2009
+6 2008
+1 2007
+2 2006
+
+Oct 29 2006
+Oct 28 2007
+Oct 26 2008
+Oct 25 2009

@@ -114,3 +114,11 @@ addAbbrv <- function(df) {
   df
 }
 deaths <- addAbbrv(deaths)
+
+#Assign each municipality a code based on the state and muncipality id
+deaths$id <- with(deaths, str_c(format(ENTOCU, digits = 2),
+                                        format(MUNOCU, digits = 3)))
+deaths$id <- as.numeric(gsub(" ", "0", deaths$id))
+
+metropolitan.areas <- read.csv("data/metropolitan-areas.csv")
+deaths <- join(deaths, metropolitan.areas)

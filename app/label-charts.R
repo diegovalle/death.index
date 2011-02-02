@@ -25,7 +25,7 @@ labelChart <- function(p,
                linetype = 2) +
     geom_text(aes(x,y), label = lab,
       data = data.frame(x = as.Date(date), y = y),
-      size = 4, hjust = 1.03, vjust = 0)
+      hjust = 1.03, vjust = 0)
   p
 }
 
