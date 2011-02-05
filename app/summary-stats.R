@@ -94,8 +94,8 @@ llcharts$weekly <- llcharts$weekly +
   geom_text(aes(as.Date("2008-10-26"), 70,
                 label = "E.A.F. Captured"),
              hjust = 1.03, vjust = 0)
-#llcharts$weekly <- labelChart(llcharts$weekly, "Marines in Tijuana",
- #                             82, "2008-11-30")
+llcharts$weekly <- labelChart(llcharts$weekly, "Marines in Tijuana",
+                              82, "2008-11-30")
 saveCharts(llcharts, "tijuana")
 #chartRegion(hom, c(02), c(004, 003, 005), year,
  #           "Tijuana (MA)")  
@@ -117,7 +117,14 @@ ggplot(daily, aes(date, V1)) +
   geom_text(data = data.frame(x = as.Date("2008-10-26"), ANIODEF = 2008) ,
                         aes(x, 18,
                             label = "E.A.F.\nCaptured"),
-            hjust = 1.03, vjust = 0)
+            hjust = 1.03, vjust = 0) +
+  geom_vline(data = data.frame(x = as.Date("2008-11-30"), ANIODEF = 2008) ,
+                        aes(xintercept = x), alpha = .7,
+               linetype = 2) +
+  geom_text(data = data.frame(x = as.Date("2008-11-30"), ANIODEF = 2008) ,
+                        aes(x, 20,
+                            label = "Marines\n Sent"),
+            hjust = -.1, vjust = 0)
 ggsave("graphs/tijuana-daily-select.png", height = 5, width = 8, dpi = 100)
 
 hom.cul <- subset(hom, ENTOCU == 25 & MUNOCU %in% c(006, 018))

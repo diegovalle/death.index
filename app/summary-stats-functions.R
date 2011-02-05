@@ -110,6 +110,8 @@ dayOfDeath <- function(df, year = kmaxy, title = ""){
     days <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
     df$dayname <- format(df$date, "%A")
     df$dayname <- factor(df$dayname, levels = days)
+    fit <- aov(V1~dayname, data = df[1:10,])
+    print(summary(aov(fit)))
     ggplot(df, aes(dayname, V1)) +
         geom_boxplot(fill = "transparent", color = "red") +
         geom_jitter(fill = "darkred", alpha = .7) +
@@ -254,12 +256,20 @@ plotHours <- function(df, year, fix = FALSE, title = "") {
 
 plotFirearmPer <- function(df, title = "") {
   fir <- subset(df, CAUSADEF %in% c("X93", "X94", "X95"))
-  totfir <- ddply(fir, .(ANIODEF), nrow)
-  tothom <- ddply(df, .(ANIODEF), nrow)
+  totfir <- ddply(fir, .(ANIODEF, MESDEF), nrow)
+  totfir <- subset(totfir, MESDEF != 0)
+  totfir$date <- with(totfir,
+                      as.Date(str_c(ANIODEF, MESDEF, "15", sep = "-")))
+  tothom <- ddply(df, .(ANIODEF, MESDEF), nrow)
+  tothom <- subset(tothom, MESDEF != 0)
+  tothom$date <- with(tothom,
+                      as.Date(str_c(ANIODEF, MESDEF, "15", sep = "-")))
   totfir$prop <- totfir$V1 / tothom$V1
 
-  ggplot(totfir, aes(as.factor(ANIODEF), prop, group = 1)) +
+  ggplot(totfir, aes(date, prop, group = 1)) +
     geom_line() +
+    scale_x_date() +
+    geom_smooth() +
     scale_y_continuous(limits = c(0, max(totfir$prop)),
                        formatter = "percent") +
     opts(title = title) +

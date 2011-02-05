@@ -79,7 +79,7 @@ drawMap <- function(vector, title, breaks, text = NA) {
   fillRed <- colorRampPalette(plotclr)
   plotvar[plotvar >= maxh] <- maxh -1
   colcode <- fillRed(maxh)[round(plotvar) + 1]
-  plot(mexico.ct, col = colcode, lty = 0, border = "gray")
+  plot(mexico.ct, col = colcode, border = colcode,lwd = 0.5)
   plot(mexico.st, add = TRUE, lwd=1, border = "black")
   title(main = title)
   colorlegend(posy = c(0.05,0.9), posx = c(0.9,0.92),
@@ -98,8 +98,9 @@ for(year in kminy:kmaxy) {
                  subset(hom.pop, Year == year))
 
     maprates$V1[is.na(maprates$V1)] <- 0
-    maprates$rates <- with(maprates, V1 / Population * 10^5)
-    drawMap(maprates$rates, "", c(0, 50, 100))
+    maprates$rates <- with(maprates,  V1 / Population * 10^5)
+    drawMap(maprates$rates, str_c("Homicides Rates in Mexico by Municipality (",
+                                  year,")"), c(0, 50, 100))
     dev.off()
 }
 
