@@ -134,7 +134,9 @@ ggplot(hom.ma.max, aes(rates, MA)) +
   geom_point() +
   xlim(0, max(hom.ma.max$rates)) +
   ylab("") + xlab("homicide rate") +
-  opts(title = str_c("The Most Violent Metropolitan Areas in", kmaxy))
+  opts(title = str_c("The Most Violent Metropolitan Areas in ", kmaxy))
+ggsave("graphs/ma-line.png", dpi = 100,
+       width = 7, height = 6)
 
 hom.ma <- subset(hom.ma, MA %in% hom.ma.max$MA)
 hom.ma$MA <- reorder(hom.ma$MA, -hom.ma$order)
@@ -149,7 +151,8 @@ ggplot(hom.ma, aes(ANIODEF, rates)) +
       scale_x_continuous(breaks = c(kminy:kmaxy)) +
       facet_wrap(~ MA)+
       opts(title = "The Most Violent Metropolitan Areas in Mexico")
-fix(hom.ma.max)
+ggsave("graphs/ma.png", dpi = 100,
+       width = 8, height = 6)
 
 cutoffw <- 50000
 popmun.f <- cleanPopCONAPO("data/municipal-population/popmun-f.csv.bz2")
@@ -161,34 +164,3 @@ ggsave("graphs/municipalities-f-rates.png", dpi = 100,
 #hom$metro.area <- str_c(hom$ENTOCU, hom$MUNCOU)
 #hom[which(hom$ENTOCU == 01 & hom$MUNOCU == 01),]$metro.area <- "Aguascalientes"
 
-hom.mun <- ddply(hom, .(MA, ANIODEF),
-                   function(df) nrow(df))
-
-
-  homrates <- merge(hom.mun, pop,
-                    by.x = c("ENTOCU", "MUNOCU", "ANIODEF"),
-                    by.y = c("ENTOCU", "MUNOCU", "Year"),
-                    all.y = TRUE)
-
-  homrates$rates <- with(homrates, V1 / Population * 10^5)
-  homrates[is.na(homrates)] <- 0
-
-mi <- ddply(subset(hom, ENTOCU == 16), .(ANIODEF, MESDEF, DIADEF),
-            nrow)
-
-mi <- subset(mi, MESDEF != 0 | DIADEF != 0)
-mi$date <- with(mi, as.Date(str_c(ANIODEF, MESDEF, DIADEF, sep="-")))
-ggplot(mi, aes(date, V1)) +
-  geom_line() +
-  facet_wrap(~MUNOCU) +
-  scale_x_date()
-
-mi <- ddply(subset(hom, ENTOCU == 12), .(ANIODEF, MESDEF, DIADEF),
-            nrow)
-
-mi <- subset(mi, MESDEF != 0 | DIADEF != 0)
-mi$date <- with(mi, as.Date(str_c(ANIODEF, MESDEF, DIADEF, sep="-")))
-ggplot(mi, aes(date, V1)) +
-  geom_line() +
-  facet_wrap(~MUNOCU) +
-  scale_x_date()

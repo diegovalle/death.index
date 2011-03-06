@@ -98,11 +98,13 @@ formatDaily <- function(df){
 }
 
 daily <- function(df, title = ""){
-    ggplot(df, aes(date, V1)) +
-        scale_x_date(minor = "month") +
-        geom_area(fill = "darkred") +
+  df$year <- year(df$date)
+  ggplot(df, aes(date, V1)) +
+        #scale_x_date(minor = "month") +
+        geom_line(fill = "darkred") +
         opts(title = title) +
-        ylab("number of homicides")
+        ylab("number of homicides") +
+        facet_wrap(~year, scale = "free_x", ncol = 1)
 }
 
 dayOfDeath <- function(df, year = kmaxy, title = ""){
@@ -253,6 +255,13 @@ plotHours <- function(df, year, fix = FALSE, title = "") {
 ########################################################
 #Percentage of Homicides with a Firearm
 ########################################################
+completeDates <- function(df){
+  dates <- data.frame(
+               date = seq(as.Date(str_c(kminy, "01", "15", sep = "-")),
+                          as.Date(str_c(kmaxy, "12", "15", sep = "-")),
+                      by = "month"))
+  merge(df, dates, all = TRUE)
+}
 
 plotFirearmPer <- function(df, title = "") {
   fir <- subset(df, CAUSADEF %in% c("X93", "X94", "X95"))
@@ -264,12 +273,15 @@ plotFirearmPer <- function(df, title = "") {
   tothom <- subset(tothom, MESDEF != 0)
   tothom$date <- with(tothom,
                       as.Date(str_c(ANIODEF, MESDEF, "15", sep = "-")))
+  
+  totfir <- completeDates(totfir)
+  tothom <- completeDates(tothom)
   totfir$prop <- totfir$V1 / tothom$V1
-
+  totfir$prop[is.na(totfir$prop)] <-  0
   ggplot(totfir, aes(date, prop, group = 1)) +
     geom_line() +
     scale_x_date() +
-    geom_smooth() +
+    #geom_smooth() +
     scale_y_continuous(limits = c(0, max(totfir$prop)),
                        formatter = "percent") +
     opts(title = title) +
