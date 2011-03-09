@@ -4,6 +4,7 @@ source('lib/boot.R')
 
 hom <- subset(deaths, PRESUNTO == 2)
 
+
 #Stats for Important cities, females, states, one armed midgets
 #less than 5 years old, etc
 source("app/summary-stats.R")

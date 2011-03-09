@@ -42,7 +42,9 @@ generateCharts <- function(hom, year, name) {
                 "School Level of the Homicide Victims in",
                 "Occupation of the Homicide Victims in",
                 "Marital Status of the Homicide Victims in",
-                "Homicides by Day of Week")
+                "Homicides by Day of Week",
+                "Who certifies homicides in",
+                "Homicides with or without autopsy in")
 
  titles <- str_c(titles, " ", name)
  titles[4] <- str_c(titles[4], " (", as.character(year), ")")
@@ -116,6 +118,11 @@ generateCharts <- function(hom, year, name) {
  ll$marital.dot <- dotPlot(hom08, "EDOCIVILtxt")
 
  ll$dayofDeath <- dayOfDeath(hom.count, year, titles[17])
+
+ ll$certified <- groupPlot(hom, "CERTIFtxt", titles[18],
+          "Certified by:")
+ ll$autopsy <- groupPlot(hom, "NECROPCIAtxt", titles[19],
+          "Autopsy")
  
  ll
 }
@@ -130,7 +137,8 @@ saveCharts <- function(ll, location) {
                  "school-bump", "school-dot",
                  "occupation-bump", "occupation-dot",
                  "marital-bump", "marital-dot",
-                 "dayofdeath")
+                 "dayofdeath", "certifies",
+                 "autopsy")
 
   filenames <- str_c("graphs/", location, "-", filenames,
                      ".png")

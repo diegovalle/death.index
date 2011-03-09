@@ -10,9 +10,8 @@ source("app/label-charts.R")
 
 #Stats for all of Mexico
 #Only presumed homicides
-year <- 2009
 
-llcharts <- generateCharts(hom, year, "México")
+llcharts <- generateCharts(hom, kmaxy, "México")
 llcharts$weekly <- labelChart(llcharts$weekly, "Start of Drug War",
                               300, op.mich)
 llcharts$monthly <- labelChart(llcharts$monthly, "Start of Drug War",
@@ -22,25 +21,25 @@ saveCharts(llcharts, "mexico")
 
 hom.narco <- subset(hom, ABBRV %in% c("BC", "Chih", "Gro", "Mich", "Son",
                                   "Sin", "Dgo"))
-llcharts <- generateCharts(hom.narco, year, "Narco States")
+llcharts <- generateCharts(hom.narco, kmaxy, "Narco States")
 saveCharts(llcharts, "narco-states")
 
 hom.narco <- subset(hom, ABBRV %in% c("BC", "Chih", "Gro", "Mich", "Son",
                                   "Sin", "Dgo"))
-llcharts <- generateCharts(hom.narco, year, "Narco States")
+llcharts <- generateCharts(hom.narco, kmaxy, "Narco States")
 saveCharts(llcharts, "narco-states")
 
 #Femicides
 fem <- subset(hom, SEXO == 2)
-llcharts <- generateCharts(fem, year, "México (Females)")
+llcharts <- generateCharts(fem, kmaxy, "México (Females)")
 saveCharts(llcharts, "femicide")
 
 fem.j <- subset(hom, SEXO == 2 & ENTOCU == 08 & MUNOCU==037)
-llcharts <- generateCharts(fem.j, year, "Juárez (Females)")
+llcharts <- generateCharts(fem.j, kmaxy, "Juárez (Females)")
 saveCharts(llcharts, "juarez-femicide")
 
 hom.j <- subset(hom, ENTOCU == 08 & MUNOCU %in% c(037))
-llcharts <- generateCharts(hom.j, year, "Juárez")
+llcharts <- generateCharts(hom.j, kmaxy, "Juárez")
 llcharts$weekly <- llcharts$weekly +
   geom_vline(aes(xintercept = as.Date("2008-03-28")), alpha = .7,
                linetype = 2) +
@@ -53,21 +52,21 @@ llcharts$weekly <- llcharts$weekly +
                 label = "Reinforcements\nSent"),
             hjust = 1.03, vjust = 0) 
 saveCharts(llcharts, "juárez (ma)")
-#chartRegion(hom, c(08), c(037), year,
+#chartRegion(hom, c(08), c(037), kmaxy,
  #           "Juárez (MA)")
 
 
-chartRegion(hom, c(08), c(2, 4, 19), year,
+chartRegion(hom, c(08), c(2, 4, 19), kmaxy,
             "Chihuahua (MA)")
-chartRegion(hom, c(08), c(029), year,
+chartRegion(hom, c(08), c(029), kmaxy,
             "Guadalup y Calvo")
-chartRegion(hom, c(08), c(032), year,
+chartRegion(hom, c(08), c(032), kmaxy,
             "Hidalgo del Parral")
-chartRegion(hom, c(08), c(17), year,
+chartRegion(hom, c(08), c(17), kmaxy,
             "Cuauhtemoc")
 
 hom.can <- subset(hom, MA == "Cancún")
-llcharts <- generateCharts(hom.can, year, "Cancún")
+llcharts <- generateCharts(hom.can, kmaxy, "Cancún")
 llcharts$weekly <- llcharts$weekly +
   geom_vline(aes(xintercept = as.Date("2009-02-09")), alpha = .7,
                linetype = 2) +
@@ -75,12 +74,12 @@ llcharts$weekly <- llcharts$weekly +
                 label = "J.O. Cancún"),
              hjust = 1.03, vjust = 0) 
 saveCharts(llcharts, "cancun")
-#chartRegion(hom, c(23), c(005), year,
+#chartRegion(hom, c(23), c(005), kmaxy,
  #           "Cancún")
 
 hom.tj <- subset(hom, MA == "Tijuana")
 #hom.tj <- subset(hom, ENTOCU == 02 & MUNOCU %in% c(004))
-llcharts <- generateCharts(hom.tj, year, "Tijuana (MA)")
+llcharts <- generateCharts(hom.tj, kmaxy, "Tijuana (MA)")
 llcharts$weekly <- llcharts$weekly +
   geom_vline(aes(xintercept = as.Date("2007-01-03")), alpha = .7,
                linetype = 2) +
@@ -95,43 +94,61 @@ llcharts$weekly <- llcharts$weekly +
 llcharts$weekly <- labelChart(llcharts$weekly, "Marines in Tijuana",
                               82, "2008-11-30")
 saveCharts(llcharts, "tijuana")
-#chartRegion(hom, c(02), c(004, 003, 005), year,
+#chartRegion(hom, c(02), c(004, 003, 005), kmaxy,
  #           "Tijuana (MA)")  
 #write.csv(ddply(subset(hom, ENTOCU == 08 & MUNOCU %in% c(37)), .(ANIODEF, MESDEF), nrow), file = "temp.csv")
 daily1 <- ddply(hom.tj, .(ANIODEF, MESDEF, DIADEF), nrow)
-daily1 <- subset(daily1, ANIODEF %in% c(2008, 2009)&
-                MESDEF %in% c(9, 10, 11,12))
+daily1 <- subset(daily1, ANIODEF %in% c(2008, 2009))
 daily1$date <- with(daily1, as.Date(str_c(ANIODEF, MESDEF, DIADEF,
                                         sep = "-")))
 ggplot(daily1, aes(date, V1)) +
   geom_line() +
-  scale_x_date(format = "%b") +
-  facet_wrap(~ANIODEF, , scales = "free_x") +
-  opts(title = "Daily Murders in Tijuana") +
+  scale_x_date(format = "%b", minor = "month") +
+  facet_wrap(~ANIODEF, nrow = 2, scales = "free_x") +
+  opts(title = "Daily Homicides in Tijuana (MA)") +
   ylab("number of homicides") +
   geom_vline(data = data.frame(x = as.Date("2008-10-26"), ANIODEF = 2008) ,
                         aes(xintercept = x), alpha = .7,
                linetype = 2) +
   geom_text(data = data.frame(x = as.Date("2008-10-26"), ANIODEF = 2008) ,
-                        aes(x, 18,
-                            label = "E.A.F.\nCaptured"),
-            hjust = 1.03, vjust = 0) +
+                        aes(x, 20,
+                            label = "Eduardo Arellano Félix\nCaptured"),
+            hjust = 1.03, vjust = 0, size = 4) +
   geom_vline(data = data.frame(x = as.Date("2008-11-30"), ANIODEF = 2008) ,
                         aes(xintercept = x), alpha = .7,
                linetype = 2) +
   geom_text(data = data.frame(x = as.Date("2008-11-30"), ANIODEF = 2008) ,
                         aes(x, 20,
                             label = "Marines\n Sent"),
-            hjust = -.1, vjust = 0)
-ggsave("graphs/tijuana-daily-select.png", height = 5, width = 8, dpi = 100)
+            hjust = -.1, vjust = 0, size = 4) +
+  geom_vline(data = data.frame(x = as.Date("2009-12-07"), ANIODEF = 2009) ,
+                        aes(xintercept = x), alpha = .7,
+               linetype = 2) +
+  geom_text(data = data.frame(x = as.Date("2009-12-07"), ANIODEF = 2009) ,
+                        aes(x, 20,
+                            label = "Truce Ends?"),
+            hjust = 1.03, vjust = 0, size = 4) +
+  geom_vline(data = data.frame(x = as.Date("2008-04-26"), ANIODEF = 2008) ,
+                        aes(xintercept = x), alpha = .7,
+               linetype = 2) +
+  geom_text(data = data.frame(x = as.Date("2008-04-26"), ANIODEF = 2008) ,
+                        aes(x, 20,
+                            label = "Shootout between the gunmen\n of \"El Teo\" and \"El Ingeniero\""),
+            hjust = 1.03, vjust = 0, size = 4)
+ggsave("graphs/tijuana-daily-select.png", height = 5, width = 9, dpi = 100)
 
+
+groupPlot(hom.tj, "CERTIFtxt", "Who certifies homicides in Tijuana (MA)?",
+          "Certified by:")
+groupPlot(hom.tj, "NECROPCIAtxt", "Homicides with or without autopsy in Tijuana (MA)",
+          "Autopsy")
 
 hom.mexic <- subset(hom, MA == "Mexicali")
-llcharts <- generateCharts(hom.mexic, year, "Mexicali")
+llcharts <- generateCharts(hom.mexic, kmaxy, "Mexicali")
 saveCharts(llcharts, "mexicali")
 
 hom.cul <- subset(hom, ENTOCU == 25 & MUNOCU %in% c(006, 018))
-llcharts <- generateCharts(hom.cul, year, "Culiacán - Navolato")
+llcharts <- generateCharts(hom.cul, kmaxy, "Culiacán - Navolato")
 llcharts$weekly <- llcharts$weekly +
   geom_vline(aes(xintercept = as.Date("2008-05-13")), alpha = .7,
                linetype = 2) +
@@ -139,22 +156,22 @@ llcharts$weekly <- llcharts$weekly +
                 label = "J.O. Culiacan-Navolato"),
              hjust = 1.03, vjust = 0)
 saveCharts(llcharts, "culiacán")
-#chartRegion(hom, c(25), c(006), year,
+#chartRegion(hom, c(25), c(006), kmaxy,
 #            "Culiacán")
 
 hom.maz <- subset(hom, ENTOCU == 25 & MUNOCU %in% c(012))
-llcharts <- generateCharts(hom.maz, year, "Mazatlán")
+llcharts <- generateCharts(hom.maz, kmaxy, "Mazatlán")
 llcharts$weekly <- llcharts$weekly +
   geom_vline(aes(xintercept = as.Date("2008-07-15")), alpha = .7,
                linetype = 2) +
   geom_text(aes(as.Date("2008-07-15"), 8, label = "J.O. Culiacán - Navolato (Mazatlán)"),
              hjust = 1.03, vjust = 0)
 saveCharts(llcharts, "mazatlán")
-#chartRegion(hom, c(25), c(012), year,
+#chartRegion(hom, c(25), c(012), kmaxy,
  #           "Mazatlán", func)
 
 hom.aca <- subset(hom, ENTOCU == 12 & MUNOCU %in% c(001, 021))
-llcharts <- generateCharts(hom.aca, year, "Acapulco (MA)")
+llcharts <- generateCharts(hom.aca, kmaxy, "Acapulco (MA)")
 llcharts$weekly <- llcharts$weekly +
   geom_vline(aes(xintercept = as.Date("2007-01-15")), alpha = .7,
                linetype = 2) +
@@ -165,7 +182,7 @@ saveCharts(llcharts, "acapulco (ma)")
 
 
 hom.zihua <- subset(hom, ENTOCU == 12 & MUNOCU %in% c(038))
-llcharts <- generateCharts(hom.zihua, year, "Zihuatanejo")
+llcharts <- generateCharts(hom.zihua, kmaxy, "Zihuatanejo")
 llcharts$weekly <- llcharts$weekly +
   geom_vline(aes(xintercept = as.Date("2007-01-15")), alpha = .7,
                linetype = 2) +
@@ -174,7 +191,7 @@ llcharts$weekly <- llcharts$weekly +
 saveCharts(llcharts, "zihuatanejo (ma)")
 
 hom.zihua <- subset(hom, ENTOCU == 12 & MUNOCU %in% c(38))
-llcharts <- generateCharts(hom.zihua, year, "Zihuatanejo")
+llcharts <- generateCharts(hom.zihua, kmaxy, "Zihuatanejo")
 llcharts$weekly <- llcharts$weekly +
   geom_vline(aes(xintercept = as.Date("2007-01-15")), alpha = .7,
                linetype = 2) +
@@ -185,7 +202,7 @@ saveCharts(llcharts, "zihuatanejo (ma)")
 hom.cg <- subset(hom, ENTOCU == 12 & MUNOCU %in% c(068, 16, 73,
                            38, 22, 50, 27, 64, 67, 7, 3, 57, 54, 11, 14, 007,
                            21, 01))
-llcharts <- generateCharts(hom.cg, year, "Costa Grande, Tierra Caliente and Guerrero")
+llcharts <- generateCharts(hom.cg, kmaxy, "Costa Grande, Tierra Caliente and Guerrero")
 llcharts$weekly <- llcharts$weekly +
   geom_vline(aes(xintercept = as.Date("2007-01-15")), alpha = .7,
                linetype = 2) +
@@ -193,33 +210,33 @@ llcharts$weekly <- llcharts$weekly +
              hjust = 1.03, vjust = 0)
 saveCharts(llcharts, "costa grande (guerrero)")
 
-chartRegion(hom, c(28), c(027), year,
+chartRegion(hom, c(28), c(027), kmaxy,
             "Nuevo Laredo")
-chartRegion(hom, c(28), c(022), year,
+chartRegion(hom, c(28), c(022), kmaxy,
             "Matamoros (MA)")  
-chartRegion(hom, c(28), c(032, 033), year,
+chartRegion(hom, c(28), c(032, 033), kmaxy,
             "Reynosa (MA)")
 
-chartRegion(hom, c(26), c(043), year,
+chartRegion(hom, c(26), c(043), kmaxy,
             "Nogales")
 
-chartRegion(hom, c(05), c(004, 027, 030), year,
+chartRegion(hom, c(05), c(004, 027, 030), kmaxy,
             "Saltillo (MA)")
 
-chartRegion(hom, c(18), c(008, 017), year,
+chartRegion(hom, c(18), c(008, 017), kmaxy,
             "Tepic (MA)")
 
-chartRegion(hom, c(06), c(007), year,
+chartRegion(hom, c(06), c(007), kmaxy,
             "Manzanillo")
 
 
-chartRegion(hom, c(16), c(053, 088), year,
+chartRegion(hom, c(16), c(053, 088), kmaxy,
             "Morelia (MA)")
 
 hom.mon <- subset(hom, ENTOCU == 19 &
                   MUNOCU %in% c(6, 9, 018, 19, 21, 26, 31, 39,
                                 45, 46, 48, 49))
-llcharts <- generateCharts(hom.mon, year, "Monterrey (MA)")
+llcharts <- generateCharts(hom.mon, kmaxy, "Monterrey (MA)")
 llcharts$weekly <- llcharts$weekly +
   geom_vline(aes(xintercept = as.Date("2007-02-19")), alpha = .7,
                linetype = 2) +
@@ -234,27 +251,27 @@ saveCharts(llcharts, "monterrey (ma)")
 
 hom.gua <- subset(hom, ENTOCU == 14 &
                   MUNOCU %in% c(39, 44, 51, 70, 97, 98, 101, 120))
-llcharts <- generateCharts(hom.gua, year, "Guadalajara (MA)")
+llcharts <- generateCharts(hom.gua, kmaxy, "Guadalajara (MA)")
 saveCharts(llcharts, "guadalajara (ma)")
 
 hom.vall <- subset(hom, (ENTOCU == 14 & MUNOCU %in% c(067)) |
               (ENTOCU == 18 & MUNOCU %in% c(20)))
-llcharts <- generateCharts(hom.vall, year, "Puerto Vallarta")
+llcharts <- generateCharts(hom.vall, kmaxy, "Puerto Vallarta")
 saveCharts(llcharts, "puerto_vallarta")
 
-chartRegion(hom, c(10), c(005), year,
+chartRegion(hom, c(10), c(005), kmaxy,
             "Durango")
-chartRegion(hom, c(17), c(007, 008, 011, 018, 020, 028), year,
+chartRegion(hom, c(17), c(007, 008, 011, 018, 020, 028), kmaxy,
             "Cuernavaca")
-chartRegion(hom, c(10), c(032), year,
+chartRegion(hom, c(10), c(032), kmaxy,
             "Santiago Papasquiaro")
 hom.lag <- subset(hom, (ENTOCU == 5 & MUNOCU %in% c(17,35)) |
               (ENTOCU == 10 & MUNOCU %in% c(7,12)))
-llcharts <- generateCharts(hom.lag, year, "La Laguna")
+llcharts <- generateCharts(hom.lag, kmaxy, "La Laguna")
 saveCharts(llcharts, "laguna")
 
 hom.ver <- subset(hom, ENTOCU == 30)
-llcharts <- generateCharts(hom.ver, year, "Veracruz (State)")
+llcharts <- generateCharts(hom.ver, kmaxy, "Veracruz (State)")
 llcharts$monthly <- llcharts$monthly +
   geom_vline(aes(xintercept = as.Date("2007-05-14")), alpha = .7,
                linetype = 2) +
@@ -263,11 +280,11 @@ llcharts$monthly <- llcharts$monthly +
 saveCharts(llcharts, "veracruz")
 
 hom.dur <- subset(hom, ENTOCU == 10)
-llcharts <- generateCharts(hom.dur, year, "Durango (State)")
+llcharts <- generateCharts(hom.dur, kmaxy, "Durango (State)")
 saveCharts(llcharts, "durango (state)")
 
 hom.tam <- subset(hom, ABBRV == "Tamps")
-llcharts <- generateCharts(hom.tam, year, "Tamaulipas (State)")
+llcharts <- generateCharts(hom.tam, kmaxy, "Tamaulipas (State)")
 llcharts$weekly <- llcharts$weekly +
   geom_vline(aes(xintercept = as.Date("2007-02-19")), alpha = .7,
                linetype = 2) +
@@ -284,7 +301,7 @@ saveCharts(llcharts, "mexico")
 
 
 hom.tam <- subset(hom, ABBRV == "Tamps")
-llcharts <- generateCharts(hom.tam, year, "Tamaulipas (State)")
+llcharts <- generateCharts(hom.tam, kmaxy, "Tamaulipas (State)")
 llcharts$weekly <- llcharts$weekly +
   geom_vline(aes(xintercept = as.Date("2007-02-19")), alpha = .7,
                linetype = 2) +
@@ -293,15 +310,15 @@ llcharts$weekly <- llcharts$weekly +
 saveCharts(llcharts, "tamaulipas (state)")
 
 hom.mxc <- subset(hom, MA == "Valle de México")
-llcharts <- generateCharts(hom.mxc, year, "Mexico City")
+llcharts <- generateCharts(hom.mxc, kmaxy, "Mexico City")
 saveCharts(llcharts, "mexico city")
 
 hom.slp <- subset(hom, ABBRV == "SLP")
-llcharts <- generateCharts(hom.slp, year, "San Luis Potosí")
+llcharts <- generateCharts(hom.slp, kmaxy, "San Luis Potosí")
 saveCharts(llcharts, "san luis potosi")
             
 hom.mich <- subset(hom, ABBRV == "Mich")
-llcharts <- generateCharts(hom.mich, year, "Michoacán (State)")
+llcharts <- generateCharts(hom.mich, kmaxy, "Michoacán (State)")
 llcharts$weekly <- labelChart(llcharts$weekly, "J.O. Michoacán",
                               47, op.mich)
 llcharts$weekly <- labelChart(llcharts$weekly, "J.O. Michoacán II",
@@ -319,7 +336,7 @@ saveCharts(llcharts, "michoacan (state)")
 hom.mich.mun <- subset(hom, ABBRV == "Mich" & MUNOCU %in% c(14, 26, 15,
                               89, 12, 8, 2, 6, 4,
                           55, 35, 96, 10, 52, 29, 38, 13, 92, 33))
-llcharts <- generateCharts(hom.mich.mun, year, "Michoacán (Selected Municipalities)")
+llcharts <- generateCharts(hom.mich.mun, kmaxy, "Michoacán (Selected Municipalities)")
 llcharts$weekly <- labelChart(llcharts$weekly, "J.O. Michoacán",
                               25, op.mich)
 llcharts$weekly <- labelChart(llcharts$weekly, "J.O. Michoacán II",
@@ -335,7 +352,7 @@ llcharts$monthly <- labelChart(llcharts$monthly, "La Minsa Captured",
 saveCharts(llcharts, "michoacan (selected)")
 
 hom.zac <- subset(hom, ENTOCU == 32)
-llcharts <- generateCharts(hom.zac, year, "Zacatecas (State)")
+llcharts <- generateCharts(hom.zac, kmaxy, "Zacatecas (State)")
 saveCharts(llcharts, "zacatecas (state)")
 
 #Femicide rate in Mexico
@@ -365,7 +382,7 @@ ggplot(babies, aes(EDADVALOR, ..count.. ,group = SEXOtxt,
                    fill = SEXOtxt))+
   geom_histogram(position = "identity", binwidth = 1, alpha = .5)
 
-chartRegion(hom, c(16), c(52), year,
+chartRegion(hom, c(16), c(52), kmaxy,
             "Lázaro Cárdenas")  
 
 #It might be worthwhile to include other states, counties, and

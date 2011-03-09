@@ -100,7 +100,7 @@ formatDaily <- function(df){
 daily <- function(df, title = ""){
   df$year <- year(df$date)
   ggplot(df, aes(date, V1)) +
-        #scale_x_date(minor = "month") +
+        scale_x_date(minor = "month") +
         geom_line(fill = "darkred") +
         opts(title = title) +
         ylab("number of homicides") +
@@ -281,7 +281,7 @@ plotFirearmPer <- function(df, title = "") {
   ggplot(totfir, aes(date, prop, group = 1)) +
     geom_line() +
     scale_x_date() +
-    #geom_smooth() +
+    geom_smooth() +
     scale_y_continuous(limits = c(0, max(totfir$prop)),
                        formatter = "percent") +
     opts(title = title) +
@@ -302,3 +302,21 @@ plotFirearmPer <- function(df, title = "") {
 
 #apply(2006:2008, function(x) stats(subset(hom, ANIODEF == x & EDADVALOR < 900 & SEXO == "Males")$EDADVALOR))
 #apply(2006:2008, function(x) stats(subset(hom, ANIODEF == x & EDADVALOR < 900 & SEXO == "Females")$EDADVALOR))
+
+
+doctorPlot <- function(df, name, title = "", scale = "") {
+  df <- ddply(df, c("ANIODEF", "MESDEF", name), nrow)
+  df <- subset(df, MESDEF != 0)
+#df <- ddply(hom.tj, .(ANIODEF, MESDEF, NECROPCIA), nrow)
+  df$date <- as.Date(str_c(df$ANIODEF, df$MESDEF, "15", sep = "-"))
+  df <- merge(df, data.frame(date = seq(as.Date("2006-01-15"),
+                                        as.Date("2009-12-15"),
+                             by = "months"), all.y = TRUE),
+      by = "date")
+  df[[name]] <- reorder(df[[name]], -df$V1)
+  ggplot(df, aes_string(x = "date", y = "V1", group = name, color = name)) +
+    geom_line() +
+    opts(title = title) +
+    ylab("number of homicides") +
+    scale_color_hue(scale)
+}
