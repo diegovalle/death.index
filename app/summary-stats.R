@@ -138,10 +138,7 @@ ggplot(daily1, aes(date, V1)) +
 ggsave("graphs/tijuana-daily-select.png", height = 5, width = 9, dpi = 100)
 
 
-groupPlot(hom.tj, "CERTIFtxt", "Who certifies homicides in Tijuana (MA)?",
-          "Certified by:")
-groupPlot(hom.tj, "NECROPCIAtxt", "Homicides with or without autopsy in Tijuana (MA)",
-          "Autopsy")
+
 
 hom.mexic <- subset(hom, MA == "Mexicali")
 llcharts <- generateCharts(hom.mexic, kmaxy, "Mexicali")

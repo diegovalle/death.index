@@ -119,9 +119,9 @@ generateCharts <- function(hom, year, name) {
 
  ll$dayofDeath <- dayOfDeath(hom.count, year, titles[17])
 
- ll$certified <- groupPlot(hom, "CERTIFtxt", titles[18],
+ ll$certified <- doctorPlot(hom, "CERTIFtxt", titles[18],
           "Certified by:")
- ll$autopsy <- groupPlot(hom, "NECROPCIAtxt", titles[19],
+ ll$autopsy <- doctorPlot(hom, "NECROPCIAtxt", titles[19],
           "Autopsy")
  
  ll
