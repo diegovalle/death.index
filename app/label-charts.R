@@ -17,7 +17,8 @@ labelJuarez <- function(ll.juarez) {
 labelChart <- function(p,
                        label = "",
                        y = 0,
-                       date) {
+                       date,
+                       hjust = 1.03) {
   lab <- label
   op <- data.frame(date)
   p <- p +
@@ -25,7 +26,7 @@ labelChart <- function(p,
                linetype = 2) +
     geom_text(aes(x,y), label = lab,
       data = data.frame(x = as.Date(date), y = y),
-      hjust = 1.03, vjust = 0)
+      hjust = hjust, vjust = 0)
   p
 }
 

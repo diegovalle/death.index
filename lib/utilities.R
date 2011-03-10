@@ -43,7 +43,7 @@ generateCharts <- function(hom, year, name) {
                 "Occupation of the Homicide Victims in",
                 "Marital Status of the Homicide Victims in",
                 "Homicides by Day of Week",
-                "Who certifies homicides in",
+                "Homicide Certification in",
                 "Homicides with or without autopsy in")
 
  titles <- str_c(titles, " ", name)

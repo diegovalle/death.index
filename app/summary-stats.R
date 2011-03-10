@@ -91,8 +91,8 @@ llcharts$weekly <- llcharts$weekly +
   geom_text(aes(as.Date("2008-10-26"), 70,
                 label = "E.A.F. Captured"),
              hjust = 1.03, vjust = 0)
-llcharts$weekly <- labelChart(llcharts$weekly, "Marines in Tijuana",
-                              82, "2008-11-30")
+llcharts$weekly <- labelChart(llcharts$weekly, "Teo\'s Girlfriend\nKilled",
+                              82, "2008-11-29", -0.03)
 saveCharts(llcharts, "tijuana")
 #chartRegion(hom, c(02), c(004, 003, 005), kmaxy,
  #           "Tijuana (MA)")  
@@ -102,7 +102,6 @@ daily1 <- subset(daily1, ANIODEF %in% c(2008, 2009))
 daily1$date <- with(daily1, as.Date(str_c(ANIODEF, MESDEF, DIADEF,
                                         sep = "-")))
 ggplot(daily1, aes(date, V1)) +
-  geom_line() +
   scale_x_date(format = "%b", minor = "month") +
   facet_wrap(~ANIODEF, nrow = 2, scales = "free_x") +
   opts(title = "Daily Homicides in Tijuana (MA)") +
@@ -111,31 +110,67 @@ ggplot(daily1, aes(date, V1)) +
                         aes(xintercept = x), alpha = .7,
                linetype = 2) +
   geom_text(data = data.frame(x = as.Date("2008-10-26"), ANIODEF = 2008) ,
-                        aes(x, 20,
-                            label = "Eduardo Arellano Félix\nCaptured"),
-            hjust = 1.03, vjust = 0, size = 4) +
+                        aes(x, 21,
+                            label = "Eduardo Arellano Félix\ncaptured"),
+            hjust = 1.03, vjust = 0, size = 3.5) +
   geom_vline(data = data.frame(x = as.Date("2008-11-30"), ANIODEF = 2008) ,
                         aes(xintercept = x), alpha = .7,
                linetype = 2) +
-  geom_text(data = data.frame(x = as.Date("2008-11-30"), ANIODEF = 2008) ,
-                        aes(x, 20,
-                            label = "Marines\n Sent"),
-            hjust = -.1, vjust = 0, size = 4) +
+  geom_text(data = data.frame(x = as.Date("2008-11-29"), ANIODEF = 2008) ,
+                        aes(x, 15,
+                            label = "\"Teo\'s\"\ngirlfriend\nkilled"),
+            hjust = -.15, vjust = 0, size = 3.5) +
   geom_vline(data = data.frame(x = as.Date("2009-12-07"), ANIODEF = 2009) ,
                         aes(xintercept = x), alpha = .7,
                linetype = 2) +
   geom_text(data = data.frame(x = as.Date("2009-12-07"), ANIODEF = 2009) ,
                         aes(x, 20,
-                            label = "Truce Ends?"),
-            hjust = 1.03, vjust = 0, size = 4) +
+                            label = "Truce ends?"),
+            hjust = 1.03, vjust = 0, size = 3.5) +
   geom_vline(data = data.frame(x = as.Date("2008-04-26"), ANIODEF = 2008) ,
                         aes(xintercept = x), alpha = .7,
                linetype = 2) +
   geom_text(data = data.frame(x = as.Date("2008-04-26"), ANIODEF = 2008) ,
                         aes(x, 20,
                             label = "Shootout between the gunmen\n of \"El Teo\" and \"El Ingeniero\""),
-            hjust = 1.03, vjust = 0, size = 4)
-ggsave("graphs/tijuana-daily-select.png", height = 5, width = 9, dpi = 100)
+            hjust = 1.03, vjust = 0, size = 3.5) +
+  geom_vline(data = data.frame(x = as.Date("2008-09-29"), ANIODEF = 2008) ,
+                        aes(xintercept = x), alpha = .7,
+               linetype = 2) +
+  geom_text(data = data.frame(x = as.Date("2008-09-29"), ANIODEF = 2008) ,
+                        aes(x, 17,
+                            label = "Sixteen executions"),
+            hjust = 1.03, vjust = 0, size = 3.5) +
+  geom_vline(data = data.frame(x = as.Date("2009-03-02"), ANIODEF = 2009) ,
+                        aes(xintercept = x), alpha = .7,
+               linetype = 2) +
+  geom_text(data = data.frame(x = as.Date("2009-03-02"), ANIODEF = 2009) ,
+                        aes(x, 20,
+                            label = "\"El Profe\"\ncaptured"),
+            hjust = 1.03, vjust = 0, size = 3.5)  +
+  geom_vline(data = data.frame(x = as.Date("2008-09-16"), ANIODEF = 2008) ,
+                        aes(xintercept = x), alpha = .7,
+               linetype = 2) +
+  geom_text(data = data.frame(x = as.Date("2008-09-16"), ANIODEF = 2008) ,
+                        aes(x, 10,
+                            label = "Prision riot"),
+            hjust = 1.03, vjust = 0, size = 3.5) +
+  geom_vline(data = data.frame(x = as.Date("2009-01-15"), ANIODEF = 2009) ,
+                        aes(xintercept = x), alpha = .7,
+               linetype = 2) +
+  geom_text(data = data.frame(x = as.Date("2009-01-15"), ANIODEF = 2009) ,
+                        aes(x, 10,
+                            label = "Truce?"),
+            hjust = -.15, vjust = 0, size = 3.5)  +
+  geom_vline(data = data.frame(x = as.Date("2008-12-10"), ANIODEF = 2008) ,
+                        aes(xintercept = x), alpha = .7,
+               linetype = 2) +
+  geom_text(data = data.frame(x = as.Date("2008-12-10"), ANIODEF = 2008) ,
+                        aes(x, 10,
+                            label = "Leyzaola"),
+            hjust = -.05, vjust = 0, size = 3.5) +
+   geom_line()
+ggsave("graphs/tijuana-daily-select.png", height = 5, width = 9.5, dpi = 100)
 
 
 

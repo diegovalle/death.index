@@ -100,7 +100,7 @@ formatDaily <- function(df){
 daily <- function(df, title = ""){
   df$year <- year(df$date)
   ggplot(df, aes(date, V1)) +
-        scale_x_date(minor = "month") +
+        scale_x_date(minor = "month", format = "%b") +
         geom_line(fill = "darkred") +
         opts(title = title) +
         ylab("number of homicides") +
@@ -309,13 +309,20 @@ doctorPlot <- function(df, name, title = "", scale = "") {
   df <- subset(df, MESDEF != 0)
 #df <- ddply(hom.tj, .(ANIODEF, MESDEF, NECROPCIA), nrow)
   df$date <- as.Date(str_c(df$ANIODEF, df$MESDEF, "15", sep = "-"))
-  df <- merge(df, data.frame(date = seq(as.Date("2006-01-15"),
-                                        as.Date("2009-12-15"),
-                             by = "months"), all.y = TRUE),
-      by = "date")
-  df[[name]] <- reorder(df[[name]], -df$V1)
+  dateseq <- seq(as.Date(str_c(kminy, "-01-15")),
+                 as.Date(str_c(kmaxy, "-12-15")),
+                 by = "months")
+  levels <- levels(as.factor(df[[name]]))
+  complete <- data.frame(date = rep(dateseq, each = length(levels)),
+                         name = levels)
+  df <- merge(df, complete,
+              all.y = TRUE,
+              by.x = c("date", name), by.y = c("date", "name"))
+  df[is.na(df)] <- 0
+  df <- ddply(df, c(name), transform, order = V1[length(V1)])
+  df[[name]] <- reorder(df[[name]], -df$order)
   ggplot(df, aes_string(x = "date", y = "V1", group = name, color = name)) +
-    geom_line() +
+    geom_line(size = 1.2) +
     opts(title = title) +
     ylab("number of homicides") +
     scale_color_hue(scale)
