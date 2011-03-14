@@ -8,6 +8,7 @@ hom <- subset(deaths, PRESUNTO == 2)
 #Stats for Important cities, females, states, one armed midgets
 #less than 5 years old, etc
 source("app/summary-stats.R")
+source("app/military.R")
 
 #Small Multiple of State Rates
 source("app/state-rates.R")

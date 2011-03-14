@@ -118,7 +118,7 @@ ggplot(daily1, aes(date, V1)) +
                linetype = 2) +
   geom_text(data = data.frame(x = as.Date("2008-11-29"), ANIODEF = 2008) ,
                         aes(x, 15,
-                            label = "\"Teo\'s\"\ngirlfriend\nkilled"),
+                            label = "\"El Teo\'s\"\ngirlfriend\nkilled & Truce"),
             hjust = -.15, vjust = 0, size = 3.5) +
   geom_vline(data = data.frame(x = as.Date("2009-12-07"), ANIODEF = 2009) ,
                         aes(xintercept = x), alpha = .7,
@@ -153,15 +153,15 @@ ggplot(daily1, aes(date, V1)) +
                linetype = 2) +
   geom_text(data = data.frame(x = as.Date("2008-09-16"), ANIODEF = 2008) ,
                         aes(x, 10,
-                            label = "Prision riot"),
+                            label = "Prision riots"),
             hjust = 1.03, vjust = 0, size = 3.5) +
-  geom_vline(data = data.frame(x = as.Date("2009-01-15"), ANIODEF = 2009) ,
-                        aes(xintercept = x), alpha = .7,
-               linetype = 2) +
-  geom_text(data = data.frame(x = as.Date("2009-01-15"), ANIODEF = 2009) ,
-                        aes(x, 10,
-                            label = "Truce?"),
-            hjust = -.15, vjust = 0, size = 3.5)  +
+  #geom_vline(data = data.frame(x = as.Date("2009-01-15"), ANIODEF = 2009) ,
+   #                     aes(xintercept = x), alpha = .7,
+    #           linetype = 2) +
+  #geom_text(data = data.frame(x = as.Date("2009-01-15"), ANIODEF = 2009) ,
+   #                     aes(x, 10,
+    #                        label = "Truce?"),
+     #       hjust = -.15, vjust = 0, size = 3.5)  +
   geom_vline(data = data.frame(x = as.Date("2008-12-10"), ANIODEF = 2008) ,
                         aes(xintercept = x), alpha = .7,
                linetype = 2) +
@@ -169,8 +169,22 @@ ggplot(daily1, aes(date, V1)) +
                         aes(x, 10,
                             label = "Leyzaola"),
             hjust = -.05, vjust = 0, size = 3.5) +
+  geom_vline(data = data.frame(x = as.Date("2009-06-15"), ANIODEF = 2009) ,
+                        aes(xintercept = x), alpha = .7,
+               linetype = 2) +
+  geom_text(data = data.frame(x = as.Date("2009-06-15"), ANIODEF = 2009) ,
+                        aes(x, 20,
+                            label = "\"La Perra\" captured"),
+            hjust = -.05, vjust = 0, size = 3.5) +
+  geom_vline(data = data.frame(x = as.Date("2009-07-02"), ANIODEF = 2009) ,
+                        aes(xintercept = x), alpha = .7,
+               linetype = 2) +
+  geom_text(data = data.frame(x = as.Date("2009-07-02"), ANIODEF = 2009) ,
+                        aes(x, 15,
+                            label = "\"El Marro\" captured"),
+            hjust = -.05, vjust = 0, size = 3.5) +
    geom_line()
-ggsave("graphs/tijuana-daily-select.png", height = 5, width = 9.5, dpi = 100)
+ggsave("graphs/tijuana-daily-select.png", height = 5, width = 13, dpi = 100)
 
 
 
