@@ -2,6 +2,7 @@ source("app/clean-database.R")
 source('lib/boot.R')
 #source('lib/run_tests.R')
 
+
 hom <- subset(deaths, PRESUNTO == 2)
 
 

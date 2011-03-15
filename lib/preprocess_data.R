@@ -1,9 +1,20 @@
+di2004 <- subset(di2004, PRESUNTO %in% c(1:5))
+di2005 <- subset(di2005, PRESUNTO %in% c(1:5))
+di2006 <- subset(di2006, PRESUNTO %in% c(1:5))
+di2007 <- subset(di2007, PRESUNTO %in% c(1:5))
+di2008 <- subset(di2008, PRESUNTO %in% c(1:5))
+di2009 <- subset(di2009, PRESUNTO %in% c(1:5))
 
-#Add new data.frames for 2009 here:
-deaths <- rbind(di2006,
-             di2007,
-             di2008,
-             di2009)
+#Add new data.frames for 2010 here:
+deaths <- rbind(di2004,
+                di2005,
+                di2006,
+                di2007,
+                di2008,
+                di2009)
+
+rm(di2004)
+rm(di2005)
 rm(di2006)
 rm(di2007)
 rm(di2008)
@@ -15,7 +26,7 @@ deaths[which(deaths$ANIODEF == 0),]$ANIODEF <- deaths[which(deaths$ANIODEF == 0)
 
 #figure out the last year for which data is available
 last.year <- max(subset(deaths, ANIODEF < 2100)$ANIODEF)
-deaths <- subset(deaths, ANIODEF %in% c(2006:last.year))
+deaths <- subset(deaths, ANIODEF %in% c(2004:last.year))
 
 #Max year and min year
 kminy <- min(deaths$ANIODEF)
@@ -136,3 +147,5 @@ deaths$id <- as.numeric(gsub(" ", "0", deaths$id))
 
 metropolitan.areas <- read.csv("data/metropolitan-areas.csv")
 deaths <- join(deaths, metropolitan.areas)
+deaths$date <- with(deaths, as.Date(str_c(ANIODEF, MESDEF, DIADEF,
+                                          sep = "-")))

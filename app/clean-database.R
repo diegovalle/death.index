@@ -56,9 +56,18 @@ if(!(checkFile("di2008.csv") &
   x <- read.dbf("ssa-database/BASE_DEF.DBF", as.is = TRUE)
   write.csv(x, "data/di2006.csv", row.names = FALSE)
   
-  x <- read.dbf("ssa-database/SALUD09.DBF", as.is = TRUE)
-  write.csv(x, "data/di2009.csv", row.names = FALSE)
+  x1 <- read.dbf("ssa-database/def_09.DBF", as.is = TRUE)
+  write.csv(x1, "data/di2009.csv", row.names = FALSE)
 }
 
+x <- read.dbf("ssa-database/inegi05.dbf", as.is = TRUE)
+x$CAUSABAS <- NULL
+x$GBD <- NULL
+#x <- x[ ,1:46]
+names(x) <- names(x1)
+write.csv(x, "data/di2005.csv", row.names = FALSE)
 
+x <- read.dbf("ssa-database/INEGI_04_def_difusion.dbf", as.is = TRUE)
+names(x) <- names(x1)
+write.csv(x, "data/di2004.csv", row.names = FALSE)
 

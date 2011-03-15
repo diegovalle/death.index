@@ -403,7 +403,8 @@ saveCharts(llcharts, "zacatecas (state)")
 
 #Femicide rate in Mexico
 #Mexico CONAPO
-fmx <- ddply(fem, .(ANIODEF), nrow) / c(53219640, 53723982, 54216256,
+fmx <- ddply(subset(fem, ANIODEF %in% 2006:2009),
+             .(ANIODEF), nrow) / c(53219640, 53723982, 54216256,
                                         54696909) * 100000
 #US - FBI UNIFORM CRIME REPORTS
 #http://www2.fbi.gov/ucr/cius2009/offenses/expanded_information/data/shrtable_01.html

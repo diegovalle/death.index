@@ -68,7 +68,7 @@ dotPlot <- function(df, name, xlab = "", ylab = "", title = "") {
 
 #Number of murders in 2006:last.year
 totalHomicides <- function(df, title = ""){
-  years <- 2006:last.year
+  years <- kminy:last.year
   homicides <-  sapply(years,
                      function (x) nrow(subset(df, ANIODEF == x)))
 
@@ -89,7 +89,7 @@ formatDaily <- function(df){
                                      hom.count$DIADEF,
                                      sep = "/"),
                                      "%Y/%m/%d")
-    dates <- data.frame(date = seq(as.Date("2006-01-01"),
+    dates <- data.frame(date = seq(as.Date(str_c(kminy,"-01-01")),
                     as.Date(str_c(kmaxy,"-12-31")),
                     by="day"))
     hom.count <- merge(hom.count, dates, by= "date", all.y = TRUE)
@@ -135,18 +135,28 @@ op.chi <- as.Date("2008-03-27")
 ########################################################
 #Weekly homicides in Ciudad Juarez
 ########################################################
-weekly <- function(hom.count, title = ""){
-    hom.count$week <- format(hom.count$date, "%Y %W")
-    hom.count$week <- c(0, rep(1:nrow(hom.count), each = 7)[1:1460])
-    hom.w <- ddply(hom.count, .(week), function(df) sum(df$V1))
-    hom.w <- subset(hom.w, week != 0)
+formatWeekly <- function(df) {
+    df$week <- format(df$date, "%Y %W")
+    dates <- data.frame(date = seq(as.Date(str_c(kminy,"-01-01")),
+                    as.Date(str_c(kmaxy,"-12-31")),
+                    by="day"))
+    df <- merge(df, dates, by= "date", all.y = TRUE)
+    df[is.na(df)] <- 0
+    df$week <- c(0, 0, 0 ,0, rep(1:c((nrow(df)) / 7), each = 7))[1:nrow(df)]
+    hom.w <- ddply(df, .(week), function(df) sum(df$V1))
+    hom.w <- subset(hom.w, week != 0 & week != max(hom.w$week))
 
-    hom.w$date <- seq(as.Date("2006-01-02"),
+    hom.w$date <- seq(as.Date(str_c(kminy, "-01-05")),
                     last.day,
-                    by="week")
+                    by="week")[1:nrow(hom.w)]
+    hom.w
+}
+
+weekly <- function(hom.count, title = ""){
+    hom.w <- formatWeekly(hom.count)
 
     ggplot(hom.w, aes(date, V1)) +
-        #geom_line(color = "darkred", size = 1.2) +
+        #geom_line(color = "darkred", sm.ize = 1.2) +
         geom_area(fill = "darkred") +
 #        geom_line(color = "darkred", size = 1.2) +
         scale_x_date(minor = "month") +
@@ -166,7 +176,7 @@ monthly <- function(hom.count, title = ""){
     hom.count$month <- format(hom.count$date, "%Y%m")
     hom.w <- ddply(hom.count, .(month), function(df) sum(df$V1))
 
-    hom.w$date <- seq(as.Date("2006-01-15"),
+    hom.w$date <- seq(as.Date(str_c(kminy,"-01-15")),
                     last.day,
                     by="month")
 
