@@ -15,10 +15,12 @@ Military <- function(df, dates, title = "") {
   ggplot(hom.lag, aes(date, V1, group = group)) +
     geom_point(size = 3, alpha = .5) +
     geom_smooth() +
-    #geom_smooth(method = zeroinfl, se = FALSE, link= "logit", EM = TRUE)  +
+    #geom_smooth(method = glm.nb, formula = "y ~ x + I(x^2)", se = TRUE)  +
     #coord_trans(ytrans = "sqrt")
     scale_y_log10() +
+    #geom_smooth(method = zeroinfl, se = FALSE) +
     geom_vline(xintercept = ops) +
+    #coord_cartesian(ylim = c(0, 2.1)) +
     scale_x_date() +
     ylab("log(number of homicides)") +
     opts(title = title)
@@ -26,18 +28,11 @@ Military <- function(df, dates, title = "") {
 
 MilitaryW <- function(df, dates, title = "") {
   dates <- c(as.Date("1970-01-01"), as.Date(dates))
-  hom.count <- formatDaily(df)
-  hom.count$week <- format(hom.count$date, "%Y %W")
-  hom.count$week <- c(0, rep(1:nrow(hom.count), each = 7)[1:1460])
-  hom.w <- ddply(hom.count, .(week), function(df) sum(df$V1))
-  hom.w <- subset(hom.w, week != 0)
-
-  hom.w$date <- seq(as.Date("2006-01-02"),
-                    last.day,
-                    by="week")
+  hom.w <- formatWeekly(formatDaily(df))
   hom.w$group <- cut(hom.w$date,
                        breaks = dates)
   hom.w$V1 <- hom.w$V1 + 0.5
+  #remove the last month since it has incomplete data
   hom.w <- subset(hom.w, date < as.Date(str_c(kmaxy, "12", "01",
                                               sep = "-")))
   
@@ -100,7 +95,7 @@ params <- list(laguna = list(hom.lag, c("2007-06-14"), "La Laguna"),
         "Chihuahua's Border Municipalities (Excluding Ciudad Juárez)"),
           list(hom.son, c("2008-01-22"), "Sonora"),
           list(hom.nogales, c("2008-01-22"), "Nogales"),
-          list(hom.cuer, c("2008-01-22"), "Cuernavaca"),
+          list(hom.cuer, c("2008-01-22"), "Cuernavaca (MA)"),
           list(hom.gua, c("2008-01-11"), "Guadalajara"),
           list(hom.ver, c("2007-05-14"), "Veracruz (State)"),
           list(hom.mon, c("2007-02-19"), "Monterrey (MA)"),
@@ -119,34 +114,57 @@ params <- list(laguna = list(hom.lag, c("2007-06-14"), "La Laguna"),
           )
 llplots <- llply(params,
                  function(df) {
-                   p <- MilitaryW(df[[1]], df[[2]], df[[3]])
+                   p <- Military(df[[1]], df[[2]], df[[3]])
                    saveAAPlot(p, file.path("graphs", "military",
-                                           str_c(df[[3]], ".png")))
+                                           str_c(df[[3]], ".png")),
+                              w = 800)
                  }
                  )
+
 formatStart <- function(df, name, fun = formatDaily) {
   df <- fun(df)
   df$name <- name
   return(df)
 }
 
-mich <- formatStart(hom.mich.mun, "Michoacán")
+mich <- formatStart(hom.mich, "Michoacán")
 aca <- formatStart(hom.aca, "Acapulco (MA)")
-nlaredo <- formatStart(hom.nlaredo, "Nuevo Laredo")
+nlaredo <- formatStart(hom.nlaredo, "Nuevo Laredo (MA)")
 
+fir.nlaredo <- subset(hom.nlaredo, CAUSADEF %in% c("X93", "X94", "X95"))
+awb <- formatWeekly(formatDaily(fir.nlaredo))
+awb <- subset(nlaredo,
+            date <= as.Date("2005-06-11"))
+awb$group <- cut(awb$date, breaks = as.Date(c("2000-01-01","2004-09-14")))
+fits <- dlply(awb, .(group), function(df) zeroinfl(data = df, V1 ~ date))
+fits2 <- dlply(awb, .(group), function(df) hurdle(data = df, V1 ~ date))
+fits.nb <- dlply(awb, .(group), function(df) glm.nb(data = df, V1 ~ date))
+vuong(fits[[2]], fits.nb[[2]])
+#plot(fits[[1]])
+vuong(fits[[1]], fits.nb[[1]])
+
+ggplot(awb, aes(date, V1, group = group)) +
+  geom_point() +
+  geom_smooth(method = glm.nb, dist = "negbin",
+              size = 1.2)  +
+  geom_vline(xintercept = as.numeric(as.Date("2004-09-14")))+
+  #coord_trans(ytrans = "sqrt") +
+  scale_x_date(format = "%b") +
+  coord_cartesian(ylim = c(0, 2.6))
 
 x1 <- rbind(mich, aca, nlaredo)
-x <- subset(x1, date <= as.Date("2007-12-31") &
-       date >= as.Date("2006-01-01"))
+x <- subset(x1, date >= as.Date("2005-07-01") &
+            date <= as.Date("2008-07-01"))
 #df <- ddply(x, .(ABBRV, date), nrow)
 x$group <- c(
   cut(subset(x, name == "Michoacán")$date, as.Date(c("2000-01-01", "2006-12-11"))),
 cut(subset(x, name == "Acapulco (MA)")$date, as.Date(c("2000-01-01", "2007-01-15"))),
-cut(subset(x, name == "Nuevo Laredo")$date, as.Date(c("2000-01-01", "2007-02-19")))
+cut(subset(x, name == "Nuevo Laredo (MA)")$date, as.Date(c("2000-01-01", "2007-02-19")))
                  )
 x$group[is.na(x$group)] <-"2"
-x$name <- factor(x$name, levels = c("Michoacán", "Acapulco (MA)",
-                            "Nuevo Laredo"))
+x$name <- factor(x$name, levels = c("Michoacán",
+                           "Acapulco (MA)",
+                            "Nuevo Laredo (MA)"))
 lops <- data.frame(
                    ops = as.numeric(as.Date(c("2006-12-11",
                      "2007-01-15", "2007-02-19"))),
@@ -156,13 +174,13 @@ lops <- data.frame(
                      "J.O. Nuevo León-Tamaulipas"))
 
 ggplot(x, aes(date, V1, group = group)) +
-  geom_point(size = 1) +
-  geom_smooth(method = zeroinfl, se = FALSE, link= "logit", EM = TRUE,
+  geom_point(size = 1.5, alpha = .6) +
+  geom_smooth(method = glm.nb, formula = "y ~ x + I(x^2)", se = TRUE,
               size = 1.2)  +
   #coord_trans(ytrans = "sqrt") +
-  scale_x_date(format = "%b") +
-  coord_cartesian(ylim = c(0, 4.1)) +
-  geom_text(data = lops, aes(label = opname, x = ops), y = 3.5,
+  scale_x_date(format = "%b-%Y") +
+  coord_cartesian(ylim = c(0, 2.1)) +
+  geom_text(data = lops, aes(label = opname, x = ops), y = 1.5,
               hjust = -0.05, size = 3.5) +
   geom_vline(data = lops, aes(xintercept = ops)) + 
   #geom_smooth(method = glm, family = "poisson") +
@@ -171,7 +189,7 @@ ggplot(x, aes(date, V1, group = group)) +
                    breaks = c("1", "2"), labels = c("before", "after")) +
   ylab("daily number of homicides") 
 saveAAPlot(last_plot(), file.path("graphs", "military", "start.png"),
-           w = 900, h = 400)
+           w = 600, h = 600)
 
 mich <- formatStart(hom.mich.mun, "Michoacán", formatWeekly)
 aca <- formatStart(hom.aca, "Acapulco (MA)", formatWeekly)
@@ -182,7 +200,8 @@ ggplot(formatWeekly(formatDaily(hom.aca)), aes(date, V1)) +
   geom_area(data = formatWeekly(formatDaily(hom.nlaredo)), aes(date, V1),
             fill = "red")
 
-       x2 <- subset(x1, date <= as.Date("2006-12-11"))
+x2 <- subset(x1, date <= as.Date("2006-12-11"))
 ggplot(x2, aes(date, V1, group = name, color = name)) +
   geom_smooth() +
   coord_cartesian(ylim = c(0, 2)) 
+

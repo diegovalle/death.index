@@ -9,6 +9,10 @@ You'll need the mortality database files from the SSA/INEGI available at
 
 The files you need to dowload are:
 
+[2004](http://www.sinais.salud.gob.mx/descargas/zip/def2004.zip)
+
+[2005](http://www.sinais.salud.gob.mx/descargas/zip/def2005.zip)
+
 [2006](http://www.sinais.salud.gob.mx/descargas/zip/def2006.zip)
 
 [2007](http://www.sinais.salud.gob.mx/descargas/zip/def2007.zip)

@@ -6,49 +6,8 @@
 #Small Multiples of the Homicide rates of the different Municipalities of Mexico
 
 
-#population from the CONAPO
-cleanPopCONAPO <- function(filename) {
-  pop <- read.csv(filename, skip = 2)
-  pop <- na.omit(pop)
-  col2cvt <- 3:ncol(pop)
-  pop[,col2cvt] <- lapply(pop[ ,col2cvt],
-                          function(x){
-                              as.numeric(gsub(" ", "", x))})
-  popm <- melt(pop, id = c("Clave", "Entidad.federativa.o.municipio"))
-  #The CONAPO adds a "0" to the county codes, remove it
-  popm$variable <- substring(popm$variable, 2)
-  names(popm) <- c("Code", "Mun", "Year", "Population")
-  popm <- subset(popm, Year %in% kminy:kmaxy )
-  popm$Year <- as.numeric(popm$Year)
-  popm$ENTOCU <- floor(popm$Code / 1000)
-  popm$MUNOCU <- popm$Code %% 1000
-  popm
-}
-
-cleanMuns <- function(hom, pop, cutoff){
-  hom.mun <- ddply(hom, .(ENTOCU, MUNOCU, ANIODEF),
-                   function(df) nrow(df))
 
 
-  homrates <- merge(hom.mun, pop,
-                    by.x = c("ENTOCU", "MUNOCU", "ANIODEF"),
-                    by.y = c("ENTOCU", "MUNOCU", "Year"),
-                    all.y = TRUE)
-
-  homrates$rates <- with(homrates, V1 / Population * 10^5)
-  homrates[is.na(homrates)] <- 0
-  homrates$Code <- with(homrates, str_c(ENTOCU,
-                                        format(MUNOCU, width = 3)))
-  homrates$Code <- as.numeric(str_replace_all(homrates$Code,
-                                              "[ ]", "0"))
-  
-  homrates <- addAbbrv(homrates)
-  homrates$Mun <- gsub("* de .*","", homrates$Mun)
-  homrates$Mun <- str_c(homrates$Mun, " - ", homrates$ABBRV)
-  #Include only the municipalities that have more than 100K
-  #including those that didn't have 100K for the entire period
-  subset(homrates, Code %in% unique(subset(homrates, Population >= cutoff)$Code))
-}
 
 smallMMun <- function(hom, pop, title, kminy, kmaxy, cutoff,
                       max = TRUE) {
@@ -81,6 +40,18 @@ smallMMun <- function(hom, pop, title, kminy, kmaxy, cutoff,
 
 cutoff <- 10^5
 popmun <- cleanPopCONAPO("data/municipal-population/popmun.csv.bz2")
+
+cutoffw <- 50000
+popmun.f <- cleanPopCONAPO("data/municipal-population/popmun-f.csv.bz2")
+titlemunw <- str_c("The Most Violent Municipalities in Mexico with more than ", format(cutoffw, scientific = FALSE, big.mark = ","), " Women")
+smallMMun(subset(hom, SEXO == 2), popmun.f, titlemunw, kminy, kmaxy, cutoffw)
+ggsave("graphs/municipalities-f-rates.png", dpi = 100,
+       width = 9, height = 7)
+
+popmun.m <- cleanPopCONAPO("data/municipal-population/popmun-m.csv.bz2")
+
+
+
 titlemun <- str_c("The Most Violent Municipalities in Mexico with more than a ", format(cutoff, scientific = FALSE, big.mark = ","), " People")
 smallMMun(hom, popmun, titlemun, kminy, kmaxy, cutoff)
 ggsave("graphs/municipalities-rates.png", dpi = 100,
@@ -139,6 +110,7 @@ ggsave("graphs/ma-line.png", dpi = 100,
        width = 7, height = 6)
 
 hom.ma <- subset(hom.ma, MA %in% hom.ma.max$MA)
+hom.ma <- na.omit(hom.ma)
 hom.ma$MA <- reorder(hom.ma$MA, -hom.ma$order)
 ggplot(hom.ma, aes(ANIODEF, rates)) +
       geom_line() +
@@ -148,18 +120,13 @@ ggplot(hom.ma, aes(ANIODEF, rates)) +
       xlab("year") +
       opts(title = "") +
       opts(axis.text.x = theme_text(angle = 60, hjust = 1)) +
-      scale_x_continuous(breaks = c(kminy:kmaxy)) +
+      #scale_x_continuous(breaks = c(kminy:kmaxy)) +
       facet_wrap(~ MA)+
       opts(title = "The Most Violent Metropolitan Areas in Mexico")
 ggsave("graphs/ma.png", dpi = 100,
        width = 8, height = 6)
 
-cutoffw <- 50000
-popmun.f <- cleanPopCONAPO("data/municipal-population/popmun-f.csv.bz2")
-titlemunw <- str_c("The Most Violent Municipalities in Mexico with more than ", format(cutoffw, scientific = FALSE, big.mark = ","), " Women")
-smallMMun(subset(hom, SEXO == 2), popmun.f, titlemunw, kminy, kmaxy, cutoffw)
-ggsave("graphs/municipalities-f-rates.png", dpi = 100,
-       width = 9, height = 7)
+
 
 #hom$metro.area <- str_c(hom$ENTOCU, hom$MUNCOU)
 #hom[which(hom$ENTOCU == 01 & hom$MUNOCU == 01),]$metro.area <- "Aguascalientes"

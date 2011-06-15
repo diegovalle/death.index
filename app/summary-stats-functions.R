@@ -112,7 +112,7 @@ dayOfDeath <- function(df, year = kmaxy, title = ""){
     days <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
     df$dayname <- format(df$date, "%A")
     df$dayname <- factor(df$dayname, levels = days)
-    fit <- aov(V1~dayname, data = df[1:10,])
+    fit <- aov(V1~dayname, data = df)
     print(summary(aov(fit)))
     ggplot(df, aes(dayname, V1)) +
         geom_boxplot(fill = "transparent", color = "red") +
@@ -150,6 +150,17 @@ formatWeekly <- function(df) {
                     last.day,
                     by="week")[1:nrow(hom.w)]
     hom.w
+}
+
+formatMonthly <- function(df) {
+  df$month <- format(df$date, "%Y%m")
+  hom.w <- ddply(df, .(month), function(df) sum(df$V1))
+
+  hom.w$date <- seq(as.Date(str_c(kminy,"-01-15")),
+                    last.day,
+                    by="month")
+    
+  hom.w
 }
 
 weekly <- function(hom.count, title = ""){
