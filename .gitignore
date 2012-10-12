@@ -2,3 +2,15 @@
 meta/*
 *R~
 *r~
+.Rhistory
+*.doc
+*.docx
+*.xls
+*.xlsx
+*.zip
+*.dbf
+*.sqlite
+*.sqlite*
+clean-data/*.bz2
+*.DOC
+*.DBF
