@@ -118,7 +118,7 @@ cleanDeaths <- function(deaths) {
     81 = 'Personal services';
     82 = 'Servants';
     83 = 'Army, policemen and private security';
-    98 = 'Not App. (less than 12 years old)';
+    98 = 'Not App. (< 12 years old)';
     99 = 'Insufficiently specified';")
 
   deaths$EDOCIVIL <- car::recode(deaths$EDOCIVIL, "0 = NA;
@@ -484,21 +484,65 @@ cleanDeaths <- function(deaths) {
       silent = TRUE)
 
   deaths$CDEATH <- NULL
+  deaths$SITIO_LES <- NULL
   names(deaths) <- c("icd3", "yob", "mob", "dob", "sex",
                  "age.unit", "age.in.units", "nation", "marital", "state.of.residence",
-                 "county.of.residence", "loc.of.residence", "loc.of.residence.size", "job", "edu",
-                 "insurance", "state.of.death", "county.of.death", "loc.of.death", "loc.of.death.size",
-                 "place.of.injury04", "yod", "mod", "dod", "hod",
-                 "minod", "med.help", "icd4",  "injury.intent", "job",
+                 "mun.of.residence", "loc.of.residence", "loc.of.residence.size", "job", "edu",
+                 "insurance", "state.of.death", "mun.of.death", "loc.of.death", "loc.of.death.size",
+                 "yod", "mod", "dod", "hod",
+                 "minod", "med.help", "icd4",  "injury.intent", "during.job", 
                  "place.of.injury", "domestic.v", "autopsy", "certifier", "state.reg",
-                 "county.reg", "year.reg", "mon.reg", "day.reg", "weight",
+                 "mun.reg", "year.reg", "mon.reg", "day.reg", "weight",
                  "year.cert", "mon.cert", "day.cert", "pregnancy.condition", "pregnancy.related",
                  "pregnancy.complication",
                  "state.abbrev", "icd.title", "cause", 
-"causecdc", "mvtper", "county.of.death10", "fips", "metro.area", "date", "date2", "age")
+"causecdc", "mvtper", "mun.of.death2", "fips", "metro.area", "date", "date2", "age")
 
+  
+  
+  deaths$icd3 <- as.factor(deaths$icd3)
+  deaths$sex <- as.factor(deaths$sex)
+  deaths$job <- as.factor(deaths$job)
+  deaths$during.job <- as.factor(deaths$during.job)
+  deaths$edu <- as.factor(deaths$edu)
+  deaths$insurance <- as.factor(deaths$insurance)
+  deaths$place.of.injury <- as.factor(deaths$place.of.injury)
+  deaths$med.help <- as.factor(deaths$med.help)
+  deaths$injury.intent <- as.factor(deaths$injury.intent)
+  deaths$job <- as.factor(deaths$job)
+  deaths$place.of.injury <- as.factor(deaths$place.of.injury)
+  deaths$domestic.v <- as.factor(deaths$domestic.v)
+  deaths$autopsy <- as.factor(deaths$autopsy)
+  deaths$certifier <- as.factor(deaths$certifier)
+  deaths$weight <- as.factor(deaths$weight)
+  deaths$pregnancy.condition <- as.factor(deaths$pregnancy.condition)
+  deaths$pregnancy.related <- as.factor(deaths$pregnancy.related)
+  deaths$pregnancy.complication <- as.factor(deaths$pregnancy.complication)
+  deaths$state.abbrev <- as.factor(deaths$state.abbrev)
+  deaths$icd.title <- as.factor(deaths$icd.title)
+  deaths$cause <- as.factor(deaths$cause)
+  deaths$causecdc <- as.factor(deaths$causecdc)
+  deaths$mvtper <- as.factor(deaths$mvtper)
+  deaths$metro.area <- as.factor(deaths$metro.area)
+  
   return(deaths)
 }
+
+readAndClean <- function(file.name, con){
+  message(str_c("\nCleaning ", str_replace(file.name, "di", ""), "\n"))
+  if(!file.exists(file.path("cache", str_c(file.name, ".RData")))) {
+    df <- read.csv(str_c("clean-data/", file.name, ".sinais.csv.bz2"))
+    df <- cleanDeaths(df)
+    save(df, file = file.path("cache", str_c(file.name, ".RData")))
+  } else {
+    load(file.path("cache", str_c(file.name, ".RData")))
+  }
+  ##write.csv(df, bzfile("clean-data/mortality04.csv.bz2"), row.names = FALSE)
+  dbWriteTable(con, "mortality", df, append = TRUE, row.names = FALSE)
+  df <- subset(df, !injury.intent %in% c("Natural Death"))
+  return(df)
+}
+
 
 ##SQLite
 drv <- dbDriver("SQLite")
@@ -508,54 +552,21 @@ con <- dbConnect(drv, dbname = tfile)
 
 message("Adding fields to the mortality databases...\n")
 
-di2004 <- read.csv("clean-data/di2004.sinais.csv.bz2")
-di2004 <- cleanDeaths(di2004)
-##write.csv(di2004, bzfile("clean-data/mortality04.csv.bz2"), row.names = FALSE)
-dbWriteTable(con, "mortality", di2004, append = TRUE, row.names = FALSE)
-di2004 <- t <- subset(di2004, !injury.intent %in% c("Natural Death"))
 
-di2005 <- read.csv("clean-data/di2005.sinais.csv.bz2")
-di2005 <- cleanDeaths(di2005)
-##write.csv(di2005, bzfile("clean-data/mortality05.csv.bz2"), row.names = FALSE)
-dbWriteTable(con, "mortality", di2005, append = TRUE, row.names = FALSE)
-di2005 <- subset(di2005, !injury.intent %in% c("Natural Death"))
 
-di2006 <- read.csv("clean-data/di2006.sinais.csv.bz2")
-di2006 <- cleanDeaths(di2006)
-dbWriteTable(con, "mortality", di2006, append = TRUE, row.names = FALSE)
-##write.csv(di2006, bzfile("clean-data/mortality06.csv.bz2"), row.names = FALSE)
-di2006 <- subset(di2006, !injury.intent %in% c("Natural Death"))
-
-di2007 <- read.csv("clean-data/di2007.sinais.csv.bz2")
-di2007 <- cleanDeaths(di2007)
-##write.csv(di2007, bzfile("clean-data/mortality07.csv.bz2"), row.names = FALSE)
-dbWriteTable(con, "mortality", di2007, append = TRUE, row.names = FALSE)
-di2007 <- subset(di2007, !injury.intent %in% c("Natural Death"))
-
-di2008 <- read.csv("clean-data/di2008.sinais.csv.bz2")
-di2008 <- cleanDeaths(di2008)
-dbWriteTable(con, "mortality", di2008, append = TRUE, row.names = FALSE)
-##write.csv(di2008, bzfile("clean-data/mortality08.csv.bz2"), row.names = FALSE)
-di2008 <- subset(di2008, !injury.intent %in% c("Natural Death"))
-
-di2009 <- read.csv("clean-data/di2009.sinais.csv.bz2")
-di2009 <- cleanDeaths(di2009)
-dbWriteTable(con, "mortality", di2009, append = TRUE, row.names = FALSE)
-##write.csv(di2009, bzfile("clean-data/mortality09.csv.bz2"), row.names = FALSE)
-di2009 <- subset(di2009, !injury.intent %in% c("Natural Death"))
-
-di2010 <- read.csv("clean-data/di2010.sinais.csv.bz2")
-di2010 <- cleanDeaths(di2010)
-dbWriteTable(con, "mortality", di2010, append = TRUE, row.names = FALSE)
-##write.csv(di2010, bzfile("clean-data/mortality10.csv.bz2"), row.names = FALSE)
-di2010 <- subset(di2010, !injury.intent %in% c("Natural Death"))
-
+di2004 <- readAndClean("di2004", con)
+di2005 <- readAndClean("di2005", con)
+di2006 <- readAndClean("di2006", con)
+di2007 <- readAndClean("di2007", con)
+di2008 <- readAndClean("di2008", con)
+di2009 <- readAndClean("di2009", con)
+di2010 <- readAndClean("di2010", con)
 
 
 dbDisconnect(con)
 
 #Add new data.frames for 2010 here:
-deaths <- rbind(di2004,
+deaths <- rbind.fill(di2004,
                 di2005,
                 di2006,
                 di2007,
@@ -582,5 +593,5 @@ deaths <- subset(deaths, year.of.death %in% c("0", "0000", 2004:last.year))
 
 write.csv(deaths, file = bzfile(file.path("clean-data", "injury-intent.csv.bz2")),
           row.names = FALSE)
-
+save(deaths, file = file.path("clean-data", "injury-intent.RData"))
 ##"subcategory",

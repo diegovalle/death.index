@@ -1,5 +1,7 @@
 This program cleans up the mortality database from the SSA/INEGI
 
+run_all.R ##downloads and cleans the mortality files
+
 
 Cleaned Data
 -------------
@@ -18,7 +20,7 @@ The mortality files are from the SSA/INEGI available at
 
 [SINAIS](http://sinais.salud.gob.mx/basesdedatos/index.html#estatica)
 
-If for some reason the files are not downloaded you can download them manually and place the files in the "ssa-database" directory. The files you need to dowload are:
+If for some reason the files are not downloaded automatically you can download them manually and place the files in the "ssa-database" directory. The files you need to dowload are:
 
 [2004](http://www.sinais.salud.gob.mx/descargas/zip/def2004.zip)
 

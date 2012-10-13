@@ -14,3 +14,4 @@ meta/*
 clean-data/*.bz2
 *.DOC
 *.DBF
+cache/*.RData
