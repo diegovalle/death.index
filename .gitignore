@@ -12,6 +12,8 @@ meta/*
 *.sqlite
 *.sqlite*
 clean-data/*.bz2
+clean-data/*.RData
+*~
 *.DOC
 *.DBF
 cache/*.RData
