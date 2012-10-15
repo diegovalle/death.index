@@ -2,6 +2,7 @@ This program cleans up the mortality database from the SSA/INEGI
 
 run_all.R ##downloads and cleans the mortality files
 
+clean-data/mortality-database.sqlite
 
 Cleaned Data
 -------------

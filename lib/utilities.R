@@ -39,19 +39,24 @@ addAbbrv <- function(df) {
                     29 ='Tlax';
                     30 ='Ver';
                     31 ='Yuc';
-                    32 = 'Zac';")
+                    32 = 'Zac';;
+                    33 = 'USA';
+                    34 = 'LATAM';
+                    35 = 'Other';")
   df
 }
 
 
-stateToAbrev <- function(df, col.name) {
-  car::recode(df[[col.name]], "1 = 'Ags';
-                                 2 = 'BC';
-                                 3 = 'BCS';
-                                 4 = 'Camp';
-                                 5 = 'Coah';
-                                 6 = 'Col';
-                                 7 = 'Chis';
+stateToAbbrev <- function(v) {
+  car::recode(v, "
+                    0 = NA;
+                    1 = 'Ags';
+                    2 = 'BC';
+                    3 = 'BCS';
+                    4 = 'Camp';
+                    5 = 'Coah';
+                    6 = 'Col';
+                    7 = 'Chis';
                     8 = 'Chih';
                     9 = 'DF';
                     10 = 'Dgo';
@@ -76,6 +81,9 @@ stateToAbrev <- function(df, col.name) {
                     29 ='Tlax';
                     30 ='Ver';
                     31 ='Yuc';
-                    32 = 'Zac';")
+                    32 = 'Zac';
+                    33 = 'USA';
+                    34 = 'LATAM';
+                    35 = 'Other';")
 }
 
