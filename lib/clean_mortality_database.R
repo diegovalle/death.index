@@ -65,7 +65,20 @@ cleanDeaths <- function(deaths) {
   deaths$SEXO <- car::recode(deaths$SEXO, "0 = NA;
                                               1 = 'Male';
                                               2 = 'Female';")
-
+  print(levels(as.factor(deaths$LUGLES)))
+  print(levels(as.factor(deaths$SITIO_LES)))
+  deaths$SITIO_LES <- car::recode(deaths$SITIO_LES,  "0 = NA;
+                                   1 = 'Secretaria de Salud';
+                                   2 = 'IMSS Oportunidades';
+                                   3 = 'IMSS';
+                                   4 = 'ISSSTE';
+                                   5 = 'PEMEX';
+                                   6 = 'SEDENA';
+                                   7 = 'SEMAR';
+                                   8 = 'Other';
+                                   9 = 'Private Hospital';
+                                   11 = 'Home';
+                                   12 = 'Other';")
   deaths$LUGLES <- car::recode(deaths$LUGLES,  "0 = 'Home';
                                    1 = 'Residential Institution';
                                    2 = 'School or Office';
@@ -461,13 +474,13 @@ cleanDeaths <- function(deaths) {
   
   deaths$CAUSADEF <- NULL
   deaths$DESDOBLA <- NULL
-  deaths$SITIO_LES <- NULL
+  ##deaths$SITIO_LES <- NULL
   
   names(deaths) <- c("yob", "mob", "dob", "sex",
                  "age_unit", "age_in_units", "nationality", "marital", "state_res",
                  "mun_res", "loc_res", "loc_res_size", "job", "edu",
                  "insurance", "state_death", "mun_death", "loc_death", "loc_death_size",
-                 "yod", "mod", "dod", "hod",
+                 "place_death", "yod", "mod", "dod", "hod",
                  "minod", "med_help",  "intent", "during_job", 
                  "place_injury", "domestic_v", "autopsy", "certifier", "state_reg",
                  "mun_reg", "year_reg", "mon_reg", "day_reg", "weight",
@@ -524,33 +537,40 @@ cleanDeaths <- function(deaths) {
   deaths$minod[which(deaths$minod == 99)] <- NA
 
   
-  deaths$marital <- as.factor(deaths$marital)
-  deaths$nationality <- as.factor(deaths$nationality)
-  deaths$icd4 <- as.factor(deaths$icd4)
-  deaths$sex <- as.factor(deaths$sex)
-  deaths$job <- as.factor(deaths$job)
-  deaths$during_job <- as.factor(deaths$during_job)
-  deaths$edu <- as.factor(deaths$edu)
-  deaths$insurance <- as.factor(deaths$insurance)
-  deaths$place_injury <- as.factor(deaths$place_injury)
-  deaths$med_help <- as.factor(deaths$med_help)
-  deaths$intent <- as.factor(deaths$intent)
-  deaths$job <- as.factor(deaths$job)
-  deaths$domestic_v <- as.factor(deaths$domestic_v)
-  deaths$autopsy <- as.factor(deaths$autopsy)
-  deaths$certifier <- as.factor(deaths$certifier)
-  deaths$weight <- as.factor(deaths$weight)
-  deaths$pregnancy_condition <- as.factor(deaths$pregnancy_condition)
-  deaths$pregnancy_related <- as.factor(deaths$pregnancy_related)
-  deaths$pregnancy_complication <- as.factor(deaths$pregnancy_complication)
-  deaths$icd_title <- as.factor(deaths$icd_title)
-  deaths$cause <- as.factor(deaths$cause)
-  deaths$cause_detail <- as.factor(deaths$cause_detail)
-  deaths$mv_detail <- as.factor(deaths$mv_detail)
-  deaths$metro_area <- as.factor(deaths$metro_area)
-
+  deaths <- convertFactors(deaths)
+  
   ##deaths$icd.title <- NULL
   return(deaths)
+}
+
+convertFactors <- function(df) {
+  deaths$age_unit <- as.factor(df$age_unit)
+  df$marital <- as.factor(df$marital)
+  df$nationality <- as.factor(df$nationality)
+  df$icd4 <- as.factor(df$icd4)
+  df$sex <- as.factor(df$sex)
+  df$job <- as.factor(df$job)
+  df$during_job <- as.factor(df$during_job)
+  df$edu <- as.factor(df$edu)
+  df$insurance <- as.factor(df$insurance)
+  df$place_injury <- as.factor(df$place_injury)
+  df$place_death <- as.factor(df$place_death)
+  df$med_help <- as.factor(df$med_help)
+  df$intent <- as.factor(df$intent)
+  df$job <- as.factor(df$job)
+  df$domestic_v <- as.factor(df$domestic_v)
+  df$autopsy <- as.factor(df$autopsy)
+  df$certifier <- as.factor(df$certifier)
+  df$weight <- as.factor(df$weight)
+  df$pregnancy_condition <- as.factor(df$pregnancy_condition)
+  df$pregnancy_related <- as.factor(df$pregnancy_related)
+  df$pregnancy_complication <- as.factor(df$pregnancy_complication)
+  df$icd_title <- as.factor(df$icd_title)
+  df$cause <- as.factor(df$cause)
+  df$cause_detail <- as.factor(df$cause_detail)
+  df$mv_detail <- as.factor(df$mv_detail)
+  df$metro_area <- as.factor(df$metro_area)
+  df
 }
 
 readAndClean <- function(file.name, con){
@@ -628,11 +648,12 @@ deaths <- subset(deaths, year(deaths$date2) %in% 2004:last.year)
 deaths <- subset(deaths, !state_death %in% c(33, 34, 35))
 
 
-
+deaths <- convertFactors(deaths)
 message("Saving injury intent data to csv and RData")
 write.csv(deaths, file = bzfile(file.path("clean-data", "injury-intent.csv.bz2")),
           row.names = FALSE)
 save(deaths, file = file.path("clean-data", "injury-intent.RData"))
 
 
-
+sapply(deaths, class)
+deaths$age[1:5]
