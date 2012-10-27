@@ -1,0 +1,387 @@
+id,MA,Fake
+1001,Aguascalientes,FALSE
+1005,Aguascalientes,FALSE
+1011,Aguascalientes,FALSE
+2003,Tijuana,FALSE
+2004,Tijuana,FALSE
+2005,Tijuana,FALSE
+2002,Mexicali,FALSE
+5017,La Laguna,FALSE
+5035,La Laguna,FALSE
+10007,La Laguna,FALSE
+10012,La Laguna,FALSE
+5004,Saltillo,FALSE
+5027,Saltillo,FALSE
+5030,Saltillo,FALSE
+5006,Monclova-Frontera,FALSE
+5010,Monclova-Frontera,FALSE
+5018,Monclova-Frontera,FALSE
+5022,Piedras Negras,FALSE
+5025,Piedras Negras,FALSE
+6002,Colima-Villa de Álvarez,FALSE
+6003,Colima-Villa de Álvarez,FALSE
+6004,Colima-Villa de Álvarez,FALSE
+6005,Colima-Villa de Álvarez,FALSE
+6010,Colima-Villa de Álvarez,FALSE
+6001,Tecomán,FALSE
+6009,Tecomán,FALSE
+7027,Tuxtla Gutiérrez,FALSE
+7101,Tuxtla Gutiérrez,FALSE
+8037,Juárez,FALSE
+8002,Chihuahua,FALSE
+8004,Chihuahua,FALSE
+8019,Chihuahua,FALSE
+9002,Valle de México,FALSE
+9003,Valle de México,FALSE
+9004,Valle de México,FALSE
+9005,Valle de México,FALSE
+9006,Valle de México,FALSE
+9007,Valle de México,FALSE
+9008,Valle de México,FALSE
+9009,Valle de México,FALSE
+9010,Valle de México,FALSE
+9011,Valle de México,FALSE
+9012,Valle de México,FALSE
+9013,Valle de México,FALSE
+9014,Valle de México,FALSE
+9015,Valle de México,FALSE
+9016,Valle de México,FALSE
+9017,Valle de México,FALSE
+13069,Valle de México,FALSE
+15002,Valle de México,FALSE
+15009,Valle de México,FALSE
+15010,Valle de México,FALSE
+15011,Valle de México,FALSE
+15013,Valle de México,FALSE
+15015,Valle de México,FALSE
+15016,Valle de México,FALSE
+15017,Valle de México,FALSE
+15020,Valle de México,FALSE
+15022,Valle de México,FALSE
+15023,Valle de México,FALSE
+15024,Valle de México,FALSE
+15025,Valle de México,FALSE
+15028,Valle de México,FALSE
+15029,Valle de México,FALSE
+15030,Valle de México,FALSE
+15031,Valle de México,FALSE
+15033,Valle de México,FALSE
+15034,Valle de México,FALSE
+15035,Valle de México,FALSE
+15036,Valle de México,FALSE
+15037,Valle de México,FALSE
+15038,Valle de México,FALSE
+15039,Valle de México,FALSE
+15044,Valle de México,FALSE
+15046,Valle de México,FALSE
+15050,Valle de México,FALSE
+15053,Valle de México,FALSE
+15057,Valle de México,FALSE
+15058,Valle de México,FALSE
+15059,Valle de México,FALSE
+15060,Valle de México,FALSE
+15061,Valle de México,FALSE
+15065,Valle de México,FALSE
+15068,Valle de México,FALSE
+15069,Valle de México,FALSE
+15070,Valle de México,FALSE
+15075,Valle de México,FALSE
+15081,Valle de México,FALSE
+15083,Valle de México,FALSE
+15084,Valle de México,FALSE
+15089,Valle de México,FALSE
+15091,Valle de México,FALSE
+15092,Valle de México,FALSE
+15093,Valle de México,FALSE
+15094,Valle de México,FALSE
+15095,Valle de México,FALSE
+15096,Valle de México,FALSE
+15099,Valle de México,FALSE
+15100,Valle de México,FALSE
+15103,Valle de México,FALSE
+15104,Valle de México,FALSE
+15108,Valle de México,FALSE
+15109,Valle de México,FALSE
+15112,Valle de México,FALSE
+15120,Valle de México,FALSE
+15121,Valle de México,FALSE
+15122,Valle de México,FALSE
+15125,Valle de México,FALSE
+11020,León,FALSE
+11037,León,FALSE
+11025,San Francisco del Rincón,FALSE
+11031,San Francisco del Rincón,FALSE
+11021,Moroleón-Uriangato,FALSE
+11041,Moroleón-Uriangato,FALSE
+12001,Acapulco,FALSE
+12021,Acapulco,FALSE
+13022,Pachuca,FALSE
+13039,Pachuca,FALSE
+13048,Pachuca,FALSE
+13051,Pachuca,FALSE
+13052,Pachuca,FALSE
+13082,Pachuca,FALSE
+13083,Pachuca,FALSE
+13016,Tulancingo,FALSE
+13056,Tulancingo,FALSE
+13077,Tulancingo,FALSE
+13010,Tula,FALSE
+13013,Tula,FALSE
+13070,Tula,FALSE
+13074,Tula,FALSE
+13076,Tula,FALSE
+14039,Guadalajara,FALSE
+14044,Guadalajara,FALSE
+14051,Guadalajara,FALSE
+14070,Guadalajara,FALSE
+14097,Guadalajara,FALSE
+14098,Guadalajara,FALSE
+14101,Guadalajara,FALSE
+14120,Guadalajara,FALSE
+14067,Puerto Vallarta,FALSE
+18020,Puerto Vallarta,FALSE
+14063,Ocotlán,FALSE
+14066,Ocotlán,FALSE
+15005,Toluca,FALSE
+15018,Toluca,FALSE
+15027,Toluca,FALSE
+15051,Toluca,FALSE
+15054,Toluca,FALSE
+15055,Toluca,FALSE
+15062,Toluca,FALSE
+15067,Toluca,FALSE
+15072,Toluca,FALSE
+15073,Toluca,FALSE
+15076,Toluca,FALSE
+15106,Toluca,FALSE
+15115,Toluca,FALSE
+15118,Toluca,FALSE
+16053,Morelia,FALSE
+16088,Morelia,FALSE
+16043,Zamora-Jacona,FALSE
+16108,Zamora-Jacona,FALSE
+11023,La Piedad-Pénjamo,FALSE
+16069,La Piedad-Pénjamo,FALSE
+17007,Cuernavaca,FALSE
+17008,Cuernavaca,FALSE
+17009,Cuernavaca,FALSE
+17011,Cuernavaca,FALSE
+17018,Cuernavaca,FALSE
+17020,Cuernavaca,FALSE
+17028,Cuernavaca,FALSE
+17002,Cuautla,FALSE
+17004,Cuautla,FALSE
+17006,Cuautla,FALSE
+17026,Cuautla,FALSE
+17029,Cuautla,FALSE
+17030,Cuautla,FALSE
+18008,Tepic,FALSE
+18017,Tepic,FALSE
+19006,Monterrey,FALSE
+19009,Monterrey,FALSE
+19018,Monterrey,FALSE
+19019,Monterrey,FALSE
+19021,Monterrey,FALSE
+19026,Monterrey,FALSE
+19031,Monterrey,FALSE
+19039,Monterrey,FALSE
+19045,Monterrey,FALSE
+19046,Monterrey,FALSE
+19048,Monterrey,FALSE
+19049,Monterrey,FALSE
+20067,Oaxaca,FALSE
+20083,Oaxaca,FALSE
+20087,Oaxaca,FALSE
+20091,Oaxaca,FALSE
+20107,Oaxaca,FALSE
+20115,Oaxaca,FALSE
+20157,Oaxaca,FALSE
+20174,Oaxaca,FALSE
+20227,Oaxaca,FALSE
+20293,Oaxaca,FALSE
+20350,Oaxaca,FALSE
+20375,Oaxaca,FALSE
+20385,Oaxaca,FALSE
+20390,Oaxaca,FALSE
+20399,Oaxaca,FALSE
+20403,Oaxaca,FALSE
+20409,Oaxaca,FALSE
+20519,Oaxaca,FALSE
+20553,Oaxaca,FALSE
+20565,Oaxaca,FALSE
+20079,Tehuantepec,FALSE
+20124,Tehuantepec,FALSE
+20515,Tehuantepec,FALSE
+21015,Puebla-Tlaxcala,FALSE
+21034,Puebla-Tlaxcala,FALSE
+21041,Puebla-Tlaxcala,FALSE
+21048,Puebla-Tlaxcala,FALSE
+21060,Puebla-Tlaxcala,FALSE
+21074,Puebla-Tlaxcala,FALSE
+21090,Puebla-Tlaxcala,FALSE
+21106,Puebla-Tlaxcala,FALSE
+21114,Puebla-Tlaxcala,FALSE
+21119,Puebla-Tlaxcala,FALSE
+21122,Puebla-Tlaxcala,FALSE
+21125,Puebla-Tlaxcala,FALSE
+21132,Puebla-Tlaxcala,FALSE
+21136,Puebla-Tlaxcala,FALSE
+21140,Puebla-Tlaxcala,FALSE
+21143,Puebla-Tlaxcala,FALSE
+21163,Puebla-Tlaxcala,FALSE
+21181,Puebla-Tlaxcala,FALSE
+29015,Puebla-Tlaxcala,FALSE
+29017,Puebla-Tlaxcala,FALSE
+29019,Puebla-Tlaxcala,FALSE
+29022,Puebla-Tlaxcala,FALSE
+29023,Puebla-Tlaxcala,FALSE
+29025,Puebla-Tlaxcala,FALSE
+29027,Puebla-Tlaxcala,FALSE
+29028,Puebla-Tlaxcala,FALSE
+29029,Puebla-Tlaxcala,FALSE
+29032,Puebla-Tlaxcala,FALSE
+29041,Puebla-Tlaxcala,FALSE
+29042,Puebla-Tlaxcala,FALSE
+29044,Puebla-Tlaxcala,FALSE
+29051,Puebla-Tlaxcala,FALSE
+29053,Puebla-Tlaxcala,FALSE
+29054,Puebla-Tlaxcala,FALSE
+29056,Puebla-Tlaxcala,FALSE
+29057,Puebla-Tlaxcala,FALSE
+29058,Puebla-Tlaxcala,FALSE
+29059,Puebla-Tlaxcala,FALSE
+21149,Tehuacán,FALSE
+21156,Tehuacán,FALSE
+22006,Querétaro,FALSE
+22008,Querétaro,FALSE
+22011,Querétaro,FALSE
+22014,Querétaro,FALSE
+23003,Cancún,FALSE
+23005,Cancún,FALSE
+24028,San Luis Potosí-Soledad de Graciano Sánchez,FALSE
+24035,San Luis Potosí-Soledad de Graciano Sánchez,FALSE
+24011,Rioverde-Ciudad Fernández,FALSE
+24024,Rioverde-Ciudad Fernández,FALSE
+26025,Guaymas,FALSE
+26029,Guaymas,FALSE
+27004,Villahermosa,FALSE
+27013,Villahermosa,FALSE
+28003,Tampico,FALSE
+28009,Tampico,FALSE
+28038,Tampico,FALSE
+30123,Tampico,FALSE
+30133,Tampico,FALSE
+28032,Reynosa,FALSE
+28033,Reynosa,FALSE
+28022,Matamoros,FALSE
+28027,Nuevo Laredo,FALSE
+29001,Tlaxcala-Apizaco,FALSE
+29002,Tlaxcala-Apizaco,FALSE
+29005,Tlaxcala-Apizaco,FALSE
+29009,Tlaxcala-Apizaco,FALSE
+29010,Tlaxcala-Apizaco,FALSE
+29018,Tlaxcala-Apizaco,FALSE
+29024,Tlaxcala-Apizaco,FALSE
+29026,Tlaxcala-Apizaco,FALSE
+29031,Tlaxcala-Apizaco,FALSE
+29033,Tlaxcala-Apizaco,FALSE
+29035,Tlaxcala-Apizaco,FALSE
+29036,Tlaxcala-Apizaco,FALSE
+29038,Tlaxcala-Apizaco,FALSE
+29039,Tlaxcala-Apizaco,FALSE
+29043,Tlaxcala-Apizaco,FALSE
+29048,Tlaxcala-Apizaco,FALSE
+29049,Tlaxcala-Apizaco,FALSE
+29050,Tlaxcala-Apizaco,FALSE
+29060,Tlaxcala-Apizaco,FALSE
+30011,Veracruz,FALSE
+30028,Veracruz,FALSE
+30105,Veracruz,FALSE
+30193,Veracruz,FALSE
+30026,Xalapa,FALSE
+30038,Xalapa,FALSE
+30065,Xalapa,FALSE
+30087,Xalapa,FALSE
+30093,Xalapa,FALSE
+30136,Xalapa,FALSE
+30182,Xalapa,FALSE
+30033,Poza Rica,FALSE
+30040,Poza Rica,FALSE
+30124,Poza Rica,FALSE
+30131,Poza Rica,FALSE
+30175,Poza Rica,FALSE
+30022,Orizaba,FALSE
+30030,Orizaba,FALSE
+30074,Orizaba,FALSE
+30081,Orizaba,FALSE
+30085,Orizaba,FALSE
+30101,Orizaba,FALSE
+30115,Orizaba,FALSE
+30118,Orizaba,FALSE
+30135,Orizaba,FALSE
+30138,Orizaba,FALSE
+30185,Orizaba,FALSE
+30048,Minatitlán,FALSE
+30059,Minatitlán,FALSE
+30089,Minatitlán,FALSE
+30108,Minatitlán,FALSE
+30120,Minatitlán,FALSE
+30199,Minatitlán,FALSE
+30039,Coatzacoalcos,FALSE
+30082,Coatzacoalcos,FALSE
+30206,Coatzacoalcos,FALSE
+30014,Córdoba,FALSE
+30044,Córdoba,FALSE
+30068,Córdoba,FALSE
+30196,Córdoba,FALSE
+30003,Acayucan,FALSE
+30116,Acayucan,FALSE
+30145,Acayucan,FALSE
+31013,Mérida,FALSE
+31041,Mérida,FALSE
+31050,Mérida,FALSE
+31100,Mérida,FALSE
+31101,Mérida,FALSE
+32017,Zacatecas-Guadalupe,FALSE
+32056,Zacatecas-Guadalupe,FALSE
+25001,Ahome,TRUE
+26018,Cajeme,TRUE
+4002,Campeche,TRUE
+27002,Cárdenas,TRUE
+4003,Carmen,TRUE
+11007,Celaya,TRUE
+12029,Chilpancingo de los Bravo,TRUE
+24013,Ciudad Valles,TRUE
+27005,Comalcalco,TRUE
+25018,Culiacán-Navolato,TRUE
+25006,Culiacán-Navolato,TRUE
+10005,Durango,TRUE
+2001,Ensenada,TRUE
+32010,Fresnillo,TRUE
+11015,Guanajuato,TRUE
+25011,Guasave,TRUE
+26030,Hermosillo,TRUE
+27008,Huimanguillo,TRUE
+11017,Irapuato,TRUE
+3003,La Paz,TRUE
+16052,Lázaro Cárdenas,TRUE
+3008,Los Cabos,TRUE
+27012,Macuspana,TRUE
+6007,Manzanillo,TRUE
+25012,Mazatlán,TRUE
+26042,Navojoa,TRUE
+26043,Nogales,TRUE
+7059,Ocosingo,TRUE
+23004,Othón P. Blanco,TRUE
+11027,Salamanca,TRUE
+30141,San Andrés Tuxtla,TRUE
+7078,San Cristóbal de las Casas,TRUE
+20184,San Juan Bautista Tuxtepec,TRUE
+22016,San Juan del Río,TRUE
+26055,San Luis Río Colorado,TRUE
+11003,San Miguel de Allende,TRUE
+23008,Solidaridad,TRUE
+7089,Tapachula,TRUE
+16102,Uruapan,TRUE
+28041,Victoria,TRUE
+16112,Zitácuaro,TRUE

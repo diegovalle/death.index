@@ -65,8 +65,7 @@ cleanDeaths <- function(deaths) {
   deaths$SEXO <- car::recode(deaths$SEXO, "0 = NA;
                                               1 = 'Male';
                                               2 = 'Female';")
-  print(levels(as.factor(deaths$LUGLES)))
-  print(levels(as.factor(deaths$SITIO_LES)))
+
   deaths$SITIO_LES <- car::recode(deaths$SITIO_LES,  "0 = NA;
                                    1 = 'Secretaria de Salud';
                                    2 = 'IMSS Oportunidades';
@@ -295,7 +294,6 @@ cleanDeaths <- function(deaths) {
     deaths <- MortalityMatrix(deaths, mmatrixcodes[i], death.names[i])
   }
 
-
   
 
 ########################################################
@@ -416,9 +414,9 @@ cleanDeaths <- function(deaths) {
   sequence <- c(CDeathSeq1("V87", 0, 8),
                 "V892"
                 )
-  try(deaths[deaths$CAUSADEF %in% sequence,]$MVTPER <-  "Unspecified",
+  try(deaths[deaths$CAUSADEF %in% sequence,]$MVTPER <-  NA,
       silent = TRUE)
-  try(deaths[deaths$CDEATH %in% sequence,]$MVTPER <-  "Unspecified",
+  try(deaths[deaths$CDEATH %in% sequence,]$MVTPER <-  NA,
       silent = TRUE)
 
 
@@ -437,9 +435,9 @@ cleanDeaths <- function(deaths) {
   deaths$id <- with(deaths, str_c(format(ENTOCU, width = 2),
                                   format(MUNOCU2, width = 3)))
   deaths$id <- as.numeric(gsub(" ", "0", deaths$id))
-
+  metropolitan.areas150k$Fake  <- NULL
   #metropolitan.areas <- read.csv("data/metropolitan-areas.csv")
-  deaths <- join(deaths, metropolitan.areas, by = "id")
+  deaths <- join(deaths, metropolitan.areas150k, by = "id")
   
   #deaths$Block <- NA
   #blocks <- data.frame()
@@ -470,7 +468,6 @@ cleanDeaths <- function(deaths) {
       silent = TRUE)
   try(deaths[which(deaths$EDADVALOR == 998),]$Age <- NA,
       silent = TRUE)
-
   
   deaths$CAUSADEF <- NULL
   deaths$DESDOBLA <- NULL
@@ -488,7 +485,7 @@ cleanDeaths <- function(deaths) {
                  "pregnancy_complication",
                  "icd_title", "icd4", "cause", 
 "cause_detail", "mv_detail", "mun_death2", "fips", "metro_area", "age")
-
+  
   try({deaths$date <- with(deaths,
                           as.Date(str_c(yod, mod, dod,
                                             sep = "-"),
@@ -500,7 +497,7 @@ cleanDeaths <- function(deaths) {
   
   ## mean.diff <- median(deaths$date - date.reg, na.rm = TRUE)
   ## mean.diff / 3600 /24
-
+       
   deaths$date2 <- deaths$date
   deaths$date2[which(is.na(deaths$date))] <-
     with(deaths[which(is.na(deaths$date)),],
@@ -522,7 +519,7 @@ cleanDeaths <- function(deaths) {
                                             sep = "-"),
                       "%Y-%m-%d"))
   
-
+  
   deaths$date <- as.character(deaths$date)
   deaths$date_birth <- as.character(deaths$date_birth)
   deaths$date2 <- as.character(deaths$date2)
@@ -536,15 +533,21 @@ cleanDeaths <- function(deaths) {
   deaths$hod[which(deaths$hod == 99)] <- NA
   deaths$minod[which(deaths$minod == 99)] <- NA
 
+  deaths$cause <- ifelse(deaths$cause == "Unspecified",
+                         NA,
+                         deaths$cause)
+  deaths$cause_detail <- ifelse(deaths$cause_detail == "Unspecified",
+                                NA,
+                                deaths$cause_detail)
   
   deaths <- convertFactors(deaths)
-  
+
   ##deaths$icd.title <- NULL
   return(deaths)
 }
 
 convertFactors <- function(df) {
-  deaths$age_unit <- as.factor(df$age_unit)
+  df$age_unit <- as.factor(df$age_unit)
   df$marital <- as.factor(df$marital)
   df$nationality <- as.factor(df$nationality)
   df$icd4 <- as.factor(df$icd4)
@@ -606,30 +609,6 @@ readAndClean("di2008", con)
 readAndClean("di2009", con)
 readAndClean("di2010", con)
 
-##dbDisconnect(con)
-
-
-#Add new data.frames for 2010 here:
-## deaths <- rbind(di2004,
-##                 di2005,
-##                 di2006,
-##                 di2007,
-##                 di2008,
-##                 di2009,
-##                 di2010)
-
-## rm(di2004)
-## rm(di2005)
-## rm(di2006)
-## rm(di2007)
-## rm(di2008)
-## rm(di2009)
-## rm(di2010)
-
-
-##drv <- dbDriver("SQLite")
-##mortfile <- file.path("clean-data/mortality-database.sqlite")
-##con <- dbConnect(drv, dbname = tfile)
 sql.query <- "select * from mortality 
               where intent != 'Natural Death' OR intent IS NULL"
 message("subsetting injury intent data")
