@@ -273,11 +273,11 @@ cleanDeaths <- function(deaths) {
   death.names <- c("Cut/pierce",
                    "Drowning",
                    "Fall",
-                   "Fire/ hot object or substance",
+                   "Fire/hot object or substance",
                    "Firearm",
                    "Machinery",
                    "All Transport",
-                   "Natural /environmental",
+                   "Natural/environmental",
                    "Overexertion",
                    "Poisoning",
                    "Struck by or against",
@@ -300,8 +300,33 @@ cleanDeaths <- function(deaths) {
   ##Section
 ########################################################
 
-
   deaths$CAUSECDC <- deaths$CAUSE
+
+sequence <- c("X76", "X97", "Y26" , ICDseq("X00", "X09"))
+  try(deaths[deaths$CAUSADEF %in% sequence,]$CAUSECDC <-  "Fire/flame",
+      silent = TRUE)
+  try(deaths[deaths$CDEATH %in% sequence,]$CAUSECDC <-  "Fire/flame",
+      silent = TRUE)
+
+sequence <- c(ICDseq("X10", "X19"), "X77", "X98", "Y27")
+  try(deaths[deaths$CAUSADEF %in% sequence,]$CAUSECDC <-  "Hot object/substance",
+      silent = TRUE)
+  try(deaths[deaths$CDEATH %in% sequence,]$CAUSECDC <-  "Hot object/substance",
+      silent = TRUE)
+
+sequence <- c("Y880" , ICDseq("Y40", "Y59"))
+  try(deaths[deaths$CAUSADEF %in% sequence,]$CAUSECDC <-  "Adverse effects - Drugs",
+      silent = TRUE)
+  try(deaths[deaths$CDEATH %in% sequence,]$CAUSECDC <-  "Adverse effects - Drugs",
+      silent = TRUE)
+
+sequence <- c(ICDseq("Y60", "Y84"), CDeathSeq1("Y88", 1, 3))
+  try(deaths[deaths$CAUSADEF %in% sequence,]$CAUSECDC <-  "Adverse effects - Medical care",
+      silent = TRUE)
+  try(deaths[deaths$CDEATH %in% sequence,]$CAUSECDC <-  "Adverse effects - Medical care",
+      silent = TRUE)
+
+
   sequence <- c(CDeathSeq("V30", "V90", 4, 9),
                 str_c("V81", 1),
                 str_c("V82", 1),
@@ -365,58 +390,58 @@ cleanDeaths <- function(deaths) {
 
 
 
-  deaths$MVTPER <- NA
+  deaths$motor_vehicle_traffic <- NA
   sequence <- c(CDeathSeq("V30", "V79", 4, 9),
                 CDeathSeq("V83", "V86", 0, 3)
                 )
-  try(deaths[deaths$CAUSADEF %in% sequence,]$MVTPER <-  "Occupant",
+  try(deaths[deaths$CAUSADEF %in% sequence,]$motor_vehicle_traffic <-  "MVT - Occupant",
       silent = TRUE)
-  try(deaths[deaths$CDEATH %in% sequence,]$MVTPER <-  "Occupant",
+  try(deaths[deaths$CDEATH %in% sequence,]$motor_vehicle_traffic <-  "MVT - Occupant",
       silent = TRUE)
 
 
   sequence <- c(CDeathSeq("V20", "V28", 3, 9),
                 CDeathSeq1("V29", 4, 9)
                 )
-  try(deaths[deaths$CAUSADEF %in% sequence,]$MVTPER <-  "Motorcyclist",
+  try(deaths[deaths$CAUSADEF %in% sequence,]$motor_vehicle_traffic <-  "MVT - Motorcyclist",
       silent = TRUE)
-  try(deaths[deaths$CDEATH %in% sequence,]$MVTPER <-  "Motorcyclist",
+  try(deaths[deaths$CDEATH %in% sequence,]$motor_vehicle_traffic <-  "MVT - Motorcyclist",
       silent = TRUE)
 
 
   sequence <- c(CDeathSeq("V12", "V14", 3, 9),
                 CDeathSeq1("V19", 4, 6)
                 )
-  try(deaths[deaths$CAUSADEF %in% sequence,]$MVTPER <-  "Pedal cyclist",
+  try(deaths[deaths$CAUSADEF %in% sequence,]$motor_vehicle_traffic <-  "MVT - Pedal cyclist",
       silent = TRUE)
-  try(deaths[deaths$CDEATH %in% sequence,]$MVTPER <-  "Pedal cyclist",
+  try(deaths[deaths$CDEATH %in% sequence,]$motor_vehicle_traffic <-  "MVT - Pedal cyclist",
       silent = TRUE)
 
 
   sequence <- c(str_c(ICDseq("V02", "V04"), 1),
                 str_c(ICDseq("V02", "V04"), 9),
                 "V092")
-  try(deaths[deaths$CAUSADEF %in% sequence,]$MVTPER <-  "Pedestrian",
+  try(deaths[deaths$CAUSADEF %in% sequence,]$motor_vehicle_traffic <-  "MVT - Pedestrian",
       silent = TRUE)
-  try(deaths[deaths$CDEATH %in% sequence,]$MVTPER <-  "Pedestrian",
+  try(deaths[deaths$CDEATH %in% sequence,]$motor_vehicle_traffic <-  "MVT - Pedestrian",
       silent = TRUE)
 
 
   sequence <- c(CDeathSeq1("V80", 3, 5),
                 "V811", "V821"
                 )
-  try(deaths[deaths$CAUSADEF %in% sequence,]$MVTPER <-  "Other",
+  try(deaths[deaths$CAUSADEF %in% sequence,]$motor_vehicle_traffic <-  "MVT - Other",
       silent = TRUE)
-  try(deaths[deaths$CDEATH %in% sequence,]$MVTPER <-  "Other",
+  try(deaths[deaths$CDEATH %in% sequence,]$motor_vehicle_traffic <-  "MVT - Other",
       silent = TRUE)
 
 
   sequence <- c(CDeathSeq1("V87", 0, 8),
                 "V892"
                 )
-  try(deaths[deaths$CAUSADEF %in% sequence,]$MVTPER <-  NA,
+  try(deaths[deaths$CAUSADEF %in% sequence,]$motor_vehicle_traffic <-  NA,
       silent = TRUE)
-  try(deaths[deaths$CDEATH %in% sequence,]$MVTPER <-  NA,
+  try(deaths[deaths$CDEATH %in% sequence,]$motor_vehicle_traffic <-  NA,
       silent = TRUE)
 
 
@@ -473,65 +498,74 @@ cleanDeaths <- function(deaths) {
   deaths$DESDOBLA <- NULL
   ##deaths$SITIO_LES <- NULL
   
-  names(deaths) <- c("yob", "mob", "dob", "sex",
+  names(deaths) <- c("year_birth", "month_birth", "day_birth", "sex",
                  "age_unit", "age_in_units", "nationality", "marital", "state_res",
                  "mun_res", "loc_res", "loc_res_size", "job", "edu",
                  "insurance", "state_death", "mun_death", "loc_death", "loc_death_size",
-                 "place_death", "yod", "mod", "dod", "hod",
-                 "minod", "med_help",  "intent", "during_job", 
+                 "place_death", "year_occur", "month_occur", "day_occur", "hour_occur",
+                 "min_occur", "med_help",  "intent", "during_job", 
                  "place_injury", "domestic_v", "autopsy", "certifier", "state_reg",
-                 "mun_reg", "year_reg", "mon_reg", "day_reg", "weight",
-                 "year_cert", "mon_cert", "day_cert", "pregnancy_condition", "pregnancy_related",
+                 "mun_reg", "year_reg", "month_reg", "day_reg", "weight",
+                 "year_cert", "month_cert", "day_cert", "pregnancy_condition",
+                     "pregnancy_related",
                  "pregnancy_complication",
                  "icd_title", "icd4", "cause", 
-"cause_detail", "mv_detail", "mun_death2", "fips", "metro_area", "age")
+                     "cause_detail", "motor_vehicle_traffic",
+                     "mun_death2", "fips", "metro_area", "age")
   
-  try({deaths$date <- with(deaths,
-                          as.Date(str_c(yod, mod, dod,
+  try({deaths$date_occur<- with(deaths,
+                          as.Date(str_c(year_occur, month_occur, day_occur,
                                             sep = "-"),
                       "%Y-%m-%d"))
 
-  ## date.reg <- with(deaths, parse_date(str_c(year_reg, mon_reg, day_reg,
-  ##                                            sep = "-"),
-  ##                       c("%Y", "%m", "%d"), seps = "-"))
-  
-  ## mean.diff <- median(deaths$date - date.reg, na.rm = TRUE)
-  ## mean.diff / 3600 /24
        
-  deaths$date2 <- deaths$date
-  deaths$date2[which(is.na(deaths$date))] <-
-    with(deaths[which(is.na(deaths$date)),],
-         as.Date(str_c(year_reg, mon_reg, day_reg,
-                        sep = "-") ,
-                 "%Y-%m-%d")) 
   
-##Invalid dates (e.g February 31) are assumed as having happened on the 15th of each month
-  deaths$date2[which(is.na(deaths$date))] <-
-    with(deaths[which(is.na(deaths$date)),],
-         as.Date(str_c(year_reg, mon_reg, "15",
-                       sep = "-"),
-                 "%Y-%m-%d"))
+       deaths$date_occur[which(is.na(deaths$date_occur))] <-
+         with(deaths[which(is.na(deaths$date_occur)),],
+              as.Date(str_c(year_occur, month_reg, day_reg,
+                            sep = "-") ,
+                      "%Y-%m-%d")) 
+  
+       ##Invalid dates (e.g February 31) are assumed as having happened on the 15th of each month
+       deaths$date_occur[which(is.na(deaths$date_occur))] <-
+         with(deaths[which(is.na(deaths$date_occur)),],
+              as.Date(str_c(year_occur, month_reg, "15",
+                            sep = "-"),
+                      "%Y-%m-%d"))
 
-  })
+     })
 
-  deaths$date_birth <- with(deaths,
-                          as.Date(str_c(yob, mob, dob,
+  try({deaths$date_reg <- with(deaths,
+                          as.Date(str_c(year_reg, month_reg, day_reg,
                                             sep = "-"),
                       "%Y-%m-%d"))
+
+  
+ 
+       ##Invalid dates (e.g February 31) are assumed as having happened on the 15th of each month
+       deaths$date_reg[which(is.na(deaths$date_reg))] <-
+         with(deaths[which(is.na(deaths$date_reg)),],
+              as.Date(str_c(year_reg, month_reg, "15",
+                            sep = "-"),
+                      "%Y-%m-%d"))
+
+     })
+
+ 
   
   
-  deaths$date <- as.character(deaths$date)
-  deaths$date_birth <- as.character(deaths$date_birth)
-  deaths$date2 <- as.character(deaths$date2)
+  deaths$date_occur <- as.character(deaths$date_occur)
+  deaths$date_reg <- as.character(deaths$date_reg)
 
-  deaths$yob[which(deaths$yob == 0)] <- NA
-  deaths$mob[which(deaths$mob == 0)] <- NA
-  deaths$dob[which(deaths$dob == 0)] <- NA
+  deaths$year_reg[which(deaths$year_reg == 0)] <- NA
+  deaths$month_reg[which(deaths$month_reg == 0)] <- NA
+  deaths$day_reg[which(deaths$day_reg == 0)] <- NA
 
-  deaths$yod[which(deaths$yod == 0)] <- NA
-  deaths$dod[which(deaths$dod == 0)] <- NA
-  deaths$hod[which(deaths$hod == 99)] <- NA
-  deaths$minod[which(deaths$minod == 99)] <- NA
+  deaths$year_occur[which(deaths$year_occur == 0)] <- NA
+  deaths$month_occur[which(deaths$month_occur == 0)] <- NA
+  deaths$day_occur[which(deaths$day_occur == 0)] <- NA
+  deaths$hour_occur[which(deaths$hour_occur == 99)] <- NA
+  deaths$min_occur[which(deaths$min_occur == 99)] <- NA
 
   deaths$cause <- ifelse(deaths$cause == "Unspecified",
                          NA,
@@ -571,7 +605,7 @@ convertFactors <- function(df) {
   df$icd_title <- as.factor(df$icd_title)
   df$cause <- as.factor(df$cause)
   df$cause_detail <- as.factor(df$cause_detail)
-  df$mv_detail <- as.factor(df$mv_detail)
+  df$motor_vehicle_traffic <- as.factor(df$motor_vehicle_traffic)
   df$metro_area <- as.factor(df$metro_area)
   df
 }
@@ -617,13 +651,13 @@ deaths <- dbGetQuery(con, sql.query)
 dbDisconnect(con)
 
 
-deaths$date <- as.Date(deaths$date)
-deaths$date2 <- as.Date(deaths$date2)
-deaths$date_birth<- as.Date(deaths$date_birth)
+deaths$date_occur <- as.Date(deaths$date_occur)
+##deaths$date2 <- as.Date(deaths$date2)
+##deaths$date_birth<- as.Date(deaths$date_birth)
 
 #figure out the last year for which data is available
-last.year <- max(year(deaths$date), na.rm = TRUE)
-deaths <- subset(deaths, year(deaths$date2) %in% 2004:last.year)
+##last.year <- max(year(deaths$date), na.rm = TRUE)
+##deaths <- subset(deaths, year(deaths$date2) %in% 2004:last.year)
 deaths <- subset(deaths, !state_death %in% c(33, 34, 35))
 
 
@@ -634,5 +668,5 @@ write.csv(deaths, file = bzfile(file.path("clean-data", "injury-intent.csv.bz2")
 save(deaths, file = file.path("clean-data", "injury-intent.RData"))
 
 
-sapply(deaths, class)
-deaths$age[1:5]
+##sapply(deaths, class)
+##deaths$age[1:5]

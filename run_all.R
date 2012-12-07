@@ -11,3 +11,16 @@ source("lib/extract-convert.R") ##Unzip and convert the dbf's to csv
 source("lib/boot.R")  ##Cleanup
 test_dir('tests', reporter = 'summary')
 
+ddply(subset(deaths, intent =="Homicide"), .(year(date_occur)), nrow)
+ddply(subset(deaths, intent =="Homicide"), .(year(date_reg)), nrow)
+
+names(deaths)
+head(deaths)
+levels(deaths$cause_detail)
+levels(deaths$motor_vehicle_traffic)
+levels(deaths$cause)
+levels(as.factor(deaths$yod))
+
+
+head(deaths[is.na(deaths$date_reg),])
+
