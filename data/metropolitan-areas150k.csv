@@ -27,6 +27,7 @@ id,MA,Fake
 6009,Tecomán,FALSE
 7027,Tuxtla Gutiérrez,FALSE
 7101,Tuxtla Gutiérrez,FALSE
+7112,Tuxtla Gutiérrez,FALSE
 8037,Juárez,FALSE
 8002,Chihuahua,FALSE
 8004,Chihuahua,FALSE
@@ -153,10 +154,12 @@ id,MA,Fake
 15072,Toluca,FALSE
 15073,Toluca,FALSE
 15076,Toluca,FALSE
+15087,Toluca,FALSE
 15106,Toluca,FALSE
 15115,Toluca,FALSE
 15118,Toluca,FALSE
 16053,Morelia,FALSE
+16022,Morelia,FALSE
 16088,Morelia,FALSE
 16043,Zamora-Jacona,FALSE
 16108,Zamora-Jacona,FALSE
@@ -168,6 +171,7 @@ id,MA,Fake
 17011,Cuernavaca,FALSE
 17018,Cuernavaca,FALSE
 17020,Cuernavaca,FALSE
+17024,Cuernavaca,FALSE
 17028,Cuernavaca,FALSE
 17002,Cuautla,FALSE
 17004,Cuautla,FALSE
@@ -199,6 +203,7 @@ id,MA,Fake
 20174,Oaxaca,FALSE
 20227,Oaxaca,FALSE
 20293,Oaxaca,FALSE
+20338,Oaxaca,FALSE
 20350,Oaxaca,FALSE
 20375,Oaxaca,FALSE
 20385,Oaxaca,FALSE
@@ -207,11 +212,13 @@ id,MA,Fake
 20403,Oaxaca,FALSE
 20409,Oaxaca,FALSE
 20519,Oaxaca,FALSE
+20539,Oaxaca,FALSE
 20553,Oaxaca,FALSE
 20565,Oaxaca,FALSE
 20079,Tehuantepec,FALSE
 20124,Tehuantepec,FALSE
 20515,Tehuantepec,FALSE
+21001,Puebla-Tlaxcala,FALSE
 21015,Puebla-Tlaxcala,FALSE
 21034,Puebla-Tlaxcala,FALSE
 21041,Puebla-Tlaxcala,FALSE
@@ -258,10 +265,10 @@ id,MA,Fake
 22014,Querétaro,FALSE
 23003,Cancún,FALSE
 23005,Cancún,FALSE
-24028,San Luis Potosí-Soledad de Graciano Sánchez,FALSE
-24035,San Luis Potosí-Soledad de Graciano Sánchez,FALSE
-24011,Rioverde-Ciudad Fernández,FALSE
-24024,Rioverde-Ciudad Fernández,FALSE
+24028,San Luis Potosí,FALSE
+24035,San Luis Potosí,FALSE
+24011,Rioverde,FALSE
+24024,Rioverde,FALSE
 26025,Guaymas,FALSE
 26029,Guaymas,FALSE
 27004,Villahermosa,FALSE
@@ -296,6 +303,7 @@ id,MA,Fake
 29060,Tlaxcala-Apizaco,FALSE
 30011,Veracruz,FALSE
 30028,Veracruz,FALSE
+30090,Veracruz,FALSE
 30105,Veracruz,FALSE
 30193,Veracruz,FALSE
 30026,Xalapa,FALSE
@@ -315,6 +323,7 @@ id,MA,Fake
 30074,Orizaba,FALSE
 30081,Orizaba,FALSE
 30085,Orizaba,FALSE
+30099,Orizaba,FALSE
 30101,Orizaba,FALSE
 30115,Orizaba,FALSE
 30118,Orizaba,FALSE
@@ -343,45 +352,56 @@ id,MA,Fake
 31100,Mérida,FALSE
 31101,Mérida,FALSE
 32017,Zacatecas-Guadalupe,FALSE
+32032,Zacatecas-Guadalupe,FALSE
 32056,Zacatecas-Guadalupe,FALSE
-25001,Ahome,TRUE
-26018,Cajeme,TRUE
-4002,Campeche,TRUE
-27002,Cárdenas,TRUE
-4003,Carmen,TRUE
-11007,Celaya,TRUE
-12029,Chilpancingo de los Bravo,TRUE
-24013,Ciudad Valles,TRUE
-27005,Comalcalco,TRUE
-25018,Culiacán-Navolato,TRUE
-25006,Culiacán-Navolato,TRUE
-10005,Durango,TRUE
+11007,Celaya,FALSE
+11009,Celaya,FALSE
+11044,Celaya,FALSE
+15006,Tianguistenco,FALSE
+15012,Tianguistenco,FALSE
+15019,Tianguistenco,FALSE
+15043,Tianguistenco,FALSE
+15098,Tianguistenco,FALSE
+15101,Tianguistenco,FALSE
+21054,Teziutlán,FALSE
+21174,Teziutlán,FALSE
 2001,Ensenada,TRUE
-32010,Fresnillo,TRUE
-11015,Guanajuato,TRUE
-25011,Guasave,TRUE
-26030,Hermosillo,TRUE
-27008,Huimanguillo,TRUE
-11017,Irapuato,TRUE
 3003,La Paz,TRUE
-16052,Lázaro Cárdenas,TRUE
 3008,Los Cabos,TRUE
-27012,Macuspana,TRUE
+4002,Campeche,TRUE
+4003,Carmen,TRUE
 6007,Manzanillo,TRUE
-25012,Mazatlán,TRUE
-26042,Navojoa,TRUE
-26043,Nogales,TRUE
 7059,Ocosingo,TRUE
-23004,Othón P. Blanco,TRUE
-11027,Salamanca,TRUE
-30141,San Andrés Tuxtla,TRUE
 7078,San Cristóbal de las Casas,TRUE
+7089,Tapachula,TRUE
+10005,Durango,TRUE
+11003,San Miguel de Allende,TRUE
+11015,Guanajuato,TRUE
+11017,Irapuato,TRUE
+11027,Salamanca,TRUE
+12029,Chilpancingo de los Bravo,TRUE
+16052,Lázaro Cárdenas,TRUE
+16102,Uruapan,TRUE
+16112,Zitácuaro,TRUE
 20184,San Juan Bautista Tuxtepec,TRUE
 22016,San Juan del Río,TRUE
-26055,San Luis Río Colorado,TRUE
-11003,San Miguel de Allende,TRUE
+23004,Othón P. Blanco,TRUE
 23008,Solidaridad,TRUE
-7089,Tapachula,TRUE
-16102,Uruapan,TRUE
+24013,Ciudad Valles,TRUE
+25001,Ahome,TRUE
+25006,Culiacán-Navolato,TRUE
+25011,Guasave,TRUE
+25012,Mazatlán,TRUE
+25018,Culiacán-Navolato,TRUE
+26018,Cajeme,TRUE
+26030,Hermosillo,TRUE
+26042,Navojoa,TRUE
+26043,Nogales,TRUE
+26055,San Luis Río Colorado,TRUE
+27002,Cárdenas,TRUE
+27005,Comalcalco,TRUE
+27008,Huimanguillo,TRUE
+27012,Macuspana,TRUE
 28041,Victoria,TRUE
-16112,Zitácuaro,TRUE
+30141,San Andrés Tuxtla,TRUE
+32010,Fresnillo,TRUE
