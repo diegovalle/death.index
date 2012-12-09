@@ -460,9 +460,7 @@ sequence <- c(ICDseq("Y60", "Y84"), CDeathSeq1("Y88", 1, 3))
   deaths$id <- with(deaths, str_c(format(ENTOCU, width = 2),
                                   format(MUNOCU2, width = 3)))
   deaths$id <- as.numeric(gsub(" ", "0", deaths$id))
-  metropolitan.areas150k$Fake  <- NULL
-  #metropolitan.areas <- read.csv("data/metropolitan-areas.csv")
-  deaths <- join(deaths, metropolitan.areas150k, by = "id")
+  deaths <- join(deaths, metropolitan.areas200k, by = "id")
   
   #deaths$Block <- NA
   #blocks <- data.frame()
@@ -617,6 +615,7 @@ readAndClean <- function(file.name, con){
     df <- cleanDeaths(df)
     save(df, file = file.path("cache", str_c(file.name, ".RData")))
   } else {
+    message("Loading from cache (make clean-cache if you don't want this to happen)'")
     load(file.path("cache", str_c(file.name, ".RData")))
   }
   ##write.csv(df, bzfile("clean-data/mortality04.csv.bz2"), row.names = FALSE)
@@ -647,26 +646,16 @@ sql.query <- "select * from mortality
               where intent != 'Natural Death' OR intent IS NULL"
 message("subsetting injury intent data")
 deaths <- dbGetQuery(con, sql.query)
-
 dbDisconnect(con)
 
-
+deaths <- subset(deaths, !state_death %in% c(33, 34, 35))
 deaths$date_occur <- as.Date(deaths$date_occur)
-##deaths$date2 <- as.Date(deaths$date2)
+deaths$date_reg <- as.Date(deaths$date_reg)
 ##deaths$date_birth<- as.Date(deaths$date_birth)
 
 #figure out the last year for which data is available
 ##last.year <- max(year(deaths$date), na.rm = TRUE)
 ##deaths <- subset(deaths, year(deaths$date2) %in% 2004:last.year)
-deaths <- subset(deaths, !state_death %in% c(33, 34, 35))
 
 
 deaths <- convertFactors(deaths)
-message("Saving injury intent data to csv and RData")
-write.csv(deaths, file = bzfile(file.path("clean-data", "injury-intent.csv.bz2")),
-          row.names = FALSE)
-save(deaths, file = file.path("clean-data", "injury-intent.RData"))
-
-
-##sapply(deaths, class)
-##deaths$age[1:5]
