@@ -13,5 +13,3 @@ source("lib/boot.R")  ##Cleanup
 source("src/classify.R")  ##Impute deaths of unknown intent
 source("src/save.R") ##Save to a csv and RData
 test_dir('tests', reporter = 'summary')
-
-

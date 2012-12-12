@@ -4,28 +4,37 @@ deaths$abbrev <- stateToAbbrev(deaths$state_death)
 
 classify <- function(df, states) {
   print(states)
-  
+       
   df <- subset(deaths, abbrev %in% states)
+  df$intent.nolegal <- NULL
   df$intent.nolegal <- df$intent
   df$intent.nolegal <- car::recode(df$intent.nolegal, "'Legal Intervention' = 'Homicide'")
-
-  df$month <- as.yearmon(df$date_reg)
-  df$month <- as.numeric(df$month)
+  df$month <- as.factor(month(df$date_reg))
+  
   if(states == "Sin") {
-    df$intent.nolegal[((df$month <=  2008.999 & df$month >= 2007) & (year(df$date_reg) %in% 2007:2008)) &
-              (df$intent.nolegal == "Accident"  & df$abbrev == "Sin")] <- NA
+    df$intent.nolegal[(year(df$date_reg)) %in% 2007:2008 &
+                      (df$intent.nolegal == "Accident"  &
+                       df$abbrev == "Sin") &
+                      !is.na(df$intent.nolegal)] <- NA
     t <- subset(deaths, cause == "Firearm" & abbrev != "Sin" & intent == "Accident")
     t$intent.nolegal <- t$intent
     t$month <- as.numeric(as.yearmon(t$date_reg))
-    df <- rbind(df, t)
-    rm(t)  
+    df <- rbind.fill(df, t)
+    rm(t)
+    ##sin.hom <- subset(df, intent.nolegal == "Homicide" & year_reg %in% 2007:2008)
+    ##t <- subset(df, (intent.nolegal != "Homicide" | !year_reg %in% 2007:2008))
     ##print(ddply(subset(df, intent == "Accident"), .(cause, year_reg), nrow))
-    ##print(ddply(df, .(intent, year_reg), nrow))
+    ##print(ddply(df, .(abbrev, intent.nolegal, year_reg), nrow))
+    
+    ##print(head(t))
   }
   if(states == c("DF", "Mor")){
-    df$intent.nolegal[((df$month <=  2007.1 & df$month >= 2007) & (year(df$date_reg) == 2007)) &
-              (df$intent.nolegal == "Accident" & df$abbrev == "DF")] <- NA
-    print(ddply(df, .(intent, year_reg), nrow))
+    df$intent.nolegal[((df$month %in% 1:2) &
+                       (year(df$date_reg) == 2007)) &
+                      (df$intent.nolegal == "Accident" &
+                       df$abbrev == "DF") &
+                      !is.na(df$intent.nolegal)] <- NA
+    ##print(ddply(df, .(intent.nolegal, year_reg), nrow))
   }
   if(states == c("Chis")){
     ##df$intent.nolegal[(df$intent.nolegal == "Accident" & is.na(df$cause) & df$abbrev == "Chis" &
@@ -36,12 +45,12 @@ classify <- function(df, states) {
   if(states == c("BC")){
     df$intent.nolegal[(df$intent.nolegal == "Accident" & df$cause == "Firearm" & df$abbrev == "BC" &
                df$year_reg == 2007)] <- NA
-    print(ddply(df, .(intent, year_reg), nrow))
+    ##print(ddply(subset(df, intent.nolegal=="Accident" & cause == "Firearm"), .(intent.nolegal, year_reg), nrow))
   }
   df <- droplevels(df)
   
   
-  df$month <- as.factor(month(df$date_reg))
+  
   ##df$intent.nolegal[((df$month == 1 | df$month == 2) & (year(df$date_reg) == 2007)) &
   ##          (df$intent.nolegal == "Homicide" | df$intent.nolegal == "Accident")] <- NA
   ##ddply(subset(df, intent == "Homicide"),
@@ -71,15 +80,15 @@ classify <- function(df, states) {
   }
   if(states == c("DF")) {
     algo <- "knn"
-    x <- c("age", "sex", "cause",
-           "month", "place_injury", "job")
-    formula <-  intent.nolegal ~ age + cause * sex
+    ##x <- c("age", "sex", "cause",
+      ##     "month", "place_injury", "job")
+    ##formula <-  intent.nolegal ~ age + cause * sex
   }
   if(states == c("Sin")) {
     algo <- "glmnet"
     x <- c("cause", "age", "sex",
            "place_injury")
-    formula <-  intent.nolegal ~ age + cause * sex * place_injury 
+    formula <-  intent.nolegal ~ age + cause * sex * place_injury
   }
   
   ##subset all the deaths that are of unknown injury intent
@@ -125,8 +134,9 @@ classify <- function(df, states) {
   print(confusionMatrix(fit.pred.rpart, test$intent.nolegal))
   
   
-  
   df <- subset(df, abbrev %in% states)
+  ##if(states == "Sin")
+    ##df <- rbind(df, sin.hom)
   
   ##Impute missing data for the deaths of unknown intent
   hom.unknown <- df[is.na(df$intent.nolegal) & !is.na(df$cause),]
@@ -137,7 +147,7 @@ classify <- function(df, states) {
   k <- 1
   min <- 0
   for(i in 1:60) {
-    temp <- confusionMatrix(kNN(hom.unknown[,c(x)], k = i )$cause,
+    temp <- confusionMatrix(kNN(hom.unknown[,c(x)], k = i, trace = FALSE)$cause,
                     df[is.na(df$intent.nolegal) & !is.na(df$cause),]$cause)$overall[1]
     if(temp > min) {
       min <- temp
@@ -145,17 +155,21 @@ classify <- function(df, states) {
     }
   }
   hom.unknown <- df[is.na(df$intent.nolegal),]
-  hom.unknown[,c(x)] <- kNN(hom.unknown[,c(x)], k = k)[1:length(x)]
-  
+  unimputed <- hom.unknown[,c(x)]
+  hom.unknown[,c(x)] <- kNN(hom.unknown[,c(x)], k = k,
+                                      trace = FALSE)[1:length(x)]
+  ##df <- subset(deaths, abbrev %in% states)
   fit.unknown <- predict(rpartFit, hom.unknown[,c(x)])
-  print(table(fit.unknown))
   hom.unknown$intent.imputed <- fit.unknown
+  ##print(table(fit.unknown))
+  hom.unknown[,c(x)] <- unimputed
+  subset(hom.unknown,intent == "Accident"  & cause == "Firearm" )
   
   df.pred <- rbind.fill(df[!is.na(df$intent.nolegal),], hom.unknown)
   df.pred$intent.imputed <- with(df.pred,
-                                 ifelse(is.na(intent),
+                                 ifelse(is.na(intent.nolegal),
                                         as.character(intent.imputed),
-                                        as.character(intent)))
+                                        as.character(intent.nolegal)))
   df.pred$intent.imputed <- as.factor(df.pred$intent.imputed)
 
 
@@ -167,7 +181,7 @@ conf <<- rbind(conf,
                             accu = confusionMatrix(fit.pred.rpart, test$intent.nolegal)$overall[[1]]))
   
   df.pred$intent.nolegal <- NULL
-  
+  print(ddply(hom.unknown, .(year(date_reg), intent.imputed), nrow))
   return(df.pred)
   ## original <- ddply(df.pred, .(year(date_reg), month(date_reg), intent), nrow)
   
@@ -175,8 +189,8 @@ conf <<- rbind(conf,
 
   
   
-  ## ddply(df.pred, .(year(date_reg), intent), nrow)
-  ## ##print(ddply(df.pred, .(year(date_reg), intent.imputed), nrow))
+  ###ddply(df.pred, .(year(date_reg), intent), nrow)
+  
   ## ret <- ddply(df.pred, .(year(date_reg), month(date_reg), intent.imputed), nrow)
   ## ret <- subset(ret, intent.imputed == "Homicide")
   ## names(ret) <-  c("year", "month", "intent", "homicides")
@@ -192,17 +206,29 @@ set.seed(1)
 ## classify(deaths,  c("Tamps", "SLP", "Coah", "Zac", "NL"))
 ##classify(subset(deaths, cause == "Firearm"),  c("Sin"))
 ##classify(deaths, c("BC"))
-## t <- classify(deaths, c("Chis"))
-## ddply(subset(t, intent.imputed == "Homicide"& abbrev == "Chis"),
+## t <- classify(deaths, c("DF"))
+## subset(t, intent == "Accident"  & cause == "Firearm")
+## ddply(subset(t, cause == "Firearm"),
 ##       .(year(date_reg)), nrow)
+## ddply(subset(t, cause_detail == "Firearm"),
+##       .(year(date_reg)), nrow)
+
 ## ddply(subset(t, is.na(intent) & abbrev == "Chis"),
 ##       .(year(date_reg)), nrow)
 ## ddply(subset(t, is.na(cause) & abbrev == "Chis"),
 ##       .(year(date_reg)), nrow)
 ## ddply(subset(t, intent == "Accident" & cause == "Firearm" & abbrev == "Chis"),
 ##       .(year(date_reg)), nrow)
-##classify(deaths, c("Tlax"))
 
+## t <- classify(deaths, c("BC"))
+## t <- classify(deaths, c("Sin"))
+## ddply(subset(t, intent.imputed == "Accident" &
+##              cause == "Firearm"),
+##       .(year(date_reg)),
+##       nrow)
+## ddply(t,
+##       .(intent.imputed, year(date_reg)),
+##       nrow)
 
 conf <- data.frame(sen = numeric, spe = numeric, state = character, num = numeric,
                    accu = numeric)
@@ -217,8 +243,25 @@ class <- ldply(list(c("Son", "Dgo"),
 class$abbrev <- NULL
 deaths$abbrev <- NULL
 
-test_that(nrow(subset(deaths,!intent %in% class$intent)), equals(0))
-##test_that(all(deaths == class), equals(TRUE))
+test_that("Classifier doens't modify rows", {
+            expect_that(nrow(subset(class, intent =="Accident" &
+                       cause == "Firearm" )), equals(nrow(subset(class, intent =="Accident" &
+                                cause_detail== "Firearm" ))))
+         })
+
+
+for(i in levels(as.factor(deaths$abbrev))) {
+  print(str_c(, "Testing state:", i))
+  test_that("Classifier doens't modify rows", {
+             expect_that(nrow(subset(deaths, intent =="Accident" & abbrev == i &
+                        cause == "Firearm" )), equals(nrow(subset(class, intent =="Accident" &
+                                 cause== "Firearm" & abbrev == i))))
+          })
+  ## print(nrow(subset(deaths, intent =="Accident" & abbrev == i &
+  ##             cause == "Firearm" )) ==
+  ##       nrow(subset(deaths, intent =="Accident" & abbrev == i &
+  ##                   cause_detail == "Firearm" )))
+  }
 deaths <- class
 rm(class)
 

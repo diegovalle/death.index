@@ -565,12 +565,14 @@ sequence <- c(ICDseq("Y60", "Y84"), CDeathSeq1("Y88", 1, 3))
   deaths$hour_occur[which(deaths$hour_occur == 99)] <- NA
   deaths$min_occur[which(deaths$min_occur == 99)] <- NA
 
-  deaths$cause <- ifelse(deaths$cause == "Unspecified",
-                         NA,
-                         deaths$cause)
-  deaths$cause_detail <- ifelse(deaths$cause_detail == "Unspecified",
-                                NA,
-                                deaths$cause_detail)
+  deaths$cause <- car::recode(deaths$cause, "'Unspecified' = NA;")
+  deaths$cause_detail <- car::recode(deaths$cause_detail, "'Unspecified' = NA;")
+  ##deaths$cause <- ifelse(deaths$cause == "Unspecified",
+    ##                     NA,
+    ##                     deaths$cause)
+  ##deaths$cause_detail <- ifelse(deaths$cause_detail == "Unspecified",
+    ##                            NA,
+      ##                          deaths$cause_detail)
   
   deaths <- convertFactors(deaths)
 
