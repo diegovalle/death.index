@@ -502,8 +502,8 @@ sequence <- c(ICDseq("Y60", "Y84"), CDeathSeq1("Y88", 1, 3))
   names(deaths) <- c("year_birth", "month_birth", "day_birth", "sex",
                  "age_unit", "age_in_units", "nationality", "marital", "state_res",
                  "mun_res", "loc_res", "loc_res_size", "job", "edu",
-                 "insurance", "state_death", "mun_death", "loc_death", "loc_death_size",
-                 "place_death", "year_occur", "month_occur", "day_occur", "hour_occur",
+                 "insurance", "state_occur", "mun_occur", "loc_occur", "loc_occur_size",
+                 "place_occur", "year_occur", "month_occur", "day_occur", "hour_occur",
                  "min_occur", "med_help",  "intent", "during_job", 
                  "place_injury", "domestic_v", "autopsy", "certifier", "state_reg",
                  "mun_reg", "year_reg", "month_reg", "day_reg", "weight",
@@ -512,7 +512,7 @@ sequence <- c(ICDseq("Y60", "Y84"), CDeathSeq1("Y88", 1, 3))
                  "pregnancy_complication",
                  "icd_title", "icd4", "cause", 
                      "cause_detail", "motor_vehicle_traffic",
-                     "mun_death2", "fips", "metro_area", "age")
+                     "mun_occur2", "fips", "metro_area", "age")
   
   try({deaths$date_occur<- with(deaths,
                           as.Date(str_c(year_occur, month_occur, day_occur,
@@ -594,7 +594,7 @@ convertFactors <- function(df) {
   df$edu <- as.factor(df$edu)
   df$insurance <- as.factor(df$insurance)
   df$place_injury <- as.factor(df$place_injury)
-  df$place_death <- as.factor(df$place_death)
+  df$place_occur <- as.factor(df$place_occur)
   df$med_help <- as.factor(df$med_help)
   df$intent <- as.factor(df$intent)
   df$job <- as.factor(df$job)
@@ -654,7 +654,7 @@ message("subsetting injury intent data")
 deaths <- dbGetQuery(con, sql.query)
 dbDisconnect(con)
 
-deaths <- subset(deaths, !state_death %in% c(33, 34, 35))
+deaths <- subset(deaths, !state_occur %in% c(33, 34, 35))
 deaths$date_occur <- as.Date(deaths$date_occur)
 deaths$date_reg <- as.Date(deaths$date_reg)
 ##deaths$date_birth<- as.Date(deaths$date_birth)

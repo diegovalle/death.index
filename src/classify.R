@@ -1,5 +1,5 @@
 
-deaths$abbrev <- stateToAbbrev(deaths$state_death)
+deaths$abbrev <- stateToAbbrev(deaths$state_occur)
 
 
 classify <- function(df, states) {
@@ -181,7 +181,7 @@ conf <<- rbind(conf,
                             accu = confusionMatrix(fit.pred.rpart, test$intent.nolegal)$overall[[1]]))
   
   df.pred$intent.nolegal <- NULL
-  print(ddply(hom.unknown, .(year(date_reg), intent.imputed), nrow))
+  ##print(ddply(hom.unknown, .(year(date_reg), intent.imputed), nrow))
   return(df.pred)
   ## original <- ddply(df.pred, .(year(date_reg), month(date_reg), intent), nrow)
   
@@ -230,6 +230,7 @@ set.seed(1)
 ##       .(intent.imputed, year(date_reg)),
 ##       nrow)
 
+message("Classifying deaths of unknown intent")
 conf <- data.frame(sen = numeric, spe = numeric, state = character, num = numeric,
                    accu = numeric)
 class <- ldply(list(c("Son", "Dgo"),
