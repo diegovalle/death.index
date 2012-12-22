@@ -9,3 +9,6 @@ test_that("maximum age", {expect_that(max(deaths$age, na.rm = TRUE), equals(120)
 test_that("number of registered homicides", {
   expect_that(ddply(subset(deaths, intent =="Homicide"), .(year(date_reg)), nrow)$V1, equals(
 c(9330, 9926, 10454, 8868, 14007, 19804, 25757) -c(2, 8, 5, 4, 2, 0, 0) ))})
+
+
+

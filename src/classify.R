@@ -62,7 +62,7 @@ classify <- function(df, states) {
            ##"marital", "place_injury", "edu", "month", "yod", "autopsy")
   formula <-  intent.nolegal ~ age + cause * sex ##+ marital + place_injury + autopsy + month + yod
   
-  algo <- "lda"
+  algo <- "knn"
   if(states %in% c("Ver", "Mex", "Chih", "BC")) {
     algo <- "knn"
   }

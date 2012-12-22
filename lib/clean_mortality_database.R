@@ -452,6 +452,9 @@ sequence <- c(ICDseq("Y60", "Y84"), CDeathSeq1("Y88", 1, 3))
   ##Tulum was created from Solidaridad
   try(deaths[which(deaths$ENTOCU == 23 & deaths$MUNOCU == 9),]$MUNOCU2 <- 008,
       silent = TRUE)
+  ##Bacalar was created from Othón P Blanco
+  try(deaths[which(deaths$ENTOCU == 23 & deaths$MUNOCU == 10),]$MUNOCU2 <- 004,
+      silent = TRUE)
   ##Replace San Ignacio Cerro Gordo with Arandas to match the population data
   try(deaths[which(deaths$ENTOCU == 14 & deaths$MUNOCU == 125),]$MUNOCU2 <- 008,
       silent = TRUE)
@@ -617,7 +620,7 @@ readAndClean <- function(file.name, con){
     df <- cleanDeaths(df)
     save(df, file = file.path("cache", str_c(file.name, ".RData")))
   } else {
-    message("Loading from cache (make clean-cache if you don't want this to happen)'")
+    message("Loading from cache ('make clean-cache' if you don't want this to happen)'")
     load(file.path("cache", str_c(file.name, ".RData")))
   }
   ##write.csv(df, bzfile("clean-data/mortality04.csv.bz2"), row.names = FALSE)
@@ -643,6 +646,7 @@ readAndClean("di2007", con)
 readAndClean("di2008", con)
 readAndClean("di2009", con)
 readAndClean("di2010", con)
+readAndClean("di2011", con)
 
 sql.query <- "select * from mortality 
               where intent != 'Natural Death' OR intent IS NULL"

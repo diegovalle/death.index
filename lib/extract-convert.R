@@ -31,7 +31,8 @@ local({
                "DEF-SSA07.dbf",
                "DEF-SSA08.DBF",
                "def_09.DBF",
-               "def_10.dbf"
+               "def_10.dbf",
+               "DEF_11.DBF"
                )
   ##Name of the compressed files that contain the previous list of dbf's
   zipfiles <- c("def2004.zip",
@@ -40,7 +41,8 @@ local({
                 "def2007.zip",
                 "def2008.zip",
                 "def2009.zip",
-                "def2010.zip")
+                "def2010.zip",
+                "def2011.zip")
   zipfiles <- paste(dir, zipfiles, sep = "")
   
   
@@ -50,7 +52,8 @@ local({
        checkFile("di2007.sinais.csv.bz2") &
        checkFile("di2008.sinais.csv.bz2") &
        checkFile("di2009.sinais.csv.bz2") &
-       checkFile("di2010.sinais.csv.bz2"))) {
+       checkFile("di2010.sinais.csv.bz2") &
+       checkFile("di2011.sinais.csv.bz2"))) {
     message("unziping files from SINAIS...\n")
     mapply(extractFiles, zipfiles, dbfiles, dir)
     
@@ -77,6 +80,10 @@ local({
     di2010 <- read.dbf("ssa-database/def_10.dbf", as.is = TRUE)
     #names <- names(di2009) #save the column names for files before 2006
     write.csv(di2010, bzfile("clean-data/di2010.sinais.csv.bz2"), row.names = FALSE)
+
+    di2011 <- read.dbf("ssa-database/DEF_11.DBF", as.is = TRUE)
+    #names <- names(di2009) #save the column names for files before 2006
+    write.csv(di2011, bzfile("clean-data/di2011.sinais.csv.bz2"), row.names = FALSE)
 
     di2005 <- read.dbf("ssa-database/inegi05.dbf", as.is = TRUE)
     di2005$CAUSABAS <- NULL

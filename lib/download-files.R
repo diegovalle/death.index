@@ -13,7 +13,8 @@ files.url <- list("http://www.sinais.salud.gob.mx/descargas/zip/def2004.zip",
                "http://www.sinais.salud.gob.mx/descargas/zip/def2007.zip",
                "http://www.sinais.salud.gob.mx/descargas/zip/def2008.zip",
                "http://www.sinais.salud.gob.mx/descargas/zip/def2009.zip",
-               "http://www.sinais.salud.gob.mx/descargas/zip/def2010.zip")
+               "http://www.sinais.salud.gob.mx/descargas/zip/def2010.zip",
+                  "http://www.sinais.salud.gob.mx/descargas/zip/def2011.zip")
 
 
 
