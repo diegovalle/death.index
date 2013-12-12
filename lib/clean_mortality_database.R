@@ -56,17 +56,24 @@ MortalityMatrix <- function(df, codes, name) {
 
 cleanDeaths <- function(deaths) {
   ##Max year and min year
-  kminy <- min(deaths$ANIODEF)
-  kmaxy <- max(deaths$ANIODEF)
-  last.day <- as.Date(str_c(kmaxy, "12", "31", sep = "-"))
+  ##kminy <- min(deaths$ANIODEF)
+  ##kmaxy <- max(deaths$ANIODEF)
+  ##last.day <- as.Date(str_c(kmaxy, "12", "31", sep = "-"))
 
 
   ##Nice variable names
-  deaths$SEXO <- car::recode(deaths$SEXO, "0 = NA;
+    deaths$SEXO <- car::recode(deaths$SEXO, "9 = NA;
                                               1 = 'Male';
                                               2 = 'Female';")
-
-  deaths$SITIO_LES <- car::recode(deaths$SITIO_LES,  "0 = NA;
+    deaths$LENGUA <- car::recode(deaths$LENGUA, "9 = NA;
+                                              1 = 'Yes';
+                                              2 = 'No';")
+    deaths$COND_ACT <- car::recode(deaths$COND_ACT, "9 = NA;
+                                              1 = 'Yes';
+                                              2 = 'No';
+                                              8 = 'Not App. (<5)';")
+    
+    deaths$SITIO_OCUR <- car::recode(deaths$SITIO_OCUR,  "99 = NA;
                                    1 = 'Secretaria de Salud';
                                    2 = 'IMSS Oportunidades';
                                    3 = 'IMSS';
@@ -76,9 +83,10 @@ cleanDeaths <- function(deaths) {
                                    7 = 'SEMAR';
                                    8 = 'Other';
                                    9 = 'Private Hospital';
+                                   10 = 'Public Street';
                                    11 = 'Home';
                                    12 = 'Other';")
-  deaths$LUGLES <- car::recode(deaths$LUGLES,  "0 = 'Home';
+    deaths$LUGAR_OCUR <- car::recode(deaths$LUGAR_OCUR,  "0 = 'Home';
                                    1 = 'Residential Institution';
                                    2 = 'School or Office';
                                    3 = 'Sporting Area';
@@ -89,8 +97,8 @@ cleanDeaths <- function(deaths) {
                                    8 = 'Other';
                                    9 = NA;
                                    88 = 'Natural Death';")
-
-  deaths$DERHAB <- car::recode(deaths$DERHAB, "0 = NA;
+    
+    deaths$DERECHOHAB <- car::recode(deaths$DERECHOHAB, "99 = NA;
                                 1 = 'None';
                                 2 = 'IMSS';
                                 3 = 'ISSSTE';
@@ -99,54 +107,73 @@ cleanDeaths <- function(deaths) {
                                 6 = 'SEMAR';
                                 7 = 'Seguro Popular';
                                 8 = 'Other'")
-
-  deaths$ESCOL <- car::recode(deaths$ESCOL, "0 = NA;
+    if(deaths$ANIO_REGIS[1] == 2012){
+        deaths$ESCOLARIDA <- car::recode(deaths$ESCOLARIDA, "99 = NA;
                                 1 = 'No Schooling';
-                                2 = 'Grade School Incomplete';
-                                3 = 'Grade School Completed';
-                                4 = 'Secundaria Incomplete';
-                                5 = 'Secundaria Completed';
+                                2 = 'Preschool';
+                                3 = 'Primaria Incomplete';
+                                4 = 'Primaria Completed';
+                                5 = 'Secundaria Incomplete';
+                                6 = 'Secundaria Complete';
+                                7 = 'Preparatoria Incomplete';
+                                8 = 'Preparatoria Complete';
+                                9 = 'Profesional';
+                                10 = 'Graduate Degree';
+                                88 = 'Not App. (< 3 yrs old)'")
+    } else {  
+        deaths$ESCOLARIDA <- car::recode(deaths$ESCOLARIDA, "9 = NA;
+                                1 = 'No Schooling';
+                                2 = 'Less than 3 years';
+                                3 = '3 to 5 years';
+                                4 = 'Primaria Completed';
+                                5 = 'Secundaria';
                                 6 = 'Preparatoria';
-                                7 = 'Tertiary Education';
+                                7 = 'Profesional';
                                 8 = 'Not App. (< 6 yrs old)'")
-
-  deaths$OCUPACION <- car::recode(deaths$OCUPACION, "0 = NA;
+    }
+    
+    deaths$OCUPACION <- car::recode(deaths$OCUPACION, "99 = NA;
     2 = 'Inactive';
     11 = 'Professional';
     12 = 'Technician';
     13 = 'Education';
     14 = 'Arts and Sports';
-    21 = 'Public, Private and Social Sectors';
+    21 = 'Directors';
     41 = 'Agropecuary';
     51 = 'Industrial Activities (Foremen)';
     52 = 'Industrial Production (Workers)';
     53 = 'Industrial Production (Machine Operators)';
     54 = 'Industrial Production (Helpers)';
     55 = 'Transportation';
-    61 = 'Administrators';
-    62 = 'Helpers in Administrative Activities';
+    61 = 'Administrators (intermediate)';
+    62 = 'Administrators (inferior)';
     71 = 'Sales';
     72 = 'Street Salesman';
     81 = 'Personal Services';
     82 = 'Domestic Services';
     83 = 'Armed Forces, Protection and Private Security';
-    98 = 'Not App. (< 12 years old)';
-    99 = 'Insufficiently Specified';")
-
-  deaths$EDOCIVIL <- car::recode(deaths$EDOCIVIL, "0 = NA;
+    97 = 'Not App. (< 12 years old)';
+    98 = 'Insufficiently Specified';")
+    
+    deaths$EDO_CIVIL <- car::recode(deaths$EDO_CIVIL, "9 = NA;
                                       1 = 'Single';
                                       2 = 'Widow';
                                       3 = 'Divorced';
                                       4 = 'Living Together';
                                       5 = 'Married';
                                       8 = 'Not App. (< 12 yrs old)';")
-
-
-  deaths$NECROPCIA <- car::recode(deaths$NECROPCIA, "0 = NA;
+    
+    
+    deaths$NECROPSIA <- car::recode(deaths$NECROPSIA, "9 = NA;
                                       1 = 'Yes';
                                       2 = 'No';")
-  deaths$PESO <- car::recode(deaths$PESO, "0 = NA;
-                                      8888 = 'Not App. (Age > 1 day)';")
+    
+    deaths$ASIST_MEDI <- car::recode(deaths$ASIST_MEDI, "9 = NA;
+                                      1 = 'Yes';
+                                      2 = 'No';")
+    
+    ## deaths$PESO <- car::recode(deaths$PESO, "0 = NA;
+  ##                                     8888 = 'Not App. (Age > 1 day)';")
 
   deaths$PRESUNTO <- car::recode(deaths$PRESUNTO, "1 = 'Accident';
                                       2 = 'Homicide';
@@ -155,7 +182,7 @@ cleanDeaths <- function(deaths) {
                                       5 = 'Legal Intervention';
                                       8 = 'Natural Death';")
 
-  deaths$CERTIF <- car::recode(deaths$CERTIF, "0 = NA;
+  deaths$COND_CERT <- car::recode(deaths$COND_CERT, "9 = NA;
                                       1 = 'Attending Physician';
                                       2 = 'Forensic Doctor';
                                       3 = 'Other Doctor';
@@ -164,65 +191,78 @@ cleanDeaths <- function(deaths) {
                                       8 = 'Other';")
 
 
-  deaths$NACION <- car::recode(deaths$NACION, "1 = 'Mexican';
-                                               2 = 'Foreigner';")
+  deaths$NACIONALID <- car::recode(deaths$NACIONALID, "1 = 'Mexican';
+                                               2 = 'Foreigner';
+                                               9 = NA;")
 
-  deaths$TAMLOCRH[deaths$TAMLOCRH == 0] <- NA
-  deaths$TAMLOCRH[deaths$TAMLOCRH == 1] <- 999
-  deaths$TAMLOCRH[deaths$TAMLOCRH == 2] <- 1999
-  deaths$TAMLOCRH[deaths$TAMLOCRH == 3] <- 2999
-  deaths$TAMLOCRH[deaths$TAMLOCRH == 4] <- 4999
-  deaths$TAMLOCRH[deaths$TAMLOCRH == 5] <- 9999
-  deaths$TAMLOCRH[deaths$TAMLOCRH == 6] <- 14999
-  deaths$TAMLOCRH[deaths$TAMLOCRH == 7] <- 19999
-  deaths$TAMLOCRH[deaths$TAMLOCRH == 8] <- 29999
-  deaths$TAMLOCRH[deaths$TAMLOCRH == 9] <- 39999
-  deaths$TAMLOCRH[deaths$TAMLOCRH == 10] <- 49999
-  deaths$TAMLOCRH[deaths$TAMLOCRH == 11] <- 74999
-  deaths$TAMLOCRH[deaths$TAMLOCRH == 12] <- 99999
-  deaths$TAMLOCRH[deaths$TAMLOCRH == 13] <- 249999
-  deaths$TAMLOCRH[deaths$TAMLOCRH == 14] <- 499999
-  deaths$TAMLOCRH[deaths$TAMLOCRH == 15] <- 99999999
-  deaths$TAMLOCRH[deaths$TAMLOCRH == 18] <- 0
+  deaths$TLOC_RESID[deaths$TLOC_RESID == 99] <- NA
+  deaths$TLOC_RESID[deaths$TLOC_RESID == 1] <- '1-999'
+  deaths$TLOC_RESID[deaths$TLOC_RESID == 2] <- '1000-1999'
+  deaths$TLOC_RESID[deaths$TLOC_RESID == 3] <- '2000-2999'
+  deaths$TLOC_RESID[deaths$TLOC_RESID == 4] <- '3000-4999'
+  deaths$TLOC_RESID[deaths$TLOC_RESID == 5] <- '5000-9999'
+  deaths$TLOC_RESID[deaths$TLOC_RESID == 6] <- '10000-14999'
+  deaths$TLOC_RESID[deaths$TLOC_RESID == 7] <- '15000-19999'
+  deaths$TLOC_RESID[deaths$TLOC_RESID == 8] <- '20000-29999'
+  deaths$TLOC_RESID[deaths$TLOC_RESID == 9] <- '30000-39999'
+  deaths$TLOC_RESID[deaths$TLOC_RESID == 10] <- '40000-49999'
+  deaths$TLOC_RESID[deaths$TLOC_RESID == 11] <- '50000-74999'
+  deaths$TLOC_RESID[deaths$TLOC_RESID == 12] <- '75000-99999'
+  deaths$TLOC_RESID[deaths$TLOC_RESID == 13] <- '100000-249999'
+  deaths$TLOC_RESID[deaths$TLOC_RESID == 14] <- '250000-499999'
+  deaths$TLOC_RESID[deaths$TLOC_RESID == 15] <- '500000-999999'
+  deaths$TLOC_RESID[deaths$TLOC_RESID == 16] <- '1000000-1499999'
+  deaths$TLOC_RESID[deaths$TLOC_RESID == 17] <- '>1500000'
 
-  deaths$TAMLOCOC[deaths$TAMLOCOC == 0] <- NA
-  deaths$TAMLOCOC[deaths$TAMLOCOC == 1] <- 999
-  deaths$TAMLOCOC[deaths$TAMLOCOC == 2] <- 1999
-  deaths$TAMLOCOC[deaths$TAMLOCOC == 3] <- 2999
-  deaths$TAMLOCOC[deaths$TAMLOCOC == 4] <- 4999
-  deaths$TAMLOCOC[deaths$TAMLOCOC == 5] <- 9999
-  deaths$TAMLOCOC[deaths$TAMLOCOC == 6] <- 14999
-  deaths$TAMLOCOC[deaths$TAMLOCOC == 7] <- 19999
-  deaths$TAMLOCOC[deaths$TAMLOCOC == 8] <- 29999
-  deaths$TAMLOCOC[deaths$TAMLOCOC == 9] <- 39999
-  deaths$TAMLOCOC[deaths$TAMLOCOC == 10] <- 49999
-  deaths$TAMLOCOC[deaths$TAMLOCOC == 11] <- 74999
-  deaths$TAMLOCOC[deaths$TAMLOCOC == 12] <- 99999
-  deaths$TAMLOCOC[deaths$TAMLOCOC == 13] <- 249999
-  deaths$TAMLOCOC[deaths$TAMLOCOC == 14] <- 499999
-  deaths$TAMLOCOC[deaths$TAMLOCOC == 15] <- 99999999
-  deaths$TAMLOCOC[deaths$TAMLOCOC == 18] <- 0
+    deaths$TLOC_OCURR[deaths$TLOC_OCURR == 99] <- NA
+  deaths$TLOC_OCURR[deaths$TLOC_OCURR == 1] <- '1-999'
+  deaths$TLOC_OCURR[deaths$TLOC_OCURR == 2] <- '1000-1999'
+  deaths$TLOC_OCURR[deaths$TLOC_OCURR == 3] <- '2000-2999'
+  deaths$TLOC_OCURR[deaths$TLOC_OCURR == 4] <- '3000-4999'
+  deaths$TLOC_OCURR[deaths$TLOC_OCURR == 5] <- '5000-9999'
+  deaths$TLOC_OCURR[deaths$TLOC_OCURR == 6] <- '10000-14999'
+  deaths$TLOC_OCURR[deaths$TLOC_OCURR == 7] <- '15000-19999'
+  deaths$TLOC_OCURR[deaths$TLOC_OCURR == 8] <- '20000-29999'
+  deaths$TLOC_OCURR[deaths$TLOC_OCURR == 9] <- '30000-39999'
+  deaths$TLOC_OCURR[deaths$TLOC_OCURR == 10] <- '40000-49999'
+  deaths$TLOC_OCURR[deaths$TLOC_OCURR == 11] <- '50000-74999'
+  deaths$TLOC_OCURR[deaths$TLOC_OCURR == 12] <- '75000-99999'
+  deaths$TLOC_OCURR[deaths$TLOC_OCURR == 13] <- '100000-249999'
+  deaths$TLOC_OCURR[deaths$TLOC_OCURR == 14] <- '250000-499999'
+  deaths$TLOC_OCURR[deaths$TLOC_OCURR == 15] <- '500000-999999'
+  deaths$TLOC_OCURR[deaths$TLOC_OCURR == 16] <- '1000000-1499999'
+  deaths$TLOC_OCURR[deaths$TLOC_OCURR == 17] <- '>1500000'
+
   
-  deaths$ASIST <- car::recode(deaths$ASIST, "1 = 'Yes';
-                                             2 = 'No';
-                                             0 = NA;")
-  deaths$TRABAJO <- car::recode(deaths$TRABAJO, "8 = 'Natural Death';
+  ## deaths$ASIST <- car::recode(deaths$ASIST, "1 = 'Yes';
+  ##                                            2 = 'No';
+  ##                                            0 = NA;")
+  deaths$OCURR_TRAB <- car::recode(deaths$OCURR_TRAB, "8 = 'Natural Death';
                                                  2 = 'No';
                                                  1 = 'Yes';
-                                                 0 = NA;")
-  deaths$VIOLFAM <- car::recode(deaths$VIOLFAM, "0 = NA;
+                                                 9 = NA;")
+  deaths$VIO_FAMI <- car::recode(deaths$VIO_FAMI, "9 = NA;
                                                  1 = 'Yes';
                                                  2 ='No';
                                                  8 = 'Not Homicide';")
+  deaths$AREA_UR <- car::recode(deaths$AREA_UR, "9 = NA;
+                                                 1 = 'Urban';
+                                                 2 ='Rural';")
+
+  ## deaths$EDAD_AGRU <- car::recode(deaths$EDAD_AGRU, "30 = NA;
+  ##                                                1 = '<1';
+  ##                                                2 ='1';
+  ##                                                3 = '2'")
+
   
-  deaths$CONDEMBA <- car::recode(deaths$CONDEMBA, "0 = NA;
+  deaths$EMBARAZO <- car::recode(deaths$EMBARAZO, "
                                       1 = 'Pregnancy';
                                       2 = 'Birth';
                                       3 = 'Puerperium';
                                       4 = '43 days to 11 months after giving birth';
                                       5 = 'No pregancy for 11 months';
-                                      6 = 'No pregnancy for 12 months';
-                                      8 = NA")
+                                      6 = 'Pregnant within year';
+                                      8 = 'Not Applicable'")
   deaths$REL_EMBA <- car::recode(deaths$REL_EMBA, "
                                         1 = 'Yes';
                                         2 ='No';
@@ -231,18 +271,38 @@ cleanDeaths <- function(deaths) {
                                         1 = 'Yes';
                                         2 ='No';
                                         8 = 'Not App.';")
+
+  deaths$LENGUA <- car::recode(deaths$LENGUA, "
+                                        1 = 'Yes';
+                                        2 ='No';
+                                        8 = NA;")
+
+  deaths$COND_ACT <- car::recode(deaths$COND_ACT, "
+                                        1 = 'Yes';
+                                        2 ='No';
+                                        8 = 'Not Applicable';
+                                        9 = NA;")
   
-  deaths$MUNOCU[which(deaths$MUNOCU == 0)] <- NA
-  deaths$MUNRH[which(deaths$MUNRH == 0)] <- NA
-  deaths$LOCOCU[which(deaths$LOCOCU == 0)] <- NA
-  deaths$LOCRH[which(deaths$LOCRH == 0)] <- NA
+  deaths$MUN_RESID[which(deaths$MUNOCU == 999)] <- NA
+  deaths$MUN_OCURR[which(deaths$MUNOCU == 999)] <- NA
+  deaths$MUN_REGIS[which(deaths$MUNRH == 999)] <- NA
+  deaths$MUN_OCULES[which(deaths$MUNRH == 999)] <- NA
+
+  deaths$ENT_RESID[which(deaths$MUNOCU == 99)] <- NA
+  deaths$ENT_OCURR[which(deaths$MUNOCU == 99)] <- NA
+  deaths$ENT_REGIS[which(deaths$MUNRH == 99)] <- NA
+  deaths$ENT_OCULES[which(deaths$MUNRH == 99)] <- NA
+
+  
+  ##deaths$LOCOCU[which(deaths$LOCOCU == 999)] <- NA
+  ##deaths$LOCRH[which(deaths$LOCRH == 999)] <- NA
   
 
-  icd.10 <- subset(icd.10, str_length(Code) == 3)
-  deaths <- merge(deaths, icd.10, by.x = "CAUSADEF", by.y = "Code", all.x = TRUE)
+  ##icd.10 <- subset(icd.10, str_length(Code) == 3)
+  ##deaths <- merge(deaths, icd.10, by.x = "CAUSADEF", by.y = "Code", all.x = TRUE)
 
-  deaths$CDEATH <- str_c(deaths$CAUSADEF, deaths$DESDOBLA)
-  deaths$DESDOBLA <- as.numeric(deaths$DESDOBLA)
+  deaths$CDEATH <- deaths$CAUSA_DEF
+  deaths$CAUSADEF <- str_sub(deaths$CAUSA_DEF, 1,3) 
 
 
 
@@ -448,22 +508,22 @@ sequence <- c(ICDseq("Y60", "Y84"), CDeathSeq1("Y88", 1, 3))
 
 
 
-  deaths$MUNOCU2 <- deaths$MUNOCU
+  deaths$MUNOCU2 <- deaths$MUN_OCURR
   ##Tulum was created from Solidaridad
-  try(deaths[which(deaths$ENTOCU == 23 & deaths$MUNOCU == 9),]$MUNOCU2 <- 008,
+  try(deaths[which(deaths$ENT_OCURR == 23 & deaths$MUN_OCURR == 9),]$MUNOCU2 <- 008,
       silent = TRUE)
   ##Bacalar was created from Othón P Blanco
-  try(deaths[which(deaths$ENTOCU == 23 & deaths$MUNOCU == 10),]$MUNOCU2 <- 004,
+  try(deaths[which(deaths$ENT_OCURR == 23 & deaths$MUN_OCURR == 10),]$MUNOCU2 <- 004,
       silent = TRUE)
   ##Replace San Ignacio Cerro Gordo with Arandas to match the population data
-  try(deaths[which(deaths$ENTOCU == 14 & deaths$MUNOCU == 125),]$MUNOCU2 <- 008,
+  try(deaths[which(deaths$ENT_OCURR == 14 & deaths$MUN_OCURR == 125),]$MUNOCU2 <- 008,
       silent = TRUE)
 
   ##Assign each municipality a code based on the state and muncipality id
-  deaths$id <- with(deaths, str_c(format(ENTOCU, width = 2),
-                                  format(MUNOCU2, width = 3)))
-  deaths$id <- as.numeric(gsub(" ", "0", deaths$id))
-  deaths <- join(deaths, metropolitan.areas200k, by = "id")
+  ## deaths$id <- with(deaths, str_c(format(ENTOCU, width = 2),
+  ##                                 format(MUNOCU2, width = 3)))
+  ## deaths$id <- as.numeric(gsub(" ", "0", deaths$id))
+  ## deaths <- join(deaths, metropolitan.areas200k, by = "id")
   
   #deaths$Block <- NA
   #blocks <- data.frame()
@@ -474,102 +534,103 @@ sequence <- c(ICDseq("Y60", "Y84"), CDeathSeq1("Y88", 1, 3))
   #}
 
   #join(deaths, blocks)
-
+  deaths$CDEATH <- NULL
+  deaths$CAUSADEF <- NULL
   
   
   ##Age in years
-  deaths$Age <- deaths$EDADVALOR
-  ##If the age unit is month, hour or day then set to 0
-  deaths[which(deaths$EDADUNI == "M"),]$Age <- 0
-  deaths[which(deaths$EDADUNI == "H"),]$Age <- 0
-  deaths[which(deaths$EDADUNI == "D"),]$Age <- 0
-  ##NA values
-  try(deaths[which(deaths$EDADUNI == "M" & deaths$EDADVALOR == 98),]$Age <- NA,
-      silent = TRUE)
-  try(deaths[which(deaths$EDADUNI == "H" & deaths$EDADVALOR == 98),]$Age <- NA,
-      silent = TRUE)
-  try(deaths[which(deaths$EDADUNI == "H" & deaths$EDADVALOR == 97),]$Age <- NA,
-      silent = TRUE)
-  try(deaths[which(deaths$EDADUNI == "D" & deaths$EDADVALOR == 98),]$Age <- NA,
-      silent = TRUE)
-  try(deaths[which(deaths$EDADVALOR == 998),]$Age <- NA,
-      silent = TRUE)
-  
-  deaths$CAUSADEF <- NULL
-  deaths$DESDOBLA <- NULL
+  deaths$EDAD_ANIOS <- deaths$EDAD
+  deaths[which(deaths$EDAD_ANIOS == 4998),]$EDAD_ANIOS <- NA
+  deaths$EDAD_ANIOS <- deaths$EDAD_ANIOS - 4000
+  deaths$EDAD_ANIOS[deaths$EDAD_ANIOS < 0] = 0
+
+
+
+  deaths$ANIO_REGIS[which(deaths$ANIO_REGIS == 99)] <- NA
+  deaths$MES_REGIS[which(deaths$MES_REGIS == 99)] <- NA
+  deaths$DIA_REGIS[which(deaths$DIA_REGIS == 99)] <- NA
+
+  deaths$ANIO_OCUR[which(deaths$ANIO_OCUR == 9999)] <- NA
+  deaths$MES_OCURR[which(deaths$MES_OCURR == 99)] <- NA
+  deaths$DIA_OCURR[which(deaths$DIA_OCURR == 99)] <- NA
+  deaths$HORAS[which(deaths$HORAS == 99)] <- NA
+  deaths$MINUTOS[which(deaths$MINUTOS == 99)] <- NA
+
+  deaths$DIA_NACIM[which(deaths$DIA_NACIM == 99)] <- NA
+  deaths$MES_NACIM[which(deaths$MES_NACIM == 99)] <- NA
+  deaths$ANIO_NACIM[which(deaths$ANIO_NACIM == 9999)] <- NA
+
+  ## Día en que se realiza el acto que proporciona certeza legal al acontecimiento y a las circunstancias en que ocurrió
+  deaths$DIA_CERT[which(deaths$DIA_CERT == 99)] <- NA
+  deaths$MES_CERT[which(deaths$MES_CERT == 99)] <- NA
+  deaths$ANIO_CERT[which(deaths$ANIO_CERT == 9999)] <- NA
+  #deaths$CAUSADEF <- NULL
+  #deaths$DESDOBLA <- NULL
   ##deaths$SITIO_LES <- NULL
   
-  names(deaths) <- c("year_birth", "month_birth", "day_birth", "sex",
-                 "age_unit", "age_in_units", "nationality", "marital", "state_res",
-                 "mun_res", "loc_res", "loc_res_size", "job", "edu",
-                 "insurance", "state_occur", "mun_occur", "loc_occur", "loc_occur_size",
-                 "place_occur", "year_occur", "month_occur", "day_occur", "hour_occur",
-                 "min_occur", "med_help",  "intent", "during_job", 
-                 "place_injury", "domestic_v", "autopsy", "certifier", "state_reg",
-                 "mun_reg", "year_reg", "month_reg", "day_reg", "weight",
-                 "year_cert", "month_cert", "day_cert", "pregnancy_condition",
-                     "pregnancy_related",
-                 "pregnancy_complication",
-                 "icd_title", "icd4", "cause", 
-                     "cause_detail", "motor_vehicle_traffic",
-                     "mun_occur2", "fips", "metro_area", "age")
+  ## names(deaths) <- c("year_birth", "month_birth", "day_birth", "sex",
+  ##                "age_unit", "age_in_units", "nationality", "marital", "state_res",
+  ##                "mun_res", "loc_res", "loc_res_size", "job", "edu",
+  ##                "insurance", "state_occur", "mun_occur", "loc_occur", "loc_occur_size",
+  ##                "place_occur", "year_occur", "month_occur", "day_occur", "hour_occur",
+  ##                "min_occur", "med_help",  "intent", "during_job", 
+  ##                "place_injury", "domestic_v", "autopsy", "certifier", "state_reg",
+  ##                "mun_reg", "year_reg", "month_reg", "day_reg", "weight",
+  ##                "year_cert", "month_cert", "day_cert", "pregnancy_condition",
+  ##                    "pregnancy_related",
+  ##                "pregnancy_complication",
+  ##                "icd_title", "icd4", "cause", 
+  ##                    "cause_detail", "motor_vehicle_traffic",
+  ##                    "mun_occur2", "fips", "metro_area", "age")
   
-  try({deaths$date_occur<- with(deaths,
-                          as.Date(str_c(year_occur, month_occur, day_occur,
-                                            sep = "-"),
-                      "%Y-%m-%d"))
+  ## try({deaths$date_occur<- with(deaths,
+  ##                         as.Date(str_c(year_occur, month_occur, day_occur,
+  ##                                           sep = "-"),
+  ##                     "%Y-%m-%d"))
 
        
   
-       deaths$date_occur[which(is.na(deaths$date_occur))] <-
-         with(deaths[which(is.na(deaths$date_occur)),],
-              as.Date(str_c(year_occur, month_reg, day_reg,
-                            sep = "-") ,
-                      "%Y-%m-%d")) 
+  ##      deaths$date_occur[which(is.na(deaths$date_occur))] <-
+  ##        with(deaths[which(is.na(deaths$date_occur)),],
+  ##             as.Date(str_c(year_occur, month_reg, day_reg,
+  ##                           sep = "-") ,
+  ##                     "%Y-%m-%d")) 
   
-       ##Invalid dates (e.g February 31) are assumed as having happened on the 15th of each month
-       deaths$date_occur[which(is.na(deaths$date_occur))] <-
-         with(deaths[which(is.na(deaths$date_occur)),],
-              as.Date(str_c(year_occur, month_reg, "15",
-                            sep = "-"),
-                      "%Y-%m-%d"))
+  ##      ##Invalid dates (e.g February 31) are assumed as having happened on the 15th of each month
+  ##      deaths$date_occur[which(is.na(deaths$date_occur))] <-
+  ##        with(deaths[which(is.na(deaths$date_occur)),],
+  ##             as.Date(str_c(year_occur, month_reg, "15",
+  ##                           sep = "-"),
+  ##                     "%Y-%m-%d"))
 
-     })
+  ##    })
 
-  try({deaths$date_reg <- with(deaths,
-                          as.Date(str_c(year_reg, month_reg, day_reg,
-                                            sep = "-"),
-                      "%Y-%m-%d"))
+  ## try({deaths$date_reg <- with(deaths,
+  ##                         as.Date(str_c(year_reg, month_reg, day_reg,
+  ##                                           sep = "-"),
+  ##                     "%Y-%m-%d"))
 
   
  
-       ##Invalid dates (e.g February 31) are assumed as having happened on the 15th of each month
-       deaths$date_reg[which(is.na(deaths$date_reg))] <-
-         with(deaths[which(is.na(deaths$date_reg)),],
-              as.Date(str_c(year_reg, month_reg, "15",
-                            sep = "-"),
-                      "%Y-%m-%d"))
+  ##      ##Invalid dates (e.g February 31) are assumed as having happened on the 15th of each month
+  ##      deaths$date_reg[which(is.na(deaths$date_reg))] <-
+  ##        with(deaths[which(is.na(deaths$date_reg)),],
+  ##             as.Date(str_c(year_reg, month_reg, "15",
+  ##                           sep = "-"),
+  ##                     "%Y-%m-%d"))
 
-     })
+  ##    })
 
  
   
   
-  deaths$date_occur <- as.character(deaths$date_occur)
-  deaths$date_reg <- as.character(deaths$date_reg)
+  ## deaths$date_occur <- as.character(deaths$date_occur)
+  ## deaths$date_reg <- as.character(deaths$date_reg)
 
-  deaths$year_reg[which(deaths$year_reg == 0)] <- NA
-  deaths$month_reg[which(deaths$month_reg == 0)] <- NA
-  deaths$day_reg[which(deaths$day_reg == 0)] <- NA
+  
 
-  deaths$year_occur[which(deaths$year_occur == 0)] <- NA
-  deaths$month_occur[which(deaths$month_occur == 0)] <- NA
-  deaths$day_occur[which(deaths$day_occur == 0)] <- NA
-  deaths$hour_occur[which(deaths$hour_occur == 99)] <- NA
-  deaths$min_occur[which(deaths$min_occur == 99)] <- NA
-
-  deaths$cause <- car::recode(deaths$cause, "'Unspecified' = NA;")
-  deaths$cause_detail <- car::recode(deaths$cause_detail, "'Unspecified' = NA;")
+  deaths$CAUSE <- car::recode(deaths$CAUSE, "'Unspecified' = NA;")
+  deaths$CAUSECDC <- car::recode(deaths$CAUSECDC, "'Unspecified' = NA;")
   ##deaths$cause <- ifelse(deaths$cause == "Unspecified",
     ##                     NA,
     ##                     deaths$cause)
@@ -577,7 +638,7 @@ sequence <- c(ICDseq("Y60", "Y84"), CDeathSeq1("Y88", 1, 3))
     ##                            NA,
       ##                          deaths$cause_detail)
   
-  deaths <- convertFactors(deaths)
+  #deaths <- convertFactors(deaths)
 
   ##deaths$icd.title <- NULL
   return(deaths)
@@ -614,9 +675,9 @@ convertFactors <- function(df) {
 }
 
 readAndClean <- function(file.name, con){
-  message(str_c("\nCleaning ", str_replace(file.name, "di", ""), "\n"))
+  message(str_c("\nCleaning ", file.name, "\n"))
   if(!file.exists(file.path("cache", str_c(file.name, ".RData")))) {
-    df <- read.csv(str_c("clean-data/", file.name, ".sinais.csv.bz2"))
+    df <- read.csv(str_c("clean-data/", file.name, ".inegi.csv.bz2"))
     df <- cleanDeaths(df)
     save(df, file = file.path("cache", str_c(file.name, ".RData")))
   } else {
@@ -638,18 +699,19 @@ if(file.exists(morttfile))
   unlink(morttfile)
 con <- dbConnect(drv, dbname = morttfile)
 
-message("Adding fields to the mortality databases...\n")
-readAndClean("di2004", con)
-readAndClean("di2005", con)
-readAndClean("di2006", con)
-readAndClean("di2007", con)
-readAndClean("di2008", con)
-readAndClean("di2009", con)
-readAndClean("di2010", con)
-readAndClean("di2011", con)
+message("Adding fields to the mortality database...\n")
+readAndClean("2004", con)
+readAndClean("2005", con)
+readAndClean("2006", con)
+readAndClean("2007", con)
+readAndClean("2008", con)
+readAndClean("2009", con)
+readAndClean("2010", con)
+readAndClean("2011", con)
+readAndClean("2012", con)
 
-sql.query <- "select * from mortality 
-              where intent != 'Natural Death' OR intent IS NULL"
+sql.query <- "select * from mortality
+              where PRESUNTO != 'Natural Death' OR PRESUNTO IS NULL"
 message("subsetting injury intent data")
 deaths <- dbGetQuery(con, sql.query)
 dbDisconnect(con)

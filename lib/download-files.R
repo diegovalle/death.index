@@ -7,20 +7,21 @@ library(foreign)
 #These are the files to download
 ########################################################
 
-files.url <- list("http://www.sinais.salud.gob.mx/descargas/zip/def2004.zip",
-               "http://www.sinais.salud.gob.mx/descargas/zip/def2005.zip",
-               "http://www.sinais.salud.gob.mx/descargas/zip/def2006.zip",
-               "http://www.sinais.salud.gob.mx/descargas/zip/def2007.zip",
-               "http://www.sinais.salud.gob.mx/descargas/zip/def2008.zip",
-               "http://www.sinais.salud.gob.mx/descargas/zip/def2009.zip",
-               "http://www.sinais.salud.gob.mx/descargas/zip/def2010.zip",
-                  "http://www.sinais.salud.gob.mx/descargas/zip/def2011.zip")
+files.url <- list("http://www3.inegi.org.mx/sistemas/microdatos/Descargas.aspx?sr=Microdatos_archivos/vitales/Mortalidad/Defunciones/2004/Defunciones_Base_datos_2004.zip&ht=02",
+                  "http://www3.inegi.org.mx/sistemas/microdatos/Descargas.aspx?sr=Microdatos_archivos/vitales/Mortalidad/Defunciones/2005/Defunciones_Base_datos_2005.zip&ht=02",
+                  "http://www3.inegi.org.mx/sistemas/microdatos/Descargas.aspx?sr=Microdatos_archivos/vitales/Mortalidad/Defunciones/2006/Defunciones_Base_datos_2006.zip&ht=02",
+                  "http://www3.inegi.org.mx/sistemas/microdatos/Descargas.aspx?sr=Microdatos_archivos/vitales/Mortalidad/Defunciones/2007/Defunciones_Base_datos_2007.zip&ht=02",
+                  "http://www3.inegi.org.mx/sistemas/microdatos/Descargas.aspx?sr=Microdatos_archivos/vitales/Mortalidad/Defunciones/2008/Defunciones_Base_datos_2008.zip&ht=02",
+                  "http://www3.inegi.org.mx/sistemas/microdatos/Descargas.aspx?sr=Microdatos_archivos/vitales/Mortalidad/Defunciones/2009/Defunciones_Base_datos_2009.zip&ht=02",
+                  "http://www3.inegi.org.mx/sistemas/microdatos/Descargas.aspx?sr=Microdatos_archivos/vitales/Mortalidad/Defunciones/2010/Defunciones_Base_datos_2010.zip&ht=02",
+                  "http://www3.inegi.org.mx/sistemas/microdatos/Descargas.aspx?sr=Microdatos_archivos/vitales/Mortalidad/Defunciones/2011/Defunciones_Base_datos_2011.zip&ht=02",
+                  "http://www3.inegi.org.mx/sistemas/microdatos/Descargas.aspx?sr=Microdatos_archivos/vitales/Mortalidad/Defunciones/2012/Defunciones_Base_datos_2012.zip&ht=02")
 
 
 
 ##Download the mortality database
 ldply(files.url, function(f) {
-  file <- str_extract(f, "[0-9\\.a-z]+$")
+  file <- str_extract(f, "[0-9\\.a-z]+\\.zip")
   if(!file.exists(file.path("ssa-database", file))) {
     message("Downloading mortality files from SINAIS...\n")
     tryCatch(
@@ -32,6 +33,9 @@ ldply(files.url, function(f) {
       }
     )
     Sys.sleep(20)
+  } else {
+      message("already downloaded")
+      print(file)
   }
 })
 
