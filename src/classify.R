@@ -1,5 +1,5 @@
 
-deaths$abbrev <- stateToAbbrev(deaths$state_occur)
+deaths$abbrev <- stateToAbbrev(deaths$state_occur_death)
 
 
 classify <- function(df, states) {
@@ -97,9 +97,9 @@ classify <- function(df, states) {
   
   
   y <- c("intent.nolegal")
-  x <- c("cause", "age", "sex")
+  x <- c("cause", "age_years", "sex")
            ##"marital", "place_injury", "edu", "month", "yod", "autopsy")
-  formula <-  intent.nolegal ~ age + cause * sex ##+ marital + place_injury + autopsy + month + yod
+  formula <-  intent.nolegal ~ age_years+ cause * sex ##+ marital + place_injury + autopsy + month + yod
   
   algo <- "knn"
   ## if(states %in% c("Ver", "Mex", "Chih", "BC")) {
@@ -125,9 +125,9 @@ classify <- function(df, states) {
   ## }
   if(states == c("Sin")) {
     algo <- "glmnet"
-    x <- c("cause", "age", "sex",
+    x <- c("cause", "age_years", "sex",
            "place_injury")
-    formula <-  intent.nolegal ~ age + cause * sex * place_injury
+    formula <-  intent.nolegal ~ age_years+ cause * sex * place_occur
   }
   
   ##subset all the deaths that are of unknown injury intent
@@ -274,13 +274,15 @@ message("Classifying deaths of unknown intent")
 conf <- data.frame(sen = numeric, spe = numeric, state = character, num = numeric,
                    accu = numeric)
 class <- ldply(list(c("Son", "Dgo"),
-                    c("QR", "Camp", "Yuc", "Tlax", "Qro", "Tab", "Pue", "BCS", "Ags"),
+                    c("QR", "Camp", "Yuc", "Tlax", "Qro",
+                      "Tab", "Pue", "BCS", "Ags"),
                     "BC", "Chih", "Gro", 
                     c("DF", "Mor"), "Gto", "Hgo",
                     c("Jal", "Col", "Nay"), "Mex", "Mich",
                     c("Oax", "Chis"), c("Sin"), 
                     c("Tamps", "SLP", "Coah", "Zac", "NL"), "Ver"),
                function(x) classify(deaths, x))
+
 class$abbrev <- NULL
 deaths$abbrev <- NULL
 
