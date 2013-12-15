@@ -753,7 +753,7 @@ convertFactors <- function(df) {
               "education_2012",
               "marital_status_2012")
     for(col in cols){
-        df[,col] <- as.factor(as.character(df[,col]))
+        df[,col] <- as.factor(as.character(df[,col])) ##, exclude = NULL
     }
   df
 }

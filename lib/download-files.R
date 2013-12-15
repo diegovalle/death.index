@@ -23,7 +23,7 @@ files.url <- list("http://www3.inegi.org.mx/sistemas/microdatos/Descargas.aspx?s
 ldply(files.url, function(f) {
   file <- str_extract(f, "[0-9\\.a-z]+\\.zip")
   if(!file.exists(file.path("ssa-database", file))) {
-    message("Downloading mortality files from SINAIS...\n")
+    message("Downloading mortality files from INEGI...\n")
     tryCatch(
       download.file(f, file.path("ssa-database", file)),
       error = function(e) {

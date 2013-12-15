@@ -27,6 +27,7 @@ local({
     aggressor.relation.code <- convertCSV("aggressor.relation.code",
                                           c("aggressor_relation_code",
                                             "relationship"))
+    ## aggressor.relation.code$relationship[aggressor.relation.code$relationship == "No especificado"] <- NA
     save(aggressor.relation.code,
          compress = "bzip2",
          file = file.path("clean-data", str_c("aggressor.relation.code",
