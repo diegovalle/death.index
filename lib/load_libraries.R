@@ -38,6 +38,7 @@ library(RSQLite)
 library(xts)
 library(caret)
 library(VIM)
-
+library(tools)
+library(data.table)
 options(stringsAsFactors = FALSE)
-gpclibPermit() 
+

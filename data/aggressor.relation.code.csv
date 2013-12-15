@@ -1,0 +1,75 @@
+CLAVE,DESCRIP
+01,Padre
+02,Madre
+03,Hermano
+04,Hermana
+05,Hijo
+06,Hija
+07,Abuelo
+08,Abuela
+09,Nieto
+10,Nieta
+11,"Esposo, Cónyuge"
+12,"Esposa, Cónyuge"
+13,Tío
+14,Tía
+15,Sobrino
+16,Sobrina
+17,Primo
+18,Prima
+19,Bisabuelo
+20,Bisabuela
+21,Bisnieto
+22,Bisnieta
+23,Tatarabuelo
+24,Tatarabuela
+25,Tataranieto
+26,Tataranieta
+27,Suegro
+28,Suegra
+29,Consuegro
+30,Consuegra
+31,Yerno
+32,Nuera
+33,Cuñado
+34,Cuñada
+35,Concuño
+36,Concuña
+37,Padrastro
+38,Madrastra
+39,Hijastro
+40,Hijastra
+41,Hermanastro
+42,Hermanastra
+43,"Hijo adoptivo"
+44,"Hija adoptiva"
+45,"Concubino, compañero"
+46,"Concubina, compañera"
+47,"Amante, Amasio, Querido"
+48,"Amante, Amasia, Querida"
+49,Novio
+50,Novia
+51,"Ex esposo"
+52,"Ex esposa"
+53,Padrino
+54,Madrina
+55,Ahijado
+56,Ahijada
+57,Compadre
+58,Comadre
+59,Tutor
+60,Tutora
+61,"Trabajador doméstico"
+62,"Trabajadora doméstica"
+63,"Otro pariente del trabajador doméstico"
+64,Huésped
+65,"Otro pariente del huésped"
+66,Conocido
+67,Vecino
+68,Amigo
+69,Amiga
+70,"Otro familiar"
+71,"Sin parentesco"
+72,Ninguno
+88,"No aplica"
+99,"No especificado"

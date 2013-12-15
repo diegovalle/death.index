@@ -13,7 +13,9 @@ Once the program is run you'll find a  bunch of files in the clean-data director
 * injury-intent.csv.bz2: Injury intent (accidents, suicides, homicides, legal interventions and deaths of unspecified injury intent) deaths in csv format
 * di[year].sinais.csv.bz: The raw 'uncleaned' mortality files  (see below) in csv format
 
-
+Marital status was recorded differently in 2012 (Separated added)
+insurance was recorded differently in 2012 (IMSS oportunidades added)
+education was recorded differently in 2012
 Data Sources
 ------------
 
