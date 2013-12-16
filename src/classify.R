@@ -1,6 +1,9 @@
 
 deaths$abbrev <- stateToAbbrev(deaths$state_occur_death)
-
+sum(!is.na(deaths$abbrev)) == nrow(deaths)
+sum(deaths$abbrev == "Other")
+sum(deaths$abbrev == "LATAM")
+sum(deaths$abbrev == "USA")
 
 classify <- function(df, states) {
     print(states)
@@ -113,7 +116,6 @@ classify <- function(df, states) {
     ##print(table(fit.unknown))
     hom.unknown[,c(x)] <- unimputed
     subset(hom.unknown,intent == "Accident"  & mechanism == "Firearm" )
-    
     df.pred <- rbind.fill(df[!is.na(df$intent.nolegal),], hom.unknown)
     df.pred$intent.imputed <- with(df.pred,
                                    ifelse(is.na(intent.nolegal),
@@ -121,7 +123,7 @@ classify <- function(df, states) {
                                           as.character(intent.nolegal)))
     df.pred$intent.imputed <- as.factor(df.pred$intent.imputed)
     
-    
+        
     conf <<- rbind(conf,
                    data.frame(sen = confusionMatrix(fit.pred.rpart,
                                   test$intent.nolegal)$byClass[2, 1],
@@ -131,13 +133,25 @@ classify <- function(df, states) {
                               num = table(fit.unknown)[2],
                               accu = confusionMatrix(fit.pred.rpart,
                                   test$intent.nolegal)$overall[[1]]))
-    
+
     df.pred$intent.nolegal <- NULL
     return(df.pred)
 }
 
 
 set.seed(1)
+
+
+## b=nrow(subset(deaths, abbrev %in% c("Son", "Dur")))
+## df <- classify(deaths, c("Other", "LATAM", "USA"))
+## df$abbrev <- NULL
+## df$month <- NULL
+## df$date_reg <- NULL
+## df$date_occur <- NULL
+## deaths <- rbind(deaths, df)
+## b==nrow(df)
+
+
 
 message("Classifying deaths of unknown intent (this part takes hours)")
 conf <- data.frame(sen = numeric, spe = numeric, state = character, num = numeric,
@@ -149,7 +163,8 @@ class <- ldply(list("Sin", c("Son", "Dgo"),
                     c("DF", "Mor"), "Gto", "Hgo",
                     c("Jal", "Col", "Nay"), "Mex", "Mich",
                     c("Oax", "Chis"), 
-                    c("Tamps", "SLP", "Coah", "Zac", "NL"), "Ver"),
+                    c("Tamps", "SLP", "Coah", "Zac", "NL"), "Ver",
+                    c("Other", "LATAM", "USA")),
                function(x) classify(deaths, x))
 
 class$abbrev <- NULL

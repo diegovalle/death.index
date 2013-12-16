@@ -11,6 +11,7 @@ source("lib/extract-convert.R") ##Unzip and convert the dbf's to csv
 source("lib/boot.R")  ## Cleanup the data: recode variables and nice
                       ## columns names
 source("src/other_data.R") ## Cleanup the supporting datasets: metro areas, mun names, etc
+test_dir("tests", reporter = "summary")
 
 
 ## Feel free to comment the following line if you don't need to
@@ -18,8 +19,5 @@ source("src/other_data.R") ## Cleanup the supporting datasets: metro areas, mun 
 source("src/classify.R")  ##Impute deaths of unknown intent
 
 source("src/save.R") ##Save to a csv and RData
-test_dir("test1.R", reporter = "summary")
-
-
-library(mxmortality)
+test_dir("tests", reporter = "summary")
 
