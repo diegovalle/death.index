@@ -789,8 +789,8 @@ con <- dbConnect(drv, dbname = morttfile)
 
 message("Adding fields to the mortality database...\n")
 ll <- list()
-for(i in 1:9)
-    ll[[i]] <- readAndClean(as.character(2003 + i), con)
+for(i in 2004:last.year)
+    ll[[i]] <- readAndClean(as.character(i), con)
 
 deaths <- as.data.frame(rbindlist(ll))
 rm(ll)

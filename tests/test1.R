@@ -9,14 +9,14 @@ test_that("maximum age", {
 #Substract those homicides which occurred outside of Mexico and compare with the data
 #available at http://www.inegi.org.mx/est/contenidos/espanol/proyectos/continuas/vitales/bd/mortalidad/MortalidadGeneral.asp?s=est&c=11144
 
-suicides <- c(4117, 4315, 4277, 4395, 4681, 5190, 5012, 5718, 5550)
-na <- c(2957, 2932, 2793, 2376, 2567, 2920, 3594, 5630, 4375)
+suicides <- c(4117, 4315, 4277, 4395, 4681, 5190, 5012, 5718, 5550, 5909)
+na <- c(2957, 2932, 2793, 2376, 2567, 2920, 3594, 5630, 4375,4197)
 homicides <- c(9330, 9926, 10454,
                     8868, 14007, 19804,
-                    25757, 27213, 25967)
+                    25757, 27213, 25967, 23063)
 accidents <- c(34880, 35865, 36282,
                     39343, 38880, 39461,
-                    38120, 36694, 37729)
+                    38120, 36694, 37729, 36297)
 
 test_that("number of registered homicides", {
   expect_that(ddply(subset(injury.intent, intent =="Homicide"),

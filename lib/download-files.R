@@ -7,15 +7,16 @@ library(foreign)
 #These are the files to download
 ########################################################
 
-files.url <- list("http://www3.inegi.org.mx/sistemas/microdatos/Descargas.aspx?sr=Microdatos_archivos/vitales/Mortalidad/Defunciones/2004/Defunciones_Base_datos_2004.zip&ht=02",
-                  "http://www3.inegi.org.mx/sistemas/microdatos/Descargas.aspx?sr=Microdatos_archivos/vitales/Mortalidad/Defunciones/2005/Defunciones_Base_datos_2005.zip&ht=02",
-                  "http://www3.inegi.org.mx/sistemas/microdatos/Descargas.aspx?sr=Microdatos_archivos/vitales/Mortalidad/Defunciones/2006/Defunciones_Base_datos_2006.zip&ht=02",
-                  "http://www3.inegi.org.mx/sistemas/microdatos/Descargas.aspx?sr=Microdatos_archivos/vitales/Mortalidad/Defunciones/2007/Defunciones_Base_datos_2007.zip&ht=02",
-                  "http://www3.inegi.org.mx/sistemas/microdatos/Descargas.aspx?sr=Microdatos_archivos/vitales/Mortalidad/Defunciones/2008/Defunciones_Base_datos_2008.zip&ht=02",
-                  "http://www3.inegi.org.mx/sistemas/microdatos/Descargas.aspx?sr=Microdatos_archivos/vitales/Mortalidad/Defunciones/2009/Defunciones_Base_datos_2009.zip&ht=02",
-                  "http://www3.inegi.org.mx/sistemas/microdatos/Descargas.aspx?sr=Microdatos_archivos/vitales/Mortalidad/Defunciones/2010/Defunciones_Base_datos_2010.zip&ht=02",
-                  "http://www3.inegi.org.mx/sistemas/microdatos/Descargas.aspx?sr=Microdatos_archivos/vitales/Mortalidad/Defunciones/2011/Defunciones_Base_datos_2011.zip&ht=02",
-                  "http://www3.inegi.org.mx/sistemas/microdatos/Descargas.aspx?sr=Microdatos_archivos/vitales/Mortalidad/Defunciones/2012/Defunciones_Base_datos_2012.zip&ht=02")
+files.url <- list("http://www3.inegi.org.mx/sistemas/microdatos/Descargas.aspx?sr=Microdatos_archivos/vitales/Mortalidad/Defunciones/2004/defunciones_base_datos_2004.zip&ht=02",
+                  "http://www3.inegi.org.mx/sistemas/microdatos/Descargas.aspx?sr=Microdatos_archivos/vitales/Mortalidad/Defunciones/2005/defunciones_base_datos_2005.zip&ht=02",
+                  "http://www3.inegi.org.mx/sistemas/microdatos/Descargas.aspx?sr=Microdatos_archivos/vitales/Mortalidad/Defunciones/2006/defunciones_base_datos_2006.zip&ht=02",
+                  "http://www3.inegi.org.mx/sistemas/microdatos/Descargas.aspx?sr=Microdatos_archivos/vitales/Mortalidad/Defunciones/2007/defunciones_base_datos_2007.zip&ht=02",
+                  "http://www3.inegi.org.mx/sistemas/microdatos/Descargas.aspx?sr=Microdatos_archivos/vitales/Mortalidad/Defunciones/2008/defunciones_base_datos_2008.zip&ht=02",
+                  "http://www3.inegi.org.mx/sistemas/microdatos/Descargas.aspx?sr=Microdatos_archivos/vitales/Mortalidad/Defunciones/2009/defunciones_base_datos_2009.zip&ht=02",
+                  "http://www3.inegi.org.mx/sistemas/microdatos/Descargas.aspx?sr=Microdatos_archivos/vitales/Mortalidad/Defunciones/2010/defunciones_base_datos_2010.zip&ht=02",
+                  "http://www3.inegi.org.mx/sistemas/microdatos/Descargas.aspx?sr=Microdatos_archivos/vitales/Mortalidad/Defunciones/2011/defunciones_base_datos_2011.zip&ht=02",
+                  "http://www3.inegi.org.mx/sistemas/microdatos/Descargas.aspx?sr=Microdatos_archivos/vitales/Mortalidad/Defunciones/2012/defunciones_base_datos_2012.zip&ht=02",
+                  "http://www3.inegi.org.mx/sistemas/microdatos/descargas.aspx?sr=microdatos_archivos/vitales/mortalidad/defunciones/2013/defunciones_base_datos_2013.zip&ht=02")
 
 
 

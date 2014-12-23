@@ -96,14 +96,18 @@ classify <- function(df, states) {
     message("\nComputing optimal number of groups for knn:")
     k <- 1
     min <- 0
-    for(i in 1:60) {
-        capture.log <- capture.output(temp <- confusionMatrix(kNN(hom.unknown[,c(x)],
-                                                                  k = i,
-                                                                  trace = FALSE)$mechanism,
-                                                              df[is.na(df$intent.nolegal) & !is.na(df$mechanism),]$mechanism)$overall[1])
-        if(temp > min) {
-            min <- temp
-            k <- i
+    if(identical(states,"Chih")) {
+        k <-  9
+    } else {
+        for(i in 1:60) {
+            capture.log <- capture.output(temp <- confusionMatrix(kNN(hom.unknown[,c(x)],
+                                                                      k = i,
+                                                                      trace = FALSE)$mechanism,
+                                                                  df[is.na(df$intent.nolegal) & !is.na(df$mechanism),]$mechanism)$overall[1])
+            if(temp > min) {
+                min <- temp
+                k <- i
+            }
         }
     }
     hom.unknown <- df[is.na(df$intent.nolegal),]

@@ -43,6 +43,7 @@ local({
       ## i = year to read and save
       message("writing year: ")
       message(i)
+      di$PESO <- 8888
       df <- read.dbf(addPath(dbfiles[i-2003]), as.is = TRUE)
       ## Each year the INEGI adds new columns as they add more information
       ## use rbind.fill to add the missing columns as NA
@@ -50,25 +51,29 @@ local({
       df <- rbind.fill(df, di)
       ##print(names(df))
       df <- subset(df, ANIO_REGIS != year.sub)
+      df$PESO <- 8888
+      df$LOC_OCULES <- NA
       ## Discard columns that aren't in the first or last db
+      ## browser()
       df <- df[,colNames]
       write.csv(df, bzfile(file.path("clean-data",
                                          str_c(i, ".inegi.csv.bz2"))),
                 row.names = FALSE)
   }
-  last.year <- 2012
   ##The directory where we stored the files
   dir <- "ssa-database/"
   ##The names of the database files
   dbfiles <- c(str_c("DEFUN0", 4:9, ".dbf"),
-               str_c("DEFUN", 10:(last.year %% 2000), ".dbf"))
+               str_c("DEFUN", 10:((last.year-1) %% 2000), ".dbf"))
+  # The 2013 file is in lowercase
+  dbfiles <- c(dbfiles, "defun13.DBF")
  
   ##Names of the compressed files that contain the previous list of dbf's
   zipfiles <- paste0(2004:last.year, ".zip")
   zipfiles <- paste(dir, zipfiles, sep = "")
   
   
-  if(!all(checkFile(str_c("di", 2004:2012, ".sinais.csv.bz2")))) {
+  if(!all(checkFile(str_c("di", 2004:last.year, ".sinais.csv.bz2")))) {
     message("unziping files from SINAIS...\n")
     mapply(extractFiles, zipfiles, dbfiles, dir)
     

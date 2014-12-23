@@ -86,7 +86,7 @@ local({
     names(non.ma) <- c("fips", "population")
     non.ma$state_code <- extractStateCode(non.ma$fips)
     non.ma$mun_code <- extractMunCode(non.ma$fips)
-    non.ma <- merge(non.ma, ENTMUN, all.x = TRUE)
+    ## non.ma <- merge(non.ma, ENTMUN, all.x = TRUE)
     non.ma$fips <- NULL
     non.ma <- non.ma[order(-non.ma$population),]
 
