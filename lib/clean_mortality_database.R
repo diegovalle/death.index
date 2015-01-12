@@ -87,7 +87,7 @@ cleanDeaths <- function(deaths) {
                                    88 = 'Natural Death';",
                                               as.factor.result = FALSE)
     ##The way insurance was coded changed in 2012
-    if(deaths$ANIO_REGIS[1] == 2012){
+    if(deaths$ANIO_REGIS[1] >= 2012){
         deaths$DERECHOHAB_2012 <- car::recode(deaths$DERECHOHAB, "99 = NA;
                                 1 = 'None';
                                 2 = 'IMSS';
@@ -116,7 +116,7 @@ cleanDeaths <- function(deaths) {
     }
     
     ## The way education was coded changed in 2012
-    if(deaths$ANIO_REGIS[1] == 2012){
+    if(deaths$ANIO_REGIS[1] >= 2012){
         deaths$ESCOLARIDA_2012 <- car::recode(deaths$ESCOLARIDA, "99 = NA;
                                 1 = 'No Schooling';
                                 2 = 'Preschool';
@@ -145,7 +145,7 @@ cleanDeaths <- function(deaths) {
         deaths$ESCOLARIDA_2012 <- as.character(deaths$ESCOLARIDA_2012)
     }
     ## The way marital status was coded changed in 2012
-    if(deaths$ANIO_REGIS[1] == 2012){
+    if(deaths$ANIO_REGIS[1] >= 2012){
         deaths$EDO_CIVIL_2012 <- car::recode(deaths$EDO_CIVIL, "9 = NA;
                                       1 = 'Single';
                                       2 = 'Widow';
