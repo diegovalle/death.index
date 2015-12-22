@@ -148,8 +148,8 @@ cleanDeaths <- function(deaths) {
     if(deaths$ANIO_REGIS[1] >= 2012){
         deaths$EDO_CIVIL_2012 <- car::recode(deaths$EDO_CIVIL, "9 = NA;
                                       1 = 'Single';
-                                      2 = 'Widow';
-                                      3 = 'Divorced';
+                                      3 = 'Widow';
+                                      2 = 'Divorced';
                                       4 = 'Living Together';
                                       5 = 'Married';
                                       6 = 'Separated';
@@ -644,8 +644,11 @@ sequence <- c(ICDseq("Y60", "Y84"), CDeathSeq1("Y88", 1, 3))
   #deaths <- convertFactors(deaths)
   names(deaths) <- c("state_reg", "mun_reg", "state_res",
                      "mun_res", "loc_res_size",
+                     "loc_res",
                      "state_occur_death", "mun_occur_death",
-                     "loc_occur_death_size", "icd4", "mex_list",
+                     "loc_occur_death_size", 
+                     "loc_occur",
+                     "icd4", "mex_list",
                      "sex", "age_coded", "day_occur",
                      "month_occur", "year_occur", "day_reg",
                      "month_reg", "year_reg", "day_birth",
@@ -680,10 +683,12 @@ sequence <- c(ICDseq("Y60", "Y84"), CDeathSeq1("Y88", 1, 3))
                       "mun_reg",
                       "state_res",
                       "mun_res",
+                      "loc_res",
                       "loc_res_size",
                       "state_occur_death",
                       "mun_occur_death",
                       "mun_occur_death2",
+                      "loc_occur",
                       "loc_occur_death_size",
                       "state_occur_lesion",
                       "mun_occur_lesion",

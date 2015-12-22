@@ -49,12 +49,12 @@ classify <- function(df, states) {
   
     algo <- "knn"
     ## penalized regression works better in Sinaloa
-    if(states == c("Sin")) {
-        algo <- "glmnet"
-        x <- c("mechanism", "age_years", "sex",
-               "place_occur")
-        formula <-  intent.nolegal ~ age_years+ mechanism * sex * place_occur
-    }
+#     if(states == c("Sin")) {
+#         algo <- "glmnet"
+#         x <- c("mechanism", "age_years", "sex",
+#                "place_occur")
+#         formula <-  intent.nolegal ~ age_years+ mechanism * sex * place_occur
+#     }
   
     ##subset all the deaths that are of unknown injury intent
     df.train <- df[!is.na(df$intent.nolegal),]
