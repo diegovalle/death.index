@@ -22,7 +22,10 @@ checkFile <- function(name) {
 ##Extract the files
 local({
   colNames <- c("ENT_REGIS", "MUN_REGIS", "ENT_RESID", "MUN_RESID", "TLOC_RESID", 
-                "ENT_OCURR", "MUN_OCURR", "TLOC_OCURR", "CAUSA_DEF", "LISTA_MEX", 
+                "LOC_RESID",
+                "ENT_OCURR", "MUN_OCURR", "TLOC_OCURR", 
+                "LOC_OCURR",
+                "CAUSA_DEF", "LISTA_MEX", 
                 "SEXO", "EDAD", "DIA_OCURR", "MES_OCURR", "ANIO_OCUR",
                 "DIA_REGIS", 
                 "MES_REGIS", "ANIO_REGIS", "DIA_NACIM", "MES_NACIM", "ANIO_NACIM", 
@@ -34,7 +37,7 @@ local({
                 "AREA_UR", "EDAD_AGRU", "COMPLICARO", "DIA_CERT", "MES_CERT", 
                 "ANIO_CERT", "MATERNAS", "LENGUA", "COND_ACT", "PAR_AGRE",
                 "ENT_OCULES", 
-                "MUN_OCULES", "LOC_OCULES", "DIS_RE_OAX", "PESO")
+                "MUN_OCULES", "LOC_OCULES", "RAZON_M", "DIS_RE_OAX", "PESO")
   addPath <- function(str) {
       str <- file.path("ssa-database", str)
   }
@@ -48,11 +51,12 @@ local({
       ## Each year the INEGI adds new columns as they add more information
       ## use rbind.fill to add the missing columns as NA
       ## and then subset the 2012 data
-      df <- rbind.fill(df, di)
+      df <- rbind.fill(di, df)
       ##print(names(df))
+      
       df <- subset(df, ANIO_REGIS != year.sub)
       df$PESO <- 8888
-      df$LOC_OCULES <- NA
+      #df$LOC_OCULES <- NA
       ## Discard columns that aren't in the first or last db
       ## browser()
       df <- df[,colNames]
@@ -64,14 +68,13 @@ local({
   dir <- "ssa-database/"
   ##The names of the database files
   dbfiles <- c(str_c("DEFUN0", 4:9, ".dbf"),
-               str_c("DEFUN", 10:((last.year-1) %% 2000), ".dbf"))
+               str_c("DEFUN", 10:((last.year) %% 2000), ".dbf"))
   # The 2013 file is in lowercase
-  dbfiles <- c(dbfiles, "defun13.DBF")
+  dbfiles <- str_replace(dbfiles, "DEFUN14.dbf", "DEFUN14.DBF")
  
   ##Names of the compressed files that contain the previous list of dbf's
   zipfiles <- paste0(2004:last.year, ".zip")
   zipfiles <- paste(dir, zipfiles, sep = "")
-  
   
   if(!all(checkFile(str_c("di", 2004:last.year, ".sinais.csv.bz2")))) {
     message("unziping files from SINAIS...\n")

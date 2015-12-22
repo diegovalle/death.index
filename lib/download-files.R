@@ -16,7 +16,8 @@ files.url <- list("http://www3.inegi.org.mx/sistemas/microdatos/Descargas.aspx?s
                   "http://www3.inegi.org.mx/sistemas/microdatos/Descargas.aspx?sr=Microdatos_archivos/vitales/Mortalidad/Defunciones/2010/defunciones_base_datos_2010.zip&ht=02",
                   "http://www3.inegi.org.mx/sistemas/microdatos/Descargas.aspx?sr=Microdatos_archivos/vitales/Mortalidad/Defunciones/2011/defunciones_base_datos_2011.zip&ht=02",
                   "http://www3.inegi.org.mx/sistemas/microdatos/Descargas.aspx?sr=Microdatos_archivos/vitales/Mortalidad/Defunciones/2012/defunciones_base_datos_2012.zip&ht=02",
-                  "http://www3.inegi.org.mx/sistemas/microdatos/descargas.aspx?sr=microdatos_archivos/vitales/mortalidad/defunciones/2013/defunciones_base_datos_2013.zip&ht=02")
+                  "http://www3.inegi.org.mx/sistemas/microdatos/descargas.aspx?sr=microdatos_archivos/vitales/mortalidad/defunciones/2013/defunciones_base_datos_2013.zip&ht=02",
+                  "http://www3.inegi.org.mx/sistemas/microdatos/descargas.aspx?sr=microdatos_archivos/vitales/mortalidad/defunciones/2014/defunciones_base_datos_2014.zip&ht=02")
 
 
 
