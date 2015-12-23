@@ -13,7 +13,7 @@ source("lib/boot.R")  ## Cleanup the data: recode variables and nice
                       ## columns names
 source("src/other_data.R") ## Cleanup the supporting datasets: metro areas, mun names, etc
 
-
+gc()
 ## Feel free to comment the following line if you don't need to
 ## classify deaths of unknown intent (it takes several hours)
 source("src/classify.R")  ##Impute deaths of unknown intent

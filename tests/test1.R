@@ -9,14 +9,14 @@ test_that("maximum age", {
 #Substract those homicides which occurred outside of Mexico and compare with the data
 #available at http://www.inegi.org.mx/est/contenidos/espanol/proyectos/continuas/vitales/bd/mortalidad/MortalidadGeneral.asp?s=est&c=11144
 
-suicides <- c(4117, 4315, 4277, 4395, 4681, 5190, 5012, 5718, 5550, 5909)
-na <- c(2957, 2932, 2793, 2376, 2567, 2920, 3594, 5630, 4375,4197)
+suicides <- c(4117, 4315, 4277, 4395, 4681, 5190, 5012, 5718, 5550, 5909,6337)
+na <- c(2957, 2932, 2793, 2376, 2567, 2920, 3594, 5630, 4375,4198,4334)
 homicides <- c(9330, 9926, 10454,
                     8868, 14007, 19804,
-                    25757, 27213, 25967, 23063)
+                    25757, 27213, 25967, 23063, 20010)
 accidents <- c(34880, 35865, 36282,
                     39343, 38880, 39461,
-                    38120, 36694, 37729, 36297)
+                    38120, 36694, 37729, 36295, 35337)
 
 test_that("number of registered homicides", {
   expect_that(ddply(subset(injury.intent, intent =="Homicide"),
@@ -25,14 +25,14 @@ test_that("number of registered homicides", {
                   homicides ))})
 
 
-test_that("number of registered homicides", {
+test_that("number of registered accidents", {
   expect_that(ddply(subset(injury.intent, intent =="Accident"),
                     .(year_reg), nrow)$V1,
               equals(
                   accidents ))})
 
 
-test_that("number of registered homicides", {
+test_that("number of registered suicides", {
   expect_that(ddply(subset(injury.intent, intent =="Suicide"),
                     .(year_reg), nrow)$V1,
               equals(
@@ -43,3 +43,6 @@ test_that("number of registered homicides", {
                     .(year_reg), nrow)$V1,
               equals(
                   na ))})
+
+ddply(injury.intent,
+      .(year_reg, intent), nrow)

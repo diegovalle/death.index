@@ -610,7 +610,7 @@ sequence <- c(ICDseq("Y60", "Y84"), CDeathSeq1("Y88", 1, 3))
   #  x <- data.frame(CAUSADEF = sequence, Block = icd.blocks[i,3])
   #  blocks <- rbind(blocks, x)
   #}
-
+ 
   #join(deaths, blocks)
   deaths$CDEATH <- NULL
   deaths$CAUSADEF <- NULL
@@ -631,7 +631,7 @@ sequence <- c(ICDseq("Y60", "Y84"), CDeathSeq1("Y88", 1, 3))
   ## deaths$date_reg <- as.character(deaths$date_reg)
 
   
-
+  
   deaths$CAUSE <- car::recode(deaths$CAUSE, "'Unspecified' = NA;")
   deaths$CAUSECDC <- car::recode(deaths$CAUSECDC, "'Unspecified' = NA;")
   ##deaths$cause <- ifelse(deaths$cause == "Unspecified",
@@ -642,6 +642,8 @@ sequence <- c(ICDseq("Y60", "Y84"), CDeathSeq1("Y88", 1, 3))
       ##                          deaths$cause_detail)
   
   #deaths <- convertFactors(deaths)
+  
+  deaths$CAUSE <- as.character(deaths$CAUSE)
   names(deaths) <- c("state_reg", "mun_reg", "state_res",
                      "mun_res", "loc_res_size",
                      "loc_res",
@@ -671,6 +673,7 @@ sequence <- c(ICDseq("Y60", "Y84"), CDeathSeq1("Y88", 1, 3))
                      "state_occur_lesion",
                      "mun_occur_lesion",
                      "loc_occur_lesion",
+                     "maternal_mortality_rate",
                      "oax_dist", "weight",
                      "insurance_2012",
                      "education_2012",
@@ -678,6 +681,7 @@ sequence <- c(ICDseq("Y60", "Y84"), CDeathSeq1("Y88", 1, 3))
                      "age_years",
                      "mechanism", "mechanism_detail", "motor_vehicle_traffic",
                      "mun_occur_death2")
+  
     ## Order the columns
   deaths <- deaths[,c("state_reg",
                       "mun_reg",
@@ -693,6 +697,7 @@ sequence <- c(ICDseq("Y60", "Y84"), CDeathSeq1("Y88", 1, 3))
                       "state_occur_lesion",
                       "mun_occur_lesion",
                       "loc_occur_lesion",
+                      "maternal_mortality_rate",
                       "oax_dist",
                       "icd4",
                       "icd_chapter", "icd_group",
