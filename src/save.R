@@ -7,7 +7,7 @@ injury.intent$date_reg <- NULL
 injury.intent$date_occur <- NULL
 injury.intent$month <- NULL
 save(injury.intent,
-     compress = "xz",
+     compress = "bzip2",
      file = file.path("clean-data", "injury.intent.RData"))
 ## resaveRdaFiles(file.path("clean-data", "injury.intent.RData"))
 

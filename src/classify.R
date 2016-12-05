@@ -27,7 +27,7 @@ classify <- function(df, states) {
         rm(t)   
     }
     ## Error in 2007 Feb and Jan DF Homicides
-    if(identical(states, c("DF", "Mor"))){
+    if(identical(states, c("DF"))){
         df$intent.nolegal[((df$month %in% 1:2) &
                            (year(df$date_reg) == 2007)) &
                           (df$intent.nolegal == "Accident" &
@@ -49,12 +49,30 @@ classify <- function(df, states) {
   
     algo <- "knn"
     ## penalized regression works better in Sinaloa
-#     if(states == c("Sin")) {
-#         algo <- "glmnet"
-#         x <- c("mechanism", "age_years", "sex",
-#                "place_occur")
-#         formula <-  intent.nolegal ~ age_years+ mechanism * sex * place_occur
-#     }
+    if(states == c("Sin")) {
+        algo <- "ranger"
+        x <- c("mechanism", "age_years", "sex",
+               "place_occur")
+        formula <-  intent.nolegal ~ age_years+ mechanism * sex * place_occur
+    }
+    if(states == c("Mex")) {
+      algo <- "ranger"
+      x <- c("mechanism", "age_years", "sex",
+             "place_occur")
+      formula <-  intent.nolegal ~ age_years+ mechanism * sex * place_occur
+    }
+    if(states == c("DF")) {
+      algo <- "ranger"
+      x <- c("mechanism", "age_years", "sex",
+             "place_occur")
+      formula <-  intent.nolegal ~ age_years+ mechanism * sex * place_occur
+    }
+    if(states == c("BC")) {
+      algo <- "ranger"
+      x <- c("mechanism", "age_years", "sex",
+             "place_occur")
+      formula <-  intent.nolegal ~ age_years+ mechanism * sex * place_occur
+    }
   
     ##subset all the deaths that are of unknown injury intent
     df.train <- df[!is.na(df$intent.nolegal),]
@@ -160,11 +178,11 @@ set.seed(1)
 message("Classifying deaths of unknown intent (this part takes hours)")
 conf <- data.frame(sen = numeric, spe = numeric, state = character, num = numeric,
                    accu = numeric)
-class <- ldply(list("Sin", c("Son", "Dgo"),
+class <- ldply(list("Mor", "Sin", c("Son", "Dgo"),
                     c("QR", "Camp", "Yuc", "Tlax", "Qro",
                       "Tab", "Pue", "BCS", "Ags"),
                     "BC", "Chih", "Gro", 
-                    c("DF", "Mor"), "Gto", "Hgo",
+                    "DF", "Gto", "Hgo",
                     c("Jal", "Col", "Nay"), "Mex", "Mich",
                     c("Oax", "Chis"), 
                     c("Tamps", "SLP", "Coah", "Zac", "NL"), "Ver",
@@ -212,18 +230,18 @@ ggplot(conf, aes(value,state, group = variable)) +
   scale_size_area("number of\nimputed\nhomicides",
              breaks = c(350, 650, 950)) +
   scale_x_continuous("percent", label = percent) +
-  scale_y_discrete(breaks = c("QR, Camp, Yuc, Tlax, Qro, Tab, Pue, BCS, Ags",
+  scale_y_discrete(breaks = c("Mor", "QR, Camp, Yuc, Tlax, Qro, Tab, Pue, BCS, Ags",
                     "BC", "Chih", 
-                    "Gro", "DF, Mor", "Gto", "Hgo",
+                    "Gro", "DF", "Gto", "Hgo",
                     "Jal, Col, Nay", "Mex", "Mich",
                     "Oax, Chis","Sin","Son, Dgo",
                     "Tamps, SLP, Coah, Zac, NL", "Ver"),
-                   labels = c("QR, Camp, Yuc\nTlax, Qro, Tab\nPue, BCS, Ags",
-                    "BC", "Chih", 
-                    "Gro", "DF, Mor", "Gto", "Hgo",
-                    "Jal, Col, Nay", "Mex", "Mich",
-                    "Oax, Chis","Sin","Son, Dgo",
-                    "Tamps, SLP, Coah\nZac, NL", "Ver")) +
+                   labels = c("Mor", "QR, Camp, Yuc, Tlax, Qro, Tab, Pue, BCS, Ags",
+                              "BC", "Chih", 
+                              "Gro", "DF", "Gto", "Hgo",
+                              "Jal, Col, Nay", "Mex", "Mich",
+                              "Oax, Chis","Sin","Son, Dgo",
+                              "Tamps, SLP, Coah, Zac, NL", "Ver")) +
   geom_vline(xintercept = .5, linetype = 2) +
   annotate("text", x = .52, y = "Mich",
            label = "random guessing", angle=90,
@@ -233,4 +251,4 @@ ggplot(conf, aes(value,state, group = variable)) +
   labs(title = "Sensitivity and Specificity when Classifying\nDeaths of Unknown Intent as Homicides") +
   theme(axis.text.x = element_text(angle = 60, hjust = 1))
 ##dev.off()
-ggsave("sen-spe.svg",width = 7.50, height = 6.50, dpi = 100)
+ggsave("sen-spe.svg",width = 12.50, height = 9.50, dpi = 100)
