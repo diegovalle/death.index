@@ -17,3 +17,4 @@ clean-data/*.RData
 *.DOC
 *.DBF
 cache/*.RData
+.Rproj.user

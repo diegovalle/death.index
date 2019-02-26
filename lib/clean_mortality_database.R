@@ -84,8 +84,7 @@ cleanDeaths <- function(deaths) {
                                    7 = 'Farm';
                                    8 = 'Other';
                                    9 = NA;
-                                   88 = 'Natural Death';",
-                                              as.factor.result = FALSE)
+                                   88 = 'Natural Death';")
     ##The way insurance was coded changed in 2012
     if(deaths$ANIO_REGIS[1] >= 2012){
         deaths$DERECHOHAB_2012 <- car::recode(deaths$DERECHOHAB, "99 = NA;

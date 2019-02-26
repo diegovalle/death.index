@@ -7,19 +7,34 @@ test_that("maximum age", {
     expect_that(max(deaths$age_years, na.rm = TRUE), equals(120))
 })
 #Substract those homicides which occurred outside of Mexico and compare with the data
-#available at http://www.inegi.org.mx/est/contenidos/espanol/proyectos/continuas/vitales/bd/mortalidad/MortalidadGeneral.asp?s=est&c=11144
+#available at https://www.inegi.org.mx/sistemas/olap/proyectos/bd/continuas/mortalidad/mortalidadgeneral.asp?s=est&c=11144&proy=mortgral_mg
 
-suicides <- c(4117, 4315, 4277, 4395, 4681, 5190, 5012, 5718, 5550, 5909,6337,6425)
-na <- c(2957, 2932, 2793, 2376, 2567, 2920, 3594, 5630, 4375,4198,4334, 4122)
+suicides <- c(4117, 4315, 4277, 4395, 4681, 5190, 5012, 5718, 5550, 5909,6337,6425,6370,6559)
+na <- c(2957, 2932, 2793, 2376, 2567, 2920, 3594, 5630, 4375,4198,4376, 4122,4393,5427)
 homicides <- c(9330, 9926, 10454,
                     8868, 14007, 19804,
-                    25757, 27213, 25967, 23063, 20010, 20763)
+                    25757, 27213, 25967, 23063, 20013, 20763,24560,32082)
 accidents <- c(34880, 35865, 36282,
                     39343, 38880, 39461,
-                    38120, 36694, 37729, 36295, 35337, 37190)
+                    38120, 36694, 37729, 36295, 35817, 37190,37429,36220)
+legi <- c(39,
+          72,
+          48,
+          47,
+          39,
+          34,
+          37,
+          65,
+          115,
+          120,
+          97,
+          77,
+          69,
+          112
+)
 
 test_that("number of registered homicides", {
-  expect_that(ddply(subset(injury.intent, intent =="Homicide"),
+  expect_that(ddply(subset(injury.intent, intent =="Homicide" & state_reg %in% 1:32),
                     .(year_reg), nrow)$V1,
               equals(
                   homicides ))})
@@ -43,6 +58,13 @@ test_that("number of registered na", {
                     .(year_reg), nrow)$V1,
               equals(
                   na ))})
+
+test_that("number of registered legal interventions", {
+  expect_that(ddply(subset(injury.intent, intent == "Legal Intervention"),
+                    .(year_reg), nrow)$V1,
+              equals(
+                legi ))})
+
 
 ddply(injury.intent,
       .(year_reg, intent), nrow)

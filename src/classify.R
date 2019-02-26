@@ -61,6 +61,18 @@ classify <- function(df, states) {
              "place_occur")
       formula <-  intent.nolegal ~ age_years+ mechanism * sex * place_occur
     }
+    if(states == c("Ver")) {
+      algo <- "ranger"
+      x <- c("mechanism", "age_years", "sex",
+             "place_occur")
+      formula <-  intent.nolegal ~ age_years+ mechanism * sex * place_occur
+    }
+    if(states == c("Mor")) {
+      algo <- "ranger"
+      x <- c("mechanism", "age_years", "sex",
+             "place_occur")
+      formula <-  intent.nolegal ~ age_years+ mechanism * sex * place_occur
+    }
     if(states == c("DF")) {
       algo <- "ranger"
       x <- c("mechanism", "age_years", "sex",
@@ -68,6 +80,12 @@ classify <- function(df, states) {
       formula <-  intent.nolegal ~ age_years+ mechanism * sex * place_occur
     }
     if(states == c("BC")) {
+      algo <- "ranger"
+      x <- c("mechanism", "age_years", "sex",
+             "place_occur")
+      formula <-  intent.nolegal ~ age_years+ mechanism * sex * place_occur
+    }
+    if(all(states == c("Oax", "Chis"))) {
       algo <- "ranger"
       x <- c("mechanism", "age_years", "sex",
              "place_occur")
