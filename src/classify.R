@@ -135,7 +135,7 @@ classify <- function(df, states) {
     if(identical(states,"Chih")) {
         k <-  9
     } else {
-        for(i in 1:60) {
+        for(i in 1:30) {
             capture.log <- capture.output(temp <- confusionMatrix(kNN(hom.unknown[,c(x)],
                                                                       k = i,
                                                                       trace = FALSE)$mechanism,
@@ -196,12 +196,12 @@ set.seed(1)
 message("Classifying deaths of unknown intent (this part takes hours)")
 conf <- data.frame(sen = numeric, spe = numeric, state = character, num = numeric,
                    accu = numeric)
-class <- ldply(list("Mor", "Sin", c("Son", "Dgo"),
+class <- ldply(list("Mex", "Mor", "Sin", c("Son", "Dgo"),
                     c("QR", "Camp", "Yuc", "Tlax", "Qro",
                       "Tab", "Pue", "BCS", "Ags"),
                     "BC", "Chih", "Gro", 
                     "DF", "Gto", "Hgo",
-                    c("Jal", "Col", "Nay"), "Mex", "Mich",
+                    c("Jal", "Col", "Nay"), "Mich",
                     c("Oax", "Chis"), 
                     c("Tamps", "SLP", "Coah", "Zac", "NL"), "Ver",
                     c("Other", "LATAM", "USA")),
