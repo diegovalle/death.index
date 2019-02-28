@@ -13,11 +13,12 @@ source("lib/boot.R")  ## Cleanup the data: recode variables and nice
                       ## columns names
 source("src/other_data.R") ## Cleanup the supporting datasets: metro areas, mun names, etc
 
+test_dir("tests", reporter = "summary") ## test that totals match what's available on the inegi web
 gc()
 ## Feel free to comment the following line if you don't need to
 ## classify deaths of unknown intent (it takes several hours)
 source("src/classify.R")  ##Impute deaths of unknown intent
+test_dir("tests", reporter = "summary") ## test that totals match what's available on the inegi web
 
 source("src/save.R") ##Save to a csv and RData
-test_dir("tests", reporter = "summary")
 

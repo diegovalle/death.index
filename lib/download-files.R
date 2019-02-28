@@ -1,7 +1,10 @@
-library(stringr)
-library(plyr)
-library(utils)
-library(foreign)
+.packs <- c("foreign", "plyr", "utils", "stringr")
+.success <- suppressWarnings(sapply(.packs, require, character.only = TRUE))
+if (length(names(.success)[!.success])) {
+  install.packages(names(.success)[!.success])
+  sapply(names(.success)[!.success], require, character.only = TRUE)
+}
+
 
 ########################################################
 #These are the files to download

@@ -1,44 +1,43 @@
-library('testthat')
-library('yaml')
-library('foreign')
+.packs <- c('testthat', 'yaml', 'foreign', 'reshape', 'plyr', 'stringr',
+           'ggplot2', 'scales',
+           "maptools",
+           "directlabels",
+           "fields",
+           "car",
+           "Cairo",
+           "xtable",
+           "stringr",
+           "RColorBrewer",
+           "shape",
+           "Hmisc",
+           "zoo",
+           "stringr",
+           "akima",
+           "lubridate",
+           "pscl",
+           "rgdal",
+           "maps",
+           "maptools",
+           "mapdata",
+           "mapproj",
+           "MASS",
+           "spatstat",
+           "compiler",
+           "rbenchmark",
+           "geosphere",
+           "RSQLite",
+           "xts",
+           "caret",
+           "VIM",
+           "tools",
+           "data.table")
+.success <- suppressWarnings(sapply(.packs, require, character.only = TRUE))
+if (length(names(.success)[!.success])) {
+  install.packages(names(.success)[!.success])
+  sapply(names(.success)[!.success], require, character.only = TRUE)
+}
 
-library('reshape')
-library('plyr')
-library('stringr')
-library('ggplot2')
-library(scales)
-#library('log4r')
-library(ggplot2)
-library(maptools)
-library(directlabels)
-library(fields)
-library(car)
-library(Cairo)
-library(xtable)
-library(stringr)
-library(RColorBrewer)
-library(shape)
-library(Hmisc)
-library(zoo)
-library(stringr)
-library(akima)
-library(lubridate)
-library(pscl)
-library(rgdal)
-library(maps)
-library(maptools)
-library(mapdata)
-library(mapproj)
-library(MASS)
-library(spatstat)
-library(compiler)
-library(rbenchmark)
-library(geosphere)
-library(RSQLite)
-library(xts)
-library(caret)
-library(VIM)
-library(tools)
-library(data.table)
 options(stringsAsFactors = FALSE)
+
+
 
