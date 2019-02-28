@@ -1,7 +1,7 @@
 .packs <- c("foreign", "plyr", "utils", "stringr")
 .success <- suppressWarnings(sapply(.packs, require, character.only = TRUE))
 if (length(names(.success)[!.success])) {
-  install.packages(names(.success)[!.success])
+  install.packages(names(.success)[!.success], repos = "https://cloud.r-project.org")
   sapply(names(.success)[!.success], require, character.only = TRUE)
 }
 
