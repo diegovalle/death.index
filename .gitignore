@@ -13,8 +13,11 @@ meta/*
 *.sqlite*
 clean-data/*.bz2
 clean-data/*.RData
+clean-data/*csv
 *~
 *.DOC
 *.DBF
 cache/*.RData
 .Rproj.user
+*.pdf
+

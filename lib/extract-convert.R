@@ -77,7 +77,7 @@ local({
   zipfiles <- paste0(2004:last.year, ".zip")
   zipfiles <- paste(dir, zipfiles, sep = "")
   
-  if(!all(checkFile(str_c("clean-data/", 2004:last.year, ".sinais.csv.bz2")))) {
+  if(!all(checkFile(str_c(2004:last.year, ".inegi.csv.bz2")))) {
     message("unziping files from SINAIS...\n")
     mapply(extractFiles, zipfiles, dbfiles, dir)
     
