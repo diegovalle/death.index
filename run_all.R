@@ -11,7 +11,7 @@ source("lib/download-files.R") ##Download the Mortality DBs 2004-2012
 source("lib/extract-convert.R") ##Unzip and convert the dbf's to csv
 source("lib/boot.R")  ## Cleanup the data: recode variables and nice
                       ## columns names
-source("src/other_data.R") ## Cleanup the supporting datasets: metro areas, mun names, etc
+## source("src/other_data.R") ## Cleanup the supporting datasets: metro areas, mun names, etc
 
 test_dir("tests", reporter = "summary") ## test that totals match what's available on the inegi web
 gc()
