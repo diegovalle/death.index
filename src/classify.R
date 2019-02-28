@@ -1,6 +1,11 @@
 
-deaths$abbrev <- stateToAbbrev(deaths$state_occur_death)
-sum(!is.na(deaths$abbrev)) == nrow(deaths)
+deaths$abbrev <- stateToAbbrev(deaths$state_reg)
+expect_equal(sum(!is.na(deaths$abbrev)), nrow(deaths))
+expect_equal(sort(unique(deaths$abbrev)), 
+             c("Ags", "BC", "BCS", "Camp", "Chih", "Chis", "Coah", "Col", 
+               "DF", "Dgo", "Gro", "Gto", "Hgo", "Jal", "Mex", "Mich", "Mor", 
+               "Nay", "NL", "Oax", "Pue", "QR", "Qro", "Sin", "SLP", "Son", 
+               "Tab", "Tamps", "Tlax", "Ver", "Yuc", "Zac"))
 sum(deaths$abbrev == "Other")
 sum(deaths$abbrev == "LATAM")
 sum(deaths$abbrev == "USA")
@@ -196,6 +201,7 @@ set.seed(1)
 message("Classifying deaths of unknown intent (this part takes hours)")
 conf <- data.frame(sen = numeric, spe = numeric, state = character, num = numeric,
                    accu = numeric)
+
 class <- ldply(list("Mex", "DF",  "Mor", "Sin", c("Son", "Dgo"),
                     c("QR", "Camp", "Yuc", "Tlax", "Qro",
                       "Tab", "Pue", "BCS", "Ags"),
@@ -203,8 +209,7 @@ class <- ldply(list("Mex", "DF",  "Mor", "Sin", c("Son", "Dgo"),
                     "Gto", "Hgo",
                     c("Jal", "Col", "Nay"), "Mich",
                     c("Oax", "Chis"), 
-                    c("Tamps", "SLP", "Coah", "Zac", "NL"), "Ver",
-                    c("Other", "LATAM", "USA")),
+                    c("Tamps", "SLP", "Coah", "Zac", "NL"), "Ver"),
                function(x) classify(deaths, x))
 
 class$abbrev <- NULL
