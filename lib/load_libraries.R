@@ -1,5 +1,5 @@
-.packs <- c('testthat', 'yaml', 'foreign', 'reshape', 'plyr', 'stringr',
-           'ggplot2', 'scales',
+.packs <- c("testthat", "yaml", "foreign", "reshape", "plyr", "stringr",
+           "ggplot2", "scales",
            "maptools",
            "directlabels",
            "fields",
@@ -33,7 +33,7 @@
            "data.table")
 .success <- suppressWarnings(sapply(.packs, require, character.only = TRUE))
 if (length(names(.success)[!.success])) {
-  install.packages(names(.success)[!.success], repos = "https://cloud.r-project.org")
+  install.packages(names(.success)[!.success])
   sapply(names(.success)[!.success], require, character.only = TRUE)
 }
 
