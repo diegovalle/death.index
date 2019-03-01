@@ -229,6 +229,8 @@ save(class3,
 class <- rbind(class1, class2, class3)
 rm(class1);rm(class2);rm(class3)
 
+expect_equal(nrow(class), nrow(deaths))
+
 class$abbrev <- NULL
 deaths$abbrev <- NULL
 
