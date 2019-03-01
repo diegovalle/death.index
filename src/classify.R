@@ -120,7 +120,8 @@ classify <- function(df, states) {
                       data = train,
                       preProcess = c("center", "scale"),
                       method = algo,
-                      trControl = bootControl)
+                      trControl = bootControl,
+                      num.threads = 2)
   
     fit.pred.rpart <- predict(rpartFit, test)
     print(confusionMatrix(fit.pred.rpart, test$intent.nolegal))
@@ -211,6 +212,9 @@ class <- ldply(list("Mex", "DF",  "Mor", "Sin", c("Son", "Dgo"),
                     c("Oax", "Chis"), 
                     c("Tamps", "SLP", "Coah", "Zac", "NL"), "Ver"),
                function(x) classify(deaths, x))
+save(class,
+     compress = "xz",
+     file = file.path("clean-data", "class.RData"))
 
 class$abbrev <- NULL
 deaths$abbrev <- NULL
