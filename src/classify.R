@@ -203,18 +203,31 @@ message("Classifying deaths of unknown intent (this part takes hours)")
 conf <- data.frame(sen = numeric, spe = numeric, state = character, num = numeric,
                    accu = numeric)
 
-class <- ldply(list("Mex", "DF",  "Mor", "Sin", c("Son", "Dgo"),
+class1 <- ldply(list("Mex", "DF",  "Mor", "Sin"),
+               function(x) classify(deaths, x))
+save(class1,
+     compress = "xz",
+     file = file.path("clean-data", "class1.RData"))
+class2 <- ldply(list(c("Son", "Dgo"),
                     c("QR", "Camp", "Yuc", "Tlax", "Qro",
                       "Tab", "Pue", "BCS", "Ags"),
-                    "BC", "Chih", "Gro", 
+                    "BC", "Chih"),
+               function(x) classify(deaths, x))
+save(class2,
+     compress = "xz",
+     file = file.path("clean-data", "class2.RData"))
+class3 <- ldply(list("Gro", 
                     "Gto", "Hgo",
                     c("Jal", "Col", "Nay"), "Mich",
                     c("Oax", "Chis"), 
                     c("Tamps", "SLP", "Coah", "Zac", "NL"), "Ver"),
                function(x) classify(deaths, x))
-save(class,
+save(class3,
      compress = "xz",
-     file = file.path("clean-data", "class.RData"))
+     file = file.path("clean-data", "class3.RData"))
+
+class <- rbind(class1, class2, class3)
+rm(class1);rm(class2);rm(class3)
 
 class$abbrev <- NULL
 deaths$abbrev <- NULL
