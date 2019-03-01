@@ -30,7 +30,8 @@
            "caret",
            "VIM",
            "tools",
-           "data.table")
+           "data.table",
+           "ranger")
 .success <- suppressWarnings(sapply(.packs, require, character.only = TRUE))
 if (length(names(.success)[!.success])) {
   install.packages(names(.success)[!.success])
