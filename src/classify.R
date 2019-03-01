@@ -208,6 +208,7 @@ class1 <- ldply(list("Mex", "DF",  "Mor", "Sin"),
 save(class1,
      compress = "xz",
      file = file.path("clean-data", "class1.RData"))
+gc()
 class2 <- ldply(list(c("Son", "Dgo"),
                     c("QR", "Camp", "Yuc", "Tlax", "Qro",
                       "Tab", "Pue", "BCS", "Ags"),
@@ -216,6 +217,7 @@ class2 <- ldply(list(c("Son", "Dgo"),
 save(class2,
      compress = "xz",
      file = file.path("clean-data", "class2.RData"))
+gc()
 class3 <- ldply(list("Gro", 
                     "Gto", "Hgo",
                     c("Jal", "Col", "Nay"), "Mich",
@@ -225,6 +227,7 @@ class3 <- ldply(list("Gro",
 save(class3,
      compress = "xz",
      file = file.path("clean-data", "class3.RData"))
+gc()
 
 class <- rbind(class1, class2, class3)
 rm(class1);rm(class2);rm(class3)
