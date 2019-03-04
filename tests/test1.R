@@ -4,7 +4,7 @@ expect_that(1, equals(1))
 ##test_that(wday(formatWeekly(deaths, min, max)$date_occur), equals(rep(1, nrow(deaths))))
 ##test_that("", {expect_that(deaths$date_occur[which(is.na(deaths$date_occur))], equals(character(0)))})
 test_that("maximum age", {
-    expect_that(max(deaths$age_years, na.rm = TRUE), equals(120))
+    expect_that(max(injury.intent$age_years, na.rm = TRUE), equals(120))
 })
 #Substract those homicides which occurred outside of Mexico and compare with the data
 #available at https://www.inegi.org.mx/sistemas/olap/proyectos/bd/continuas/mortalidad/mortalidadgeneral.asp?s=est&c=11144&proy=mortgral_mg
