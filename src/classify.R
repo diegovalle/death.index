@@ -50,9 +50,9 @@ classify <- function(df, states) {
   
     y <- c("intent.nolegal")
     x <- c("mechanism", "age_years", "sex")
-    formula <-  intent.nolegal ~ age_years + mechanism * sex 
+    formula <-  intent.nolegal ~ age_years + mechanism + sex 
   
-    algo <- "knn"
+    algo <- "ranger"
     ## penalized regression works better in Sinaloa
     if(states == c("Sin")) {
         algo <- "ranger"
@@ -94,9 +94,15 @@ classify <- function(df, states) {
       algo <- "ranger"
       x <- c("mechanism", "age_years", "sex",
              "place_occur")
-      formula <-  intent.nolegal ~ age_years+ mechanism * sex * place_occur
+      formula <-  intent.nolegal ~ age_years + mechanism * sex * place_occur
     }
-  
+    if(all(states == c("Son", "Dgo"))) {
+      algo <- "ranger"
+      x <- c("mechanism", "age_years", "sex",
+             "place_occur")
+      formula <-  intent.nolegal ~ age_years + mechanism * sex
+    }
+   
     ##subset all the deaths that are of unknown injury intent
     df.train <- df[!is.na(df$intent.nolegal),]
     ##Get an idea of how many accidents by transportation there are
@@ -141,7 +147,7 @@ classify <- function(df, states) {
     if(identical(states,"Chih")) {
         k <-  9
     } else {
-        for(i in 1:30) {
+        for(i in 5:40) {
             capture.log <- capture.output(temp <- confusionMatrix(kNN(hom.unknown[,c(x)],
                                                                       k = i,
                                                                       trace = FALSE)$mechanism,
@@ -152,6 +158,7 @@ classify <- function(df, states) {
             }
         }
     }
+    print(k)
     hom.unknown <- df[is.na(df$intent.nolegal),]
     unimputed <- hom.unknown[,c(x)]
     hom.unknown[,c(x)] <- kNN(hom.unknown[,c(x)], k = k,
@@ -207,7 +214,7 @@ class1 <- ldply(list("Mex", "DF",  "Mor", "Sin"),
                function(x) classify(deaths, x))
 save(class1,
      compress = "xz",
-     file = file.path("clean-data", "class1.RData"))
+     file = file.path("cache", "class1.RData"))
 gc()
 class2 <- ldply(list(c("Son", "Dgo"),
                     c("QR", "Camp", "Yuc", "Tlax", "Qro",
@@ -216,7 +223,7 @@ class2 <- ldply(list(c("Son", "Dgo"),
                function(x) classify(deaths, x))
 save(class2,
      compress = "xz",
-     file = file.path("clean-data", "class2.RData"))
+     file = file.path("cache", "class2.RData"))
 gc()
 class3 <- ldply(list("Gro", 
                     "Gto", "Hgo",
@@ -226,7 +233,7 @@ class3 <- ldply(list("Gro",
                function(x) classify(deaths, x))
 save(class3,
      compress = "xz",
-     file = file.path("clean-data", "class3.RData"))
+     file = file.path("cache", "class3.RData"))
 gc()
 
 class <- rbind(class1, class2, class3)
@@ -246,7 +253,7 @@ test_that("Classifier doens't modify rows", {
 
 
 for(i in levels(as.factor(deaths$abbrev))) {
-  print(str_c(, "Testing state:", i))
+  print(str_c("Testing state:", i))
   test_that("Classifier doens't modify rows", {
              expect_that(nrow(subset(deaths, intent =="Accident" & abbrev == i &
                         mechanism == "Firearm" )), equals(nrow(subset(class,
