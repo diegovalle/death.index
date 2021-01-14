@@ -209,12 +209,22 @@ set.seed(1)
 message("Classifying deaths of unknown intent (this part takes hours)")
 conf <- data.frame(sen = numeric, spe = numeric, state = character, num = numeric,
                    accu = numeric)
-
-class1 <- ldply(list("Mex", "DF",  "Mor", "Sin"),
+library(doMC)
+registerDoMC(3)
+gc()
+class1 <- ldply(list("Mex"),
                function(x) classify(deaths, x))
 save(class1,
      compress = "xz",
      file = file.path("cache", "class1.RData"))
+
+gc()
+class1a <- ldply(list("DF",  "Mor", "Sin"),
+                function(x) classify(deaths, x))
+save(class1a,
+     compress = "xz",
+     file = file.path("cache", "class1a.RData"))
+
 gc()
 class2 <- ldply(list(c("Son", "Dgo"),
                     c("QR", "Camp", "Yuc", "Tlax", "Qro",
@@ -236,8 +246,8 @@ save(class3,
      file = file.path("cache", "class3.RData"))
 gc()
 
-class <- rbind(class1, class2, class3)
-rm(class1);rm(class2);rm(class3)
+class <- rbind(class1, class1a, class2, class3)
+rm(class1);rm(class1a);rm(class2);rm(class3)
 
 expect_equal(nrow(class), nrow(deaths))
 

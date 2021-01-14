@@ -68,10 +68,13 @@ local({
   dir <- "ssa-database/"
   ##The names of the database files
   dbfiles <- c(str_c("DEFUN0", 4:9, ".dbf"),
-               str_c("DEFUN", 10:((last.year) %% 2000), ".dbf"))
+               str_c("DEFUN", 10:17, ".dbf"),
+               str_c("DEFUN", 18:((last.year) %% 2000), ".DBF"))
   # The 2013 file is in lowercase
   #dbfiles <- str_replace(dbfiles, "DEFUN14.dbf", "DEFUN14.DBF")
   dbfiles <- str_replace(dbfiles, "DEFUN15.dbf", "DEFUN15.DBF")
+  dbfiles <- str_replace(dbfiles, "DEFUN18.dbf", "DEFUN18.DBF")
+  dbfiles <- str_replace(dbfiles, "DEFUN19.dbf", "DEFUN19.DBF")
  
   ##Names of the compressed files that contain the previous list of dbf's
   zipfiles <- paste0(2004:last.year, ".zip")
