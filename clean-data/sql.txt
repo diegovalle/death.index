@@ -1,0 +1,4 @@
+select count(*) as n, year_occur || '-' || month_occur || '-' || day_occur as date
+from mortality
+where year_occur >= 2004 and (year_occur is not null and month_occur is not null and day_occur is not null)
+group by year_occur, month_occur, day_occur;

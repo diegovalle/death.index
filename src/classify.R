@@ -210,7 +210,7 @@ message("Classifying deaths of unknown intent (this part takes hours)")
 conf <- data.frame(sen = numeric, spe = numeric, state = character, num = numeric,
                    accu = numeric)
 library(doMC)
-registerDoMC(3)
+registerDoMC(2)
 gc()
 class1 <- ldply(list("Mex"),
                function(x) classify(deaths, x))
