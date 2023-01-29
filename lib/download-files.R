@@ -26,7 +26,8 @@ files.url <- list("http://www3.inegi.org.mx/sistemas/microdatos/Descargas.aspx?s
                   "https://www.inegi.org.mx/contenidos/programas/mortalidad/microdatos/defunciones/2017/defunciones_base_datos_2017_dbf.zip",
                   "https://www.inegi.org.mx/contenidos/programas/mortalidad/microdatos/defunciones/2018/defunciones_base_datos_2018_dbf.zip",
                   "https://www.inegi.org.mx/contenidos/programas/mortalidad/microdatos/defunciones/2019/defunciones_base_datos_2019_dbf.zip",
-                  "https://www.inegi.org.mx/contenidos/programas/mortalidad/microdatos/defunciones/2020/defunciones_base_datos_2020_dbf.zip")
+                  "https://www.inegi.org.mx/contenidos/programas/mortalidad/microdatos/defunciones/2020/defunciones_base_datos_2020_dbf.zip",
+                  "https://www.inegi.org.mx/contenidos/programas/mortalidad/microdatos/defunciones/2021/defunciones_base_datos_2021_dbf.zip")
 
 
 

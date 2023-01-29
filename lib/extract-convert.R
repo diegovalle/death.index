@@ -76,6 +76,7 @@ local({
   dbfiles <- str_replace(dbfiles, "DEFUN18.dbf", "DEFUN18.DBF")
   dbfiles <- str_replace(dbfiles, "DEFUN19.dbf", "DEFUN19.DBF")
   dbfiles <- str_replace(dbfiles, "DEFUN20.DBF", "defun20.dbf")
+  dbfiles <- str_replace(dbfiles, "DEFUN21.DBF", "defun21.dbf")
  
   ##Names of the compressed files that contain the previous list of dbf's
   zipfiles <- paste0(2004:last.year, ".zip")
