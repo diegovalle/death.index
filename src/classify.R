@@ -53,38 +53,38 @@ classify <- function(df, states) {
     formula <-  intent.nolegal ~ age_years + mechanism + sex 
   
     algo <- "ranger"
-    ## penalized regression works better in Sinaloa
-    if(states == c("Sin")) {
+    ## penalized regression works better with Sinaloa
+    if(all(states == c("Sin"))) {
         algo <- "ranger"
         x <- c("mechanism", "age_years", "sex",
                "place_occur")
         formula <-  intent.nolegal ~ age_years+ mechanism * sex * place_occur
     }
-    if(states == c("Mex")) {
+    if(all(states == c("Mex"))) {
       algo <- "ranger"
       x <- c("mechanism", "age_years", "sex",
              "place_occur")
       formula <-  intent.nolegal ~ age_years+ mechanism * sex * place_occur
     }
-    if(states == c("Ver")) {
+    if(all(states == c("Ver"))) {
       algo <- "ranger"
       x <- c("mechanism", "age_years", "sex",
              "place_occur")
       formula <-  intent.nolegal ~ age_years+ mechanism * sex * place_occur
     }
-    if(states == c("Mor")) {
+    if(all(states == c("Mor"))) {
       algo <- "ranger"
       x <- c("mechanism", "age_years", "sex",
              "place_occur")
       formula <-  intent.nolegal ~ age_years+ mechanism * sex * place_occur
     }
-    if(states == c("DF")) {
+    if(all(states == c("DF"))) {
       algo <- "ranger"
       x <- c("mechanism", "age_years", "sex",
              "place_occur")
       formula <-  intent.nolegal ~ age_years+ mechanism * sex * place_occur
     }
-    if(states == c("BC")) {
+    if(all(states == c("BC"))) {
       algo <- "ranger"
       x <- c("mechanism", "age_years", "sex",
              "place_occur")
@@ -210,7 +210,7 @@ message("Classifying deaths of unknown intent (this part takes hours)")
 conf <- data.frame(sen = numeric, spe = numeric, state = character, num = numeric,
                    accu = numeric)
 
-# class_all <- ldply(list("Mex",
+# class <- ldply(list(c("Mex",
 #                     "DF",  "Mor", "Sin",
 #                     "Son", "Dgo",
 #                     "QR", "Camp", "Yuc", "Tlax", "Qro",
@@ -220,11 +220,11 @@ conf <- data.frame(sen = numeric, spe = numeric, state = character, num = numeri
 #                     "Gto", "Hgo",
 #                     "Jal", "Col", "Nay", "Mich",
 #                     "Oax", "Chis", 
-#                     "Tamps", "SLP", "Coah", "Zac", "NL", "Ver"),
+#                     "Tamps", "SLP", "Coah", "Zac", "NL", "Ver")),
 #                function(x) classify(deaths, x))
-# save(class_all,
+# save(class,
 #      compress = "xz",
-#      file = file.path("cache", "class1.RData"))
+#      file = file.path("cache", "class.RData"))
 
 library(doMC)
 detectCores()
