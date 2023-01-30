@@ -209,7 +209,25 @@ set.seed(1)
 message("Classifying deaths of unknown intent (this part takes hours)")
 conf <- data.frame(sen = numeric, spe = numeric, state = character, num = numeric,
                    accu = numeric)
+
+# class_all <- ldply(list("Mex",
+#                     "DF",  "Mor", "Sin",
+#                     "Son", "Dgo",
+#                     "QR", "Camp", "Yuc", "Tlax", "Qro",
+#                     "Tab", "Pue", "BCS", "Ags",
+#                     "BC", "Chih",
+#                     "Gro", 
+#                     "Gto", "Hgo",
+#                     "Jal", "Col", "Nay", "Mich",
+#                     "Oax", "Chis", 
+#                     "Tamps", "SLP", "Coah", "Zac", "NL", "Ver"),
+#                function(x) classify(deaths, x))
+# save(class_all,
+#      compress = "xz",
+#      file = file.path("cache", "class1.RData"))
+
 library(doMC)
+detectCores()
 registerDoMC(2)
 gc()
 class1 <- ldply(list("Mex"),
