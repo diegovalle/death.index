@@ -44,25 +44,30 @@ local({
   toCSV <- function(i, di, year.sub) {
       ## Read a .dbf and save it to csv
       ## i = year to read and save
-      message("writing year: ")
-      message(i)
-      di$PESO <- 8888
-      df <- read.dbf(addPath(dbfiles[i-2003]), as.is = TRUE)
-      ## Each year the INEGI adds new columns as they add more information
-      ## use rbind.fill to add the missing columns as NA
-      ## and then subset the 2012 data
-      df <- rbind.fill(di, df)
-      ##print(names(df))
-      
-      df <- subset(df, ANIO_REGIS != year.sub)
-      df$PESO <- 8888
-      #df$LOC_OCULES <- NA
-      ## Discard columns that aren't in the first or last db
-      ## browser()
-      df <- df[,colNames]
-      write.csv(df, bzfile(file.path("clean-data",
-                                         str_c(i, ".inegi.csv.bz2"))),
-                row.names = FALSE)
+      if(!file.exists(file.path("clean-data",
+                                str_c(i, ".inegi.csv.bz2")))) {
+        message("writing year: ")
+        message(i)
+        di$PESO <- 8888
+        df <- read.dbf(addPath(dbfiles[i-2003]), as.is = TRUE)
+        ## Each year the INEGI adds new columns as they add more information
+        ## use rbind.fill to add the missing columns as NA
+        ## and then subset the 2012 data
+        df <- rbind.fill(di, df)
+        ##print(names(df))
+        
+        df <- subset(df, ANIO_REGIS != year.sub)
+        df$PESO <- 8888
+        #df$LOC_OCULES <- NA
+        ## Discard columns that aren't in the first or last db
+        ## browser()
+        df <- df[,colNames]
+        write.csv(df, bzfile(file.path("clean-data",
+                                       str_c(i, ".inegi.csv.bz2"))),
+                  row.names = FALSE)
+      } else {
+        message("csv file exists")
+      }
   }
   ##The directory where we stored the files
   dir <- "ssa-database/"
@@ -77,6 +82,7 @@ local({
   dbfiles <- str_replace(dbfiles, "DEFUN19.dbf", "DEFUN19.DBF")
   dbfiles <- str_replace(dbfiles, "DEFUN20.DBF", "defun20.dbf")
   dbfiles <- str_replace(dbfiles, "DEFUN21.DBF", "defun21.dbf")
+  dbfiles <- str_replace(dbfiles, "DEFUN22.DBF", "DEFUN22.dbf")
  
   ##Names of the compressed files that contain the previous list of dbf's
   zipfiles <- paste0(2004:last.year, ".zip")
@@ -96,6 +102,8 @@ local({
     }
     ## Write the last year
     toCSV(last.year, diBegin, 2004)
+  } else {
+    message("All files already exist")
   }
 })
 
