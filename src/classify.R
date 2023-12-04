@@ -226,7 +226,6 @@ conf <- data.frame(sen = numeric, spe = numeric, state = character, num = numeri
 #      compress = "xz",
 #      file = file.path("cache", "class.RData"))
 
-library(doMC)
 detectCores()
 registerDoMC(2)
 gc()
