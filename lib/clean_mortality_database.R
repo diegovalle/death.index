@@ -781,7 +781,8 @@ readAndClean <- function(file.name, con){
   }
   ##write.csv(df, bzfile("clean-data/mortality04.csv.bz2"), row.names = FALSE)
   ## write the full mortality data to a sqlite db
-  dbWriteTable(con, "mortality", df, append = TRUE, row.names = FALSE)
+  ## FIXME: Disabled writing db to save disk space
+  #dbWriteTable(con, "mortality", df, append = TRUE, row.names = FALSE)
   ## return only the injury intent data
   df <- subset(df, !intent %in% c("Natural Death"))
   return(df)
