@@ -210,25 +210,28 @@ message("Classifying deaths of unknown intent (this part takes hours)")
 conf <- data.frame(sen = numeric, spe = numeric, state = character, num = numeric,
                    accu = numeric)
 
+detectCores()
+registerDoMC(2)
+gc()
+
 # class <- ldply(list(c("Mex",
 #                     "DF",  "Mor", "Sin",
 #                     "Son", "Dgo",
-#                     "QR", "Camp", "Yuc", "Tlax", "Qro",
-#                     "Tab", "Pue", "BCS", "Ags",
 #                     "BC", "Chih",
 #                     "Gro", 
+#                     "QR", "Camp", "Yuc", "Tlax", "Qro",
+#                     "Tab", "Pue", "BCS", "Ags",
 #                     "Gto", "Hgo",
 #                     "Jal", "Col", "Nay", "Mich",
 #                     "Oax", "Chis", 
-#                     "Tamps", "SLP", "Coah", "Zac", "NL", "Ver")),
+#                     "Tamps", "SLP", "Coah", "Zac", "NL", "Ver"
+#               )),
 #                function(x) classify(deaths, x))
 # save(class,
 #      compress = "xz",
 #      file = file.path("cache", "class.RData"))
 
-detectCores()
-registerDoMC(2)
-gc()
+
 class1 <- ldply(list("Mex"),
                function(x) classify(deaths, x))
 save(class1,
