@@ -7,6 +7,8 @@
 ## Copyright (c) Diego Valle-Jones. All rights reserved
 
 last.year <- 2022
+detectCores()
+num.cores <- 2
 source("lib/download-files.R") ##Download the Mortality DBs 2004-2012
 source("lib/extract-convert.R") ##Unzip and convert the dbf's to csv
 source("lib/boot.R")  ## Cleanup the data: recode variables and nice

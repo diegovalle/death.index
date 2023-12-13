@@ -203,14 +203,22 @@ cleanDeaths <- function(deaths) {
                                       2 = 'No';")
     
     ## deaths$PESO <- car::recode(deaths$PESO, "0 = NA;
-  ##                                     8888 = 'Not Applicable (Age > 1 day)';")
-
-    deaths$PRESUNTO <- car::recode(deaths$PRESUNTO, "1 = 'Accident';
+    ##                                     8888 = 'Not Applicable (Age > 1 day)';")
+    if(deaths$ANIO_REGIS[1] >= 2021){
+      deaths$PRESUNTO <- car::recode(deaths$PRESUNTO, "1 = 'Accident';
+                                      2 = 'Homicide';
+                                      3 = 'Suicide';
+                                      9 = NA;
+                                      5 = 'Legal Intervention';
+                                      4 = 'Natural Death';")
+    } else {
+      deaths$PRESUNTO <- car::recode(deaths$PRESUNTO, "1 = 'Accident';
                                       2 = 'Homicide';
                                       3 = 'Suicide';
                                       4 = NA;
                                       5 = 'Legal Intervention';
                                       8 = 'Natural Death';")
+    }
 
     deaths$COND_CERT <- car::recode(deaths$COND_CERT, "9 = NA;
                                       1 = 'Attending Physician';

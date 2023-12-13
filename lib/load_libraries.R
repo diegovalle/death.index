@@ -1,5 +1,6 @@
-# doMC foreign plyr utils stringr testthat yaml foreign reshape plyr stringr ggplot2 scales maptools directlabels fields car Cairo xtable stringr RColorBrewer shape Hmisc zoo stringr akima lubridate pscl rgdal maps maptools mapdata mapproj MASS spatstat compiler rbenchmark geosphere RSQLite xts caret VIM tools data.table ranger doMC svglite
+# missRanger doMC foreign plyr utils stringr testthat yaml foreign reshape plyr stringr ggplot2 scales maptools directlabels fields car Cairo xtable stringr RColorBrewer shape Hmisc zoo stringr akima lubridate pscl rgdal maps maptools mapdata mapproj MASS spatstat compiler rbenchmark geosphere RSQLite xts caret VIM tools data.table ranger doMC svglite
 .packs <- c("testthat", 
+            "missRanger",
             "yaml", 
             "foreign", 
             "reshape", 

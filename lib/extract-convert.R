@@ -50,6 +50,9 @@ local({
         message(i)
         di$PESO <- 8888
         df <- read.dbf(addPath(dbfiles[i-2003]), as.is = TRUE)
+        if (i >= 2022) {
+          names(df)[names(df) == 'TIPO_DEFUN'] <- 'PRESUNTO'
+        }
         ## Each year the INEGI adds new columns as they add more information
         ## use rbind.fill to add the missing columns as NA
         ## and then subset the 2012 data
