@@ -43,10 +43,26 @@ classify <- function(deaths, states) {
         
     }
     df <- droplevels(df)
+    df$mechanism_recode <- car::recode(df$mechanism, "'Cut/pierce'='Cut/pierce';
+                                 'Drowning'='Other';
+                                 'Fall'='Fall';
+                                 'Fire/hot object or substance'='Other';
+                                 'Firearm'='Firearm';
+                                 'Machinery'='Other';
+                                 'All Transport'='All Transport';
+                                 'Natural/environmental'='Other';
+                                 'Overexertion'='Other';
+                                 'Poisoning'='Other';
+                                 'Struck by or against'='Struck by or against';
+                                 'Suffocation'='Suffocation';
+                                 'Other specified, classifiable'='Other';
+                                 'Other specified, nec'='Other';
+                                 'Unspecified'=NA;
+                                 'Adverse effects'='Other';")
   
     y <- c("intent.nolegal")
-    x <- c("mechanism", "age_years", "sex")
-    formula <-  intent.nolegal ~ age_years + mechanism + sex 
+    x <- c("mechanism_recode", "age_years", "sex")
+    formula <-  intent.nolegal ~ age_years + mechanism_recode + sex
     algo <- "ranger"
    
     ##subset all deaths that are of known injury intent
@@ -70,27 +86,30 @@ classify <- function(deaths, states) {
                       preProcess = c("center", "scale"),
                       method = algo,
                       trControl = bootControl,
-                      tuneGrid = tgrid)
+                      tuneGrid = tgrid,
+                      num.trees = 300,
+                      importance = "permutation")
     fit.pred.rpart <- predict(rpartFit, test)
     print(confusionMatrix(fit.pred.rpart, test$intent.nolegal))
+    print(varImp(rpartFit))
   
     
     dfImputed <- missRanger(df[, c(y, x)], 
                             pmm.k = 3, 
                             verbose = 0, 
-                            num.trees = 50)
+                            num.trees = 60,
+                            num.threads = num.cores)
     
     fit.unknown <- predict(rpartFit, dfImputed)
     df$intent.imputed2 <- fit.unknown
     df$intent.imputed <- ifelse(is.na(df$intent.nolegal),
                                      as.character(df$intent.imputed2),
                                      as.character(df$intent.nolegal))
-    
+    df$mechanism_recode <- NULL
     df$intent.imputed2 <- NULL
     df$intent.nolegal <- NULL
     df$intent.imputed <- as.factor(df$intent.imputed)
     return(df)
-   
 }
 
 
@@ -120,7 +139,7 @@ gc()
 #      file = file.path("cache", "class.RData"))
 
 #Mex
-class1 <- ldply(list("Mex"),
+class1 <- ldply(list("DF"),
                function(x) classify(deaths, x))
 save(class1,
      compress = "xz",
