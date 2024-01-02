@@ -7,8 +7,10 @@
 ## Copyright (c) Diego Valle-Jones. All rights reserved
 
 last.year <- 2022
-detectCores()
+#parallel::detectCores()
 num.cores <- 2
+fit.num.trees <- 1000 #300
+miss.num.trees <- 500 #60
 source("lib/download-files.R") ##Download the Mortality DBs 2004-2012
 source("lib/extract-convert.R") ##Unzip and convert the dbf's to csv
 source("lib/boot.R")  ## Cleanup the data: recode variables and nice

@@ -87,7 +87,7 @@ classify <- function(deaths, states) {
                       method = algo,
                       trControl = bootControl,
                       tuneGrid = tgrid,
-                      num.trees = 300,
+                      num.trees = fit.num.trees,
                       importance = "permutation")
     fit.pred.rpart <- predict(rpartFit, test)
     print(confusionMatrix(fit.pred.rpart, test$intent.nolegal))
@@ -97,7 +97,7 @@ classify <- function(deaths, states) {
     dfImputed <- missRanger(df[, c(y, x)], 
                             pmm.k = 3, 
                             verbose = 0, 
-                            num.trees = 60,
+                            num.trees = miss.num.trees,
                             num.threads = num.cores)
     
     fit.unknown <- predict(rpartFit, dfImputed)
